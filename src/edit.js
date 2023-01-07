@@ -1,41 +1,185 @@
 /**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
+ * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import {
+	BlockControls,
+	InspectorControls,
+	useBlockProps,
+} from "@wordpress/block-editor";
+import {
+	Button,
+	Disabled,
+	PanelBody,
+	Placeholder,
+	RangeControl,
+	TextControl,
+	ToggleControl,
+	ToolbarGroup,
+} from "@wordpress/components";
+import { useState } from "@wordpress/element";
+import { grid, list, edit, people } from "@wordpress/icons";
+import { __ } from "@wordpress/i18n";
+import { prependHTTP } from "@wordpress/url";
+import ServerSideRender from "@wordpress/server-side-render";
 
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
+// import "./editor.scss";
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-import './editor.scss';
+const DEFAULT_MIN_ITEMS = 1;
+const DEFAULT_MAX_ITEMS = 20;
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {WPElement} Element to render.
- */
-export default function Edit() {
+export default function JobbnorgeEdit({ attributes, setAttributes }) {
+	const [isEditing, setIsEditing] = useState(!attributes.feedURL);
+
+	const {
+		blockLayout,
+		columns,
+		displayScope,
+		displayDuration,
+		displayDate,
+		displayExcerpt,
+		excerptLength,
+		feedURL,
+		itemsToShow,
+	} = attributes;
+
+	function toggleAttribute(propName) {
+		return () => {
+			const value = attributes[propName];
+
+			setAttributes({ [propName]: !value });
+		};
+	}
+
+	function onSubmitURL(event) {
+		event.preventDefault();
+
+		if (feedURL) {
+			setAttributes({ feedURL: prependHTTP(feedURL) });
+			setIsEditing(false);
+		}
+	}
+
+	const blockProps = useBlockProps();
+
+	if (isEditing) {
+		return (
+			<div {...blockProps}>
+				<Placeholder icon={people} label="Jobbnorge">
+					<form
+						onSubmit={onSubmitURL}
+						className="wp-block-dss-jobbnorge__placeholder-form"
+					>
+						<TextControl
+							placeholder={__("Enter URL here…")}
+							value={feedURL}
+							onChange={(value) =>
+								setAttributes({ feedURL: value })
+							}
+							className="wp-block-dss-jobbnorge__placeholder-input"
+						/>
+						<Button variant="primary" type="submit">
+							{__("Use URL")}
+						</Button>
+					</form>
+				</Placeholder>
+			</div>
+		);
+	}
+
+	const toolbarControls = [
+		{
+			icon: edit,
+			title: __("Edit Jobbnorge URL", "dss-jobbnorge-block"),
+			onClick: () => setIsEditing(true),
+		},
+		{
+			icon: list,
+			title: __("List view"),
+			onClick: () => setAttributes({ blockLayout: "list" }),
+			isActive: blockLayout === "list",
+		},
+		{
+			icon: grid,
+			title: __("Grid view"),
+			onClick: () => setAttributes({ blockLayout: "grid" }),
+			isActive: blockLayout === "grid",
+		},
+	];
+
 	return (
-		<p { ...useBlockProps() }>
-			{ __(
-				'DSS Jobbnorge Block – hello from the editor!',
-				'dss-jobbnorge-block'
-			) }
-		</p>
+		<>
+			<BlockControls>
+				<ToolbarGroup controls={toolbarControls} />
+			</BlockControls>
+			<InspectorControls>
+				<PanelBody title={__("Settings")}>
+					<RangeControl
+						__nextHasNoMarginBottom
+						label={__("Number of items")}
+						value={itemsToShow}
+						onChange={(value) =>
+							setAttributes({ itemsToShow: value })
+						}
+						min={DEFAULT_MIN_ITEMS}
+						max={DEFAULT_MAX_ITEMS}
+						required
+					/>
+					<ToggleControl
+						label={__("Display scope", "dss-jobbnorge-block")}
+						checked={displayScope}
+						onChange={toggleAttribute("displayScope")}
+					/>
+					<ToggleControl
+						label={__("Display duration", "dss-jobbnorge-block")}
+						checked={displayDuration}
+						onChange={toggleAttribute("displayDuration")}
+					/>
+					<ToggleControl
+						label={__("Display deadline", "dss-jobbnorge-block")}
+						checked={displayDate}
+						onChange={toggleAttribute("displayDate")}
+					/>
+					<ToggleControl
+						label={__("Display excerpt")}
+						checked={displayExcerpt}
+						onChange={toggleAttribute("displayExcerpt")}
+					/>
+					{displayExcerpt && (
+						<RangeControl
+							__nextHasNoMarginBottom
+							label={__("Max number of words in excerpt")}
+							value={excerptLength}
+							onChange={(value) =>
+								setAttributes({ excerptLength: value })
+							}
+							min={10}
+							max={100}
+							required
+						/>
+					)}
+					{blockLayout === "grid" && (
+						<RangeControl
+							__nextHasNoMarginBottom
+							label={__("Columns")}
+							value={columns}
+							onChange={(value) =>
+								setAttributes({ columns: value })
+							}
+							min={2}
+							max={6}
+							required
+						/>
+					)}
+				</PanelBody>
+			</InspectorControls>
+			<div {...blockProps}>
+				<Disabled>
+					<ServerSideRender
+						block="dss/jobbnorge"
+						attributes={attributes}
+					/>
+				</Disabled>
+			</div>
+		</>
 	);
 }

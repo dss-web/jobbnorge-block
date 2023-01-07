@@ -1,12 +1,54 @@
-/**
- * The following styles get applied both on the front of your site
- * and in the editor.
- *
- * Replace them with your own styles or remove the file completely.
- */
+@mixin break-small() {
+	// @media (min-width: #{ ($break-small) }) {
+	@media (min-width: 600px) {
+		@content;
+	}
+}
 
-.wp-block-dss-jobbnorge-block-dss-jobbnorge-block {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+
+ul.wp-block-dss-jobbnorge { // The ul is needed for specificity to override the reset styles in the editor.
+	list-style: none;
+	padding: 0;
+
+	// This needs extra specificity due to the reset mixin on the parent: https://github.com/WordPress/gutenberg/blob/a250e9e5fe00dd5195624f96a3d924e7078951c3/packages/edit-post/src/style.scss#L54
+	&.wp-block-dss-jobbnorge {
+		box-sizing: border-box;
+	}
+
+	&.alignleft {
+		/*rtl:ignore*/
+		margin-right: 2em;
+	}
+	&.alignright {
+		/*rtl:ignore*/
+		margin-left: 2em;
+	}
+	li {
+		margin: 0 0 1em 0;
+	}
+	&.is-grid {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 0;
+		list-style: none;
+
+		li {
+			margin: 0 1em 1em 0;
+			width: 100%;
+		}
+	}
+
+	@include break-small {
+		@for $i from 2 through 6 {
+			&.columns-#{ $i } li {
+				width: calc(( 100% / #{ $i } ) - 1em);
+			}
+		}
+	}
+}
+
+.wp-block-dss-jobbnorge__item-publish-date,
+.wp-block-dss-jobbnorge__item-author {
+	display: block;
+	font-size: 0.8125em;
 }

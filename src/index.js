@@ -1,39 +1,35 @@
 /**
- * Registers a new block provided a unique name and an object defining its behavior.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ * WordPress dependencies
  */
-import { registerBlockType } from '@wordpress/blocks';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * All files containing `style` keyword are bundled together. The code used
- * gets applied both to the front of your site and to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-import './style.scss';
-
+import { people as icon } from "@wordpress/icons";
+import { registerBlockType } from "@wordpress/blocks";
 /**
  * Internal dependencies
  */
-import Edit from './edit';
-import save from './save';
-import metadata from './block.json';
+import "./style.scss";
+import metadata from "./block.json";
+import edit from "./edit";
 
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
-registerBlockType( metadata.name, {
-	/**
-	 * @see ./edit.js
-	 */
-	edit: Edit,
+const { name } = metadata;
 
-	/**
-	 * @see ./save.js
-	 */
-	save,
-} );
+export { metadata, name };
+
+export const settings = {
+	icon,
+	example: {
+		attributes: {
+			feedURL: "https://wordpress.org",
+		},
+	},
+	edit,
+};
+
+const initBlock = (block) => {
+	// if (!block) {
+	// 	return;
+	// }
+	const { metadata, settings, name } = block;
+	return registerBlockType({ name, ...metadata }, settings);
+};
+
+export const init = () => initBlock({ name, metadata, settings });
