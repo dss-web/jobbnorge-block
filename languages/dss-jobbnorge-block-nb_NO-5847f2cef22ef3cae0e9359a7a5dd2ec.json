@@ -1,1 +1,27 @@
-{"translation-revision-date":"YEAR-MO-DA HO:MI+ZONE","generator":"WP-CLI\/2.4.0","source":"build\/init.js","domain":"messages","locale_data":{"messages":{"":{"domain":"messages","lang":"en","plural-forms":"nplurals=2; plural=(n != 1);"},"Edit Jobbnorge URL":["Rediger Jobbnorge URL"],"Display scope":["Vis omfang"],"Display duration":["Vis varighet"],"Display deadline":["Vis s\u00f8knadsfrist"]}}}
+{
+    "translation-revision-date": "YEAR-MO-DA HO:MI+ZONE",
+    "generator": "WP-CLI\/2.4.0",
+    "source": "build\/init.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "nb_NO",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Edit Jobbnorge URL": [
+                "Rediger Jobbnorge URL"
+            ],
+            "Display scope": [
+                "Vis omfang"
+            ],
+            "Display duration": [
+                "Vis varighet"
+            ],
+            "Display deadline": [
+                "Vis s\u00f8knadsfrist"
+            ]
+        }
+    }
+}
