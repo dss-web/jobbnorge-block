@@ -1,0 +1,8 @@
+node_modules
+vendor
+vendor-plugins
+.DS_Store
+build
+
+.env
+.gitignore
