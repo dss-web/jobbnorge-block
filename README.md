@@ -23,15 +23,9 @@ This is a WordPress plugin that adds a block to the Gutenberg editor that displa
 3. Activate the plugin through the 'Plugins' screen in WordPress
 4. Use the Gutenberg editor to add the block to a page or post.
 
-## Changelog
-
-### 1.0.0
-
--   Initial release
-
 ## Copyright and license
 
-WordPress Jobbnorge Block is copyright 2021 Per Soderlind
+WordPress Jobbnorge Block is copyright 2023 Per Søderlind
 
 WordPress Jobbnorge Block is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 
