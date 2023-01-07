@@ -1,17 +1,64 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 2,
-  "name": "dss-jobbnorge-block/dss-jobbnorge-block",
+  "name": "dss/jobbnorge",
   "version": "0.1.0",
   "title": "Jobbnorge",
   "category": "widgets",
-  "icon": "users",
-  "description": "Lorem ipsum",
+  "icon": "people",
+  "description": "Viser jobber fra jobbnorge.no",
+  "keywords": [
+    "jobb",
+    "jobbnorge",
+    "jobbnorge.no"
+  ],
   "supports": {
     "html": false
   },
+  "attributes": {
+    "columns": {
+      "type": "number",
+      "default": 3
+    },
+    "blockLayout": {
+      "type": "string",
+      "default": "grid"
+    },
+    "feedURL": {
+      "type": "string",
+      "default": ""
+    },
+    "itemsToShow": {
+      "type": "number",
+      "default": 5
+    },
+    "displayExcerpt": {
+      "type": "boolean",
+      "default": true
+    },
+    "displayDeadline": {
+      "type": "boolean",
+      "default": false
+    },
+    "displayScope": {
+      "type": "boolean",
+      "default": false
+    },
+    "displayDuration": {
+      "type": "boolean",
+      "default": false
+    },
+    "displayDate": {
+      "type": "boolean",
+      "default": true
+    },
+    "excerptLength": {
+      "type": "number",
+      "default": 55
+    }
+  },
   "textdomain": "dss-jobbnorge-block",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+  "editorScript": "file:init.js",
+  "editorStyle": "file:editor.scss",
+  "style": "file:style.scss"
 }
