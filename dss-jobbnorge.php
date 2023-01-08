@@ -3,7 +3,7 @@
  * Plugin Name:       Jobbnorge Block
  * Plugin URI:        https://github.com/dss-web/dss-jobbnorge-block
  * Description:       Viser jobber fra jobbnorge.no
- * Requires at least: 6.1
+ * Requires at least: 5.9
  * Requires PHP:      7.0
  * Version:           0.1.1
  * Author:            PerS
