@@ -4,3 +4,4 @@ vendor-plugins
 .DS_Store
 .env
 .gitignore
+*.zip

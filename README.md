@@ -23,6 +23,11 @@ This is a WordPress plugin that adds a block to the Gutenberg editor that displa
 3. Activate the plugin through the 'Plugins' screen in WordPress
 4. Use the Gutenberg editor to add the block to a page or post.
 
+## Credits
+
+-   The Jobbnorge Block is an extension of the [Gutenberg core/rss block](https://github.com/WordPress/gutenberg/tree/trunk/packages/block-library/src/rss)
+-   The Jobbnorge RSS API is provided by [Jobbnorge](https://www.jobbnorge.no/).
+
 ## Copyright and license
 
 WordPress Jobbnorge Block is copyright 2023 Per Søderlind
