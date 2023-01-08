@@ -198,7 +198,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 			);
 		}
 
-		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$date}{$title}{$author}{$excerpt}{$scope}{$duration}</li>";
+		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$date}{$title}{$excerpt}{$scope}{$duration}</li>";
 	}
 
 	$classnames = [];
