@@ -13,6 +13,7 @@ import {
 	Placeholder,
 	RangeControl,
 	TextControl,
+	TextareaControl,
 	ToggleControl,
 	ToolbarGroup,
 } from "@wordpress/components";
@@ -40,6 +41,7 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 		excerptLength,
 		feedURL,
 		itemsToShow,
+		noJobsMessage,
 	} = attributes;
 
 	function toggleAttribute(propName) {
@@ -137,6 +139,20 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 							required
 						/>
 					)}
+					<TextareaControl
+						label={__("No jobs found message")}
+						help={__("Message to display if no jobs are found")}
+						value={
+							noJobsMessage ||
+							__(
+								"There are no jobs at this time.",
+								"dss-jobbnorge-block"
+							)
+						}
+						onChange={(value) =>
+							setAttributes({ noJobsMessage: value })
+						}
+					/>
 				</PanelBody>
 				<PanelBody title={__("Item", "dss-jobbnorge-block")}>
 					<ToggleControl

@@ -31,6 +31,12 @@ msgstr ""
 msgid "PerS"
 msgstr ""
 
+#: dss-jobbnorge.php:142
+#: src/edit.js:147
+#: build/init.js:212
+msgid "There are no jobs at this time."
+msgstr "Det er for tiden ingen ledige stillinger."
+
 #: dss-jobbnorge.php:163
 msgid "Deadline:"
 msgstr "Søknadsfrist:"

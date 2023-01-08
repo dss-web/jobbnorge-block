@@ -122,6 +122,10 @@ function render_block_dss_jobbnorge( $attributes ) {
 		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Adding an Jobbnorge feed to this site’s homepage is not supported, as it could lead to a loop that slows down your site. Try using another block, like the <strong>Latest Posts</strong> block, to list posts from the site.' ) . '</div></div>';
 	}
 
+	// if ( isset( $attributes, $attributes['feedURL'] ) && false !== strstr( $attributes['feedURL'], 'jobbnorge' ) ) {
+	// return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Invalid URL' ) . '</div></div>';
+	// }
+
 	require_once ABSPATH . WPINC . '/feed.php';
 	require_once 'class-jobbnorge-item.php';
 
@@ -135,7 +139,8 @@ function render_block_dss_jobbnorge( $attributes ) {
 	$feed->init();
 	$feed->handle_content_type();
 	if ( ! $feed->get_item_quantity() ) {
-		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'An error has occurred, which probably means the feed is down. Try again later.' ) . '</div></div>';
+		$no_jobs_message = ( '' !== wp_strip_all_tags( $attributes['noJobsMessage'] ) ) ? wp_strip_all_tags( $attributes['noJobsMessage'] ) : __( 'There are no jobs at this time.', 'dss-jobbnorge-block' );
+		return '<div class="components-placeholder">' . $no_jobs_message . '</div>';
 	}
 
 	$items      = $feed->get_items( 0, $attributes['itemsToShow'] );

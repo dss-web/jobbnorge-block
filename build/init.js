@@ -206,7 +206,8 @@ function JobbnorgeEdit(_ref) {
     displayExcerpt,
     excerptLength,
     feedURL,
-    itemsToShow
+    itemsToShow,
+    noJobsMessage
   } = attributes;
   function toggleAttribute(propName) {
     return () => {
@@ -288,6 +289,13 @@ function JobbnorgeEdit(_ref) {
     min: 10,
     max: 100,
     required: true
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextareaControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("No jobs found message"),
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Message to display if no jobs are found"),
+    value: noJobsMessage || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("There are no jobs at this time.", "dss-jobbnorge-block"),
+    onChange: value => setAttributes({
+      noJobsMessage: value
+    })
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Item", "dss-jobbnorge-block")
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ToggleControl, {
@@ -508,7 +516,7 @@ module.exports = window["wp"]["url"];
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"dss/jobbnorge","version":"0.1.0","title":"Jobbnorge","category":"widgets","icon":"people","description":"Viser jobber fra jobbnorge.no","keywords":["jobb","jobbnorge","jobbnorge.no"],"supports":{"html":false},"attributes":{"columns":{"type":"number","default":3},"blockLayout":{"type":"string","default":"grid"},"feedURL":{"type":"string","default":""},"itemsToShow":{"type":"number","default":5},"displayExcerpt":{"type":"boolean","default":true},"displayDeadline":{"type":"boolean","default":false},"displayScope":{"type":"boolean","default":false},"displayDuration":{"type":"boolean","default":false},"displayDate":{"type":"boolean","default":true},"excerptLength":{"type":"number","default":55}},"textdomain":"dss-jobbnorge-block","editorScript":"file:init.js","editorStyle":"file:editor.scss","style":"file:style.scss"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"dss/jobbnorge","version":"0.1.0","title":"Jobbnorge","category":"widgets","icon":"people","description":"Viser jobber fra jobbnorge.no","keywords":["jobb","jobbnorge","jobbnorge.no"],"supports":{"html":false},"attributes":{"columns":{"type":"number","default":3},"blockLayout":{"type":"string","default":"grid"},"feedURL":{"type":"string","default":""},"noJobsMessage":{"type":"string","default":""},"itemsToShow":{"type":"number","default":5},"displayExcerpt":{"type":"boolean","default":true},"displayDeadline":{"type":"boolean","default":false},"displayScope":{"type":"boolean","default":false},"displayDuration":{"type":"boolean","default":false},"displayDate":{"type":"boolean","default":true},"excerptLength":{"type":"number","default":55}},"textdomain":"dss-jobbnorge-block","editorScript":"file:init.js","editorStyle":"file:editor.scss","style":"file:style.scss"}');
 
 /***/ })
 

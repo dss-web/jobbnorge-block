@@ -24,6 +24,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"noJobsMessage": {
+			"type": "string",
+			"default": ""
+		},
 		"itemsToShow": {
 			"type": "number",
 			"default": 5

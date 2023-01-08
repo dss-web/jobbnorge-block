@@ -10,6 +10,9 @@
                 "lang": "nb_NO",
                 "plural-forms": "nplurals=2; plural=(n != 1);"
             },
+            "There are no jobs at this time.": [
+                "Det er for tiden ingen ledige stillinger."
+            ],
             "Edit Jobbnorge URL": [
                 "Rediger Jobbnorge URL"
             ],
