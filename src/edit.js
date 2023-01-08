@@ -124,26 +124,6 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 						max={DEFAULT_MAX_ITEMS}
 						required
 					/>
-					<ToggleControl
-						label={__("Display scope", "dss-jobbnorge-block")}
-						checked={displayScope}
-						onChange={toggleAttribute("displayScope")}
-					/>
-					<ToggleControl
-						label={__("Display duration", "dss-jobbnorge-block")}
-						checked={displayDuration}
-						onChange={toggleAttribute("displayDuration")}
-					/>
-					<ToggleControl
-						label={__("Display deadline", "dss-jobbnorge-block")}
-						checked={displayDate}
-						onChange={toggleAttribute("displayDate")}
-					/>
-					<ToggleControl
-						label={__("Display excerpt")}
-						checked={displayExcerpt}
-						onChange={toggleAttribute("displayExcerpt")}
-					/>
 					{displayExcerpt && (
 						<RangeControl
 							__nextHasNoMarginBottom
@@ -157,7 +137,31 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 							required
 						/>
 					)}
-					{blockLayout === "grid" && (
+				</PanelBody>
+				<PanelBody title={__("Item settings", "dss-jobbnorge-block")}>
+					<ToggleControl
+						label={__("Display deadline", "dss-jobbnorge-block")}
+						checked={displayDate}
+						onChange={toggleAttribute("displayDate")}
+					/>
+					<ToggleControl
+						label={__("Display excerpt")}
+						checked={displayExcerpt}
+						onChange={toggleAttribute("displayExcerpt")}
+					/>
+					<ToggleControl
+						label={__("Display scope", "dss-jobbnorge-block")}
+						checked={displayScope}
+						onChange={toggleAttribute("displayScope")}
+					/>
+					<ToggleControl
+						label={__("Display duration", "dss-jobbnorge-block")}
+						checked={displayDuration}
+						onChange={toggleAttribute("displayDuration")}
+					/>
+				</PanelBody>
+				{blockLayout === "grid" && (
+					<PanelBody title={__("Grid view")}>
 						<RangeControl
 							__nextHasNoMarginBottom
 							label={__("Columns")}
@@ -169,8 +173,8 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 							max={6}
 							required
 						/>
-					)}
-				</PanelBody>
+					</PanelBody>
+				)}
 			</InspectorControls>
 			<div {...blockProps}>
 				<Disabled>
