@@ -52,6 +52,11 @@ msgstr "Varighet"
 msgid "Edit Jobbnorge URL"
 msgstr "Rediger Jobbnorge URL"
 
+#: src/edit.js:141
+#: build/init.js:206
+msgid "Item"
+msgstr "Element"
+
 #: src/edit.js:128
 #: build/init.js:193
 msgid "Display scope"

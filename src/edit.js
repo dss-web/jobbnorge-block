@@ -138,7 +138,7 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 						/>
 					)}
 				</PanelBody>
-				<PanelBody title={__("Item settings", "dss-jobbnorge-block")}>
+				<PanelBody title={__("Item", "dss-jobbnorge-block")}>
 					<ToggleControl
 						label={__("Display deadline", "dss-jobbnorge-block")}
 						checked={displayDate}

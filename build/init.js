@@ -289,7 +289,7 @@ function JobbnorgeEdit(_ref) {
     max: 100,
     required: true
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Item settings", "dss-jobbnorge-block")
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Item", "dss-jobbnorge-block")
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ToggleControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Display deadline", "dss-jobbnorge-block"),
     checked: displayDate,
