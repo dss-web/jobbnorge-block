@@ -1,11 +1,16 @@
 {
 	"name": "dss-jobbnorge",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Lorem ipsum",
 	"author": "PerS",
 	"license": "GPL-2.0-or-later",
 	"homepage": "https://github.com/dss-web/dss-jobbnorge-block",
 	"main": "build/init.js",
+	"files": [
+		"build/**",
+		"languages/**",
+		"*.{php,txt}"
+	],
 	"scripts": {
 		"build": "wp-scripts build",
 		"format": "wp-scripts format",
