@@ -16,6 +16,12 @@
             "Edit Jobbnorge URL": [
                 ""
             ],
+            "No jobs found message": [
+                ""
+            ],
+            "Message to display if no jobs are found": [
+                ""
+            ],
             "Item": [
                 ""
             ],

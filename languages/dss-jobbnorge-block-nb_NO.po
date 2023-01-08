@@ -58,6 +58,16 @@ msgstr "Varighet"
 msgid "Edit Jobbnorge URL"
 msgstr "Rediger Jobbnorge URL"
 
+#: src/edit.js:143
+#: build/init.js:208
+msgid "No jobs found message"
+msgstr "Ingen jobber funnet melding"
+
+#: src/edit.js:147
+#: build/init.js:212
+msgid "Message to display if no jobs are found"
+msgstr "Melding som vises hvis ingen jobber er funnet"
+
 #: src/edit.js:141
 #: build/init.js:206
 msgid "Item"

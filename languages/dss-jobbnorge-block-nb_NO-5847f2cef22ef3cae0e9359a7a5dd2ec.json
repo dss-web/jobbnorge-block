@@ -16,6 +16,12 @@
             "Edit Jobbnorge URL": [
                 "Rediger Jobbnorge URL"
             ],
+            "No jobs found message": [
+                "Ingen jobber funnet melding"
+            ],
+            "Message to display if no jobs are found": [
+                "Melding som vises hvis ingen jobber er funnet"
+            ],
             "Item": [
                 "Element"
             ],

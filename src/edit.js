@@ -140,8 +140,14 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 						/>
 					)}
 					<TextareaControl
-						label={__("No jobs found message")}
-						help={__("Message to display if no jobs are found")}
+						label={__(
+							"No jobs found message",
+							"dss-jobbnorge-block"
+						)}
+						help={__(
+							"Message to display if no jobs are found",
+							"dss-jobbnorge-block"
+						)}
 						value={
 							noJobsMessage ||
 							__(
