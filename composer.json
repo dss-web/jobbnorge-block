@@ -1,6 +1,6 @@
 {
 	"name": "dss-web/dss-jobbnorge-block",
-	"description": "Adds a block to the Gutenberg editor that displays a list of jobs from Jobbnorge",
+	"description": "WordPress Jobbnorge Block",
 	"type": "wordpress-plugin",
 	"homepage": "https://github.com/dss-web/dss-jobbnorge-block",
 	"license": "GPL-2.0-or-later",
