@@ -1,6 +1,6 @@
 {
 	"name": "dss-jobbnorge",
-	"version": "1.0.1",
+	"version": "1.0.3",
 	"description": "Lorem ipsum",
 	"author": "PerS",
 	"license": "GPL-2.0-or-later",
@@ -28,7 +28,13 @@
 		"@wordpress/scripts": "^25.1.0"
 	},
 	"dependencies": {
+		"@wordpress/block-editor": "^11.1.0",
+		"@wordpress/blocks": "^12.1.0",
+		"@wordpress/components": "^23.1.0",
+		"@wordpress/element": "^5.1.0",
 		"@wordpress/i18n": "^4.24.0",
-		"@wordpress/icons": "^9.15.0"
+		"@wordpress/icons": "^9.15.0",
+		"@wordpress/server-side-render": "^4.1.0",
+		"@wordpress/url": "^3.25.0"
 	}
 }

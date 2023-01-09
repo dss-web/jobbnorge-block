@@ -5,7 +5,7 @@
  * Description:       Viser jobber fra jobbnorge.no
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           1.0.2
+ * Version:           1.0.3
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -54,6 +54,10 @@ function action_enqueue_scripts( string $hook_suffix ) : void {
 		$file    = require $deps_file;
 		$jsdeps  = array_merge( $jsdeps, $file['dependencies'] );
 		$version = $file['version'];
+	}
+	if ( is_admin() ) {
+		wp_register_style( 'dss-jobbnorge-admin', plugin_dir_url( __FILE__ ) . 'build/init.css', [], $version );
+		wp_enqueue_style( 'dss-jobbnorge-admin' );
 	}
 	wp_register_style( 'dss-jobbnorge', plugin_dir_url( __FILE__ ) . 'build/style-init.css', [], $version );
 	wp_enqueue_style( 'dss-jobbnorge' );

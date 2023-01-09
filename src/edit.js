@@ -23,7 +23,7 @@ import { __ } from "@wordpress/i18n";
 import { prependHTTP } from "@wordpress/url";
 import ServerSideRender from "@wordpress/server-side-render";
 
-// import "./editor.scss";
+import "./editor.scss";
 
 const DEFAULT_MIN_ITEMS = 1;
 const DEFAULT_MAX_ITEMS = 20;
@@ -203,6 +203,7 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 					<ServerSideRender
 						block="dss/jobbnorge"
 						attributes={attributes}
+						httpMethod="POST"
 					/>
 				</Disabled>
 			</div>

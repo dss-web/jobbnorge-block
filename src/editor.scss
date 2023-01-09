@@ -1,3 +1,13 @@
+$break-medium: 782px;
+$grid-unit: 8px;
+$grid-unit-10: 1 * $grid-unit; // 8px
+
+@mixin break-medium() {
+	@media (min-width: #{ ($break-medium) }) {
+		@content;
+	}
+}
+
 .wp-block-dss-jobbnorge li a > div {
 	display: inline;
 }
@@ -16,6 +26,8 @@
 		}
 	}
 }
+
+
 
 .wp-block-dss-jobbnorge__placeholder-input {
 	display: flex;
