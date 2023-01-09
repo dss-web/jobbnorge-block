@@ -5,7 +5,7 @@
  * Description:       Viser jobber fra jobbnorge.no
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           1.0.4
+ * Version:           1.0.5
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -209,7 +209,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 			}
 			if ( $date ) {
 				$date = sprintf(
-					'<time datetime="%1$s" class="wp-block-dss-jobbnorge__item-publish-date">%2$s %3$s</time> ',
+					'<time datetime="%1$s" class="wp-block-dss-jobbnorge__item-deadline">%2$s %3$s</time> ',
 					esc_attr( date_i18n( get_option( 'c' ), $date ) ),
 					__( 'Deadline:', 'dss-jobbnorge-block' ),
 					esc_attr( date_i18n( get_option( 'date_format' ), $date ) )
@@ -246,7 +246,12 @@ function render_block_dss_jobbnorge( $attributes ) {
 			);
 		}
 
-		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$title}{$date}{$scope}{$duration}{$excerpt}</li>";
+		$meta = '';
+		if ( $date || $scope || $duration ) {
+			$meta = '<div class="wp-block-dss-jobbnorge__item-meta">' . $date . $scope . $duration . '</div>';
+		}
+
+		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$title}{$meta}{$excerpt}</li>";
 	}
 
 	$classnames = [];

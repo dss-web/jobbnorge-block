@@ -1,6 +1,7 @@
+$break-small: 600px;
+
 @mixin break-small() {
-	// @media (min-width: #{ ($break-small) }) {
-	@media (min-width: 600px) {
+	@media (min-width: #{ ($break-small) }) {
 		@content;
 	}
 }
@@ -54,10 +55,16 @@ ul.wp-block-dss-jobbnorge { // The ul is needed for specificity to override the 
 	margin: 0 0 0.25em 0;
 }
 
-.wp-block-dss-jobbnorge__item-publish-date,
+.wp-block-dss-jobbnorge__item-meta {
+	margin: 0 0 0.25em 0;
+	padding: 0;
+}
+
+.wp-block-dss-jobbnorge__item-deadline,
 .wp-block-dss-jobbnorge__item-scope,
 .wp-block-dss-jobbnorge__item-duration {
 	display: block;
 	font-weight: 600;
 	font-size: 0.8125em;
 }
+
