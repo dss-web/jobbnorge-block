@@ -72,7 +72,7 @@ if ( ! class_exists( 'SimplePieSortOnDeadline' ) && defined( 'SIMPLE_NAMESPACE_J
 					'12',
 				];
 
-				$dato = preg_replace( '/(\d{1})\./', '$1', $item->get_jn_deadline() ); // remove . from day.
+				$dato = preg_replace( '/(\d{1})\./', '$1', $date ); // remove . from day.
 				$dato = preg_replace( '/(\d{1})\./', '0$1.', $dato ); // add 0 to day if needed.
 				$dato = str_replace( $str_months, $num_months, $dato ); // replace month names with numbers.
 				$dato = explode( ' ', $dato );// split into array.
