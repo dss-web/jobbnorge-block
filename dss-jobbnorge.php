@@ -5,7 +5,7 @@
  * Description:       Viser jobber fra jobbnorge.no
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           1.0.1
+ * Version:           1.0.2
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -46,7 +46,7 @@ function dss_jobbnorge_init() {
  */
 function action_enqueue_scripts( string $hook_suffix ) : void {
 
-	$deps_file = plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
+	$deps_file = plugin_dir_path( __FILE__ ) . 'build/init.asset.php';
 
 	$jsdeps  = [];
 	$version = wp_rand();
@@ -58,7 +58,7 @@ function action_enqueue_scripts( string $hook_suffix ) : void {
 	wp_register_style( 'dss-jobbnorge', plugin_dir_url( __FILE__ ) . 'build/style-init.css', [], $version );
 	wp_enqueue_style( 'dss-jobbnorge' );
 	wp_set_script_translations(
-		'dss-jobbnorge-editor-script', // Handle = block.json name (replxce / with -) + "-editor-script".
+		'dss-jobbnorge-editor-script', // Handle = block.json "name" (replace / with -) + "-editor-script".
 		'dss-jobbnorge-block',
 		plugin_dir_path( __FILE__ ) . 'languages/'
 	);
@@ -122,9 +122,9 @@ function render_block_dss_jobbnorge( $attributes ) {
 		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Adding an Jobbnorge feed to this site’s homepage is not supported, as it could lead to a loop that slows down your site. Try using another block, like the <strong>Latest Posts</strong> block, to list posts from the site.' ) . '</div></div>';
 	}
 
-	// if ( isset( $attributes, $attributes['feedURL'] ) && false !== strstr( $attributes['feedURL'], 'jobbnorge' ) ) {
-	// return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Invalid URL' ) . '</div></div>';
-	// }
+	if ( false === strstr( $attributes['feedURL'], 'jobbnorge' ) ) {
+		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Invalid URL' ) . '</div></div>';
+	}
 
 	require_once ABSPATH . WPINC . '/feed.php';
 	require_once 'class-jobbnorge-item.php';
@@ -203,7 +203,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 			);
 		}
 
-		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$date}{$title}{$excerpt}{$scope}{$duration}</li>";
+		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$title}{$date}{$scope}{$duration}{$excerpt}</li>";
 	}
 
 	$classnames = [];
