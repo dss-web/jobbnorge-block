@@ -162,14 +162,14 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 				</PanelBody>
 				<PanelBody title={__("Item", "dss-jobbnorge-block")}>
 					<ToggleControl
-						label={__("Display deadline", "dss-jobbnorge-block")}
-						checked={displayDate}
-						onChange={toggleAttribute("displayDate")}
-					/>
-					<ToggleControl
 						label={__("Display excerpt")}
 						checked={displayExcerpt}
 						onChange={toggleAttribute("displayExcerpt")}
+					/>
+					<ToggleControl
+						label={__("Display deadline", "dss-jobbnorge-block")}
+						checked={displayDate}
+						onChange={toggleAttribute("displayDate")}
 					/>
 					<ToggleControl
 						label={__("Display scope", "dss-jobbnorge-block")}
