@@ -5,7 +5,7 @@
  * Description:       Viser jobber fra jobbnorge.no
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           1.0.6
+ * Version:           1.0.7
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -161,7 +161,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 		}
 		$title = "<div class='wp-block-dss-jobbnorge__item-title'>{$title}</div>";
 
-		$date = '';
+		$deadline = '';
 		if ( $attributes['displayDate'] ) {
 
 			if ( class_exists( '\IntlDateFormatter' ) ) {
@@ -208,9 +208,9 @@ function render_block_dss_jobbnorge( $attributes ) {
 				$date = mktime( 0, 0, 0, $dato[1], $dato[0], $dato[2] );// create timestamp.
 			}
 			if ( $date ) {
-				$date = sprintf(
+				$deadline = sprintf(
 					'<time datetime="%1$s" class="wp-block-dss-jobbnorge__item-deadline">%2$s %3$s</time> ',
-					esc_attr( date_i18n( get_option( 'c' ), $date ) ),
+					esc_attr( date_i18n( 'c', $date ) ),
 					__( 'Deadline:', 'dss-jobbnorge-block' ),
 					esc_attr( date_i18n( get_option( 'date_format' ), $date ) )
 				);
@@ -247,8 +247,8 @@ function render_block_dss_jobbnorge( $attributes ) {
 		}
 
 		$meta = '';
-		if ( $date || $scope || $duration ) {
-			$meta = '<div class="wp-block-dss-jobbnorge__item-meta">' . $date . $scope . $duration . '</div>';
+		if ( $deadline || $scope || $duration ) {
+			$meta = '<div class="wp-block-dss-jobbnorge__item-meta">' . $deadline . $scope . $duration . '</div>';
 		}
 
 		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$title}{$meta}{$excerpt}</li>";
@@ -265,7 +265,13 @@ function render_block_dss_jobbnorge( $attributes ) {
 		$classnames[] = 'has-dates';
 	}
 	if ( $attributes['displayDeadline'] ) {
-		$classnames[] = 'has-authors';
+		$classnames[] = 'has-deadline';
+	}
+	if ( $attributes['displayScope'] ) {
+		$classnames[] = 'has-scope';
+	}
+	if ( $attributes['displayDuration'] ) {
+		$classnames[] = 'has-duration';
 	}
 	if ( $attributes['displayExcerpt'] ) {
 		$classnames[] = 'has-excerpts';
