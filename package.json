@@ -1,8 +1,8 @@
 {
 	"name": "dss-jobbnorge",
-	"version": "1.0.6",
-	"description": "Lorem ipsum",
-	"author": "PerS",
+	"version": "1.0.7",
+	"description": "WordPress Jobbnorge Block",
+	"author": "Per Søderlind <per@soderlind.no>",
 	"license": "GPL-2.0-or-later",
 	"homepage": "https://github.com/dss-web/dss-jobbnorge-block",
 	"main": "build/init.js",
