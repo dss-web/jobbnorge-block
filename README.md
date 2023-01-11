@@ -1,4 +1,4 @@
-# WordPress Jobbnorge Block
+# WP Jobbnorge Block
 
 This is a WordPress plugin that adds a block to the Gutenberg editor that displays a list of jobs from Jobbnorge.
 
@@ -87,10 +87,10 @@ Default styling is provided by the [`style.scss`](src/style.scss) file.
 
 ## Copyright and license
 
-WordPress Jobbnorge Block is copyright 2023 Per Søderlind
+WP Jobbnorge Block is copyright 2023 Per Søderlind
 
-WordPress Jobbnorge Block is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
+WP Jobbnorge Block is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 
-WordPress Jobbnorge Block is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+WP Jobbnorge Block is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License along with the Extension. If not, see http://www.gnu.org/licenses/.
