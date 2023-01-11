@@ -28,7 +28,7 @@ You'll find the block in the "widget" category, look for "Jobbnorge".
 
 ### 1) Add the Jobbnorge URL.
 
-The URL should be the RSS feed for the job list. The URL should look like this, replace 123456789 with your id value: `https://www.jobbnorge.no/apps/joblist/JobListBuilder.ashx?id=123456789&trid=1`
+The URL should be the RSS feed for the job list. The URL should look like this, replace 123456789 with your id: `https://www.jobbnorge.no/apps/joblist/JobListBuilder.ashx?id=123456789&trid=1`
 
 [![Add the Jobbnorge URL.](.wordpress-org/screenshot-1.png)](.wordpress-org/screenshot-1.png)
 
