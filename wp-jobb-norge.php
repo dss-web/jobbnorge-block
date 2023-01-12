@@ -5,7 +5,7 @@
  * Description:       Viser jobber fra jobbnorge.no
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           1.0.7
+ * Version:           1.0.8
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
