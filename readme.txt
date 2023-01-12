@@ -1,10 +1,10 @@
-=== Jobbnorge Block ===
+=== WP Jobbnorge Block ===
 Contributors:      PerS, dssweb
 Tags:              block
 Tested up to:      6.1
 Requires at least: 5.9
 Requires PHP:      7.4
-Stable tag:        1.0.7
+Stable tag:        1.0.8
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,9 +33,13 @@ You'll find the block in the "widget" category, look for "Jobbnorge".
 
 == Frequently Asked Questions ==
 
+= Where's the block? =
+
+The block is in the "widget" category, look for "Jobbnorge".
+
 = Jobbnorge RSS feed URL? =
 
-The URL should look like this, replace 123456789 with your id value: `https://www.jobbnorge.no/apps/joblist/JobListBuilder.ashx?id=123456789&trid=1`
+The URL should look like this, replace 123456789 with your id: `https://www.jobbnorge.no/apps/joblist/JobListBuilder.ashx?id=123456789&trid=1`
 
 == Screenshots ==
 
@@ -44,6 +48,10 @@ The URL should look like this, replace 123456789 with your id value: `https://ww
 3. Grid view
 
 == Changelog ==
+
+= 1.0.8 =
+
+* Rename plugin.
 
 = 1.0.7 =
 

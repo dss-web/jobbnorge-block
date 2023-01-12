@@ -1,7 +1,7 @@
 {
 	"name": "dss-jobbnorge",
-	"version": "1.0.7",
-	"description": "WordPress Jobbnorge Block",
+	"version": "1.0.8",
+	"description": "Jobbnorge Block for WordPress Gutenberg",
 	"author": "Per Søderlind <per@soderlind.no>",
 	"license": "GPL-2.0-or-later",
 	"homepage": "https://github.com/dss-web/dss-jobbnorge-block",
