@@ -2,7 +2,7 @@
 /**
  * SimplePie Sort on Jobbnorge Deadline
  *
- * @package dss-jobbnorge-block
+ * @package wp-jobbnorge-block
  */
 
 if ( ! class_exists( 'SimplePieSortOnDeadline' ) && defined( 'SIMPLE_NAMESPACE_JOBBNORGE' ) ) {

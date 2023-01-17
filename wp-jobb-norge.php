@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Jobbnorge Block
- * Plugin URI:        https://github.com/dss-web/dss-jobbnorge-block
+ * Plugin URI:        https://github.com/dss-web/wp-jobbnorge-block
  * Description:       Viser jobber fra jobbnorge.no
  * Requires at least: 5.9
  * Requires PHP:      7.0
@@ -9,9 +9,9 @@
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       dss-jobbnorge-block
+ * Text Domain:       wp-jobbnorge-block
  *
- * @package           dss-jobbnorge-block
+ * @package           wp-jobbnorge-block
  */
 
 namespace DSS\Jobbnorge;
@@ -29,7 +29,7 @@ add_action( 'wp_feed_options', __NAMESPACE__ . '\action_reference_wp_feed_option
 function dss_jobbnorge_init() {
 	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\action_enqueue_scripts' );
 	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\action_enqueue_scripts' );
-	load_plugin_textdomain( 'dss-jobbnorge-block', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+	load_plugin_textdomain( 'wp-jobbnorge-block', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	register_block_type(
 		__DIR__ . '/build',
 		[
@@ -63,7 +63,7 @@ function action_enqueue_scripts( string $hook_suffix ) : void {
 	wp_enqueue_style( 'dss-jobbnorge' );
 	wp_set_script_translations(
 		'dss-jobbnorge-editor-script', // Handle = block.json "name" (replace / with -) + "-editor-script".
-		'dss-jobbnorge-block',
+		'wp-jobbnorge-block',
 		plugin_dir_path( __FILE__ ) . 'languages/'
 	);
 }
@@ -143,7 +143,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 	$feed->init();
 	$feed->handle_content_type();
 	if ( ! $feed->get_item_quantity() ) {
-		$no_jobs_message = ( '' !== wp_strip_all_tags( $attributes['noJobsMessage'] ) ) ? wp_strip_all_tags( $attributes['noJobsMessage'] ) : __( 'There are no jobs at this time.', 'dss-jobbnorge-block' );
+		$no_jobs_message = ( '' !== wp_strip_all_tags( $attributes['noJobsMessage'] ) ) ? wp_strip_all_tags( $attributes['noJobsMessage'] ) : __( 'There are no jobs at this time.', 'wp-jobbnorge-block' );
 		return '<div class="components-placeholder">' . $no_jobs_message . '</div>';
 	}
 
@@ -211,7 +211,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 				$deadline = sprintf(
 					'<time datetime="%1$s" class="wp-block-dss-jobbnorge__item-deadline">%2$s %3$s</time> ',
 					esc_attr( date_i18n( 'c', $date ) ),
-					__( 'Deadline:', 'dss-jobbnorge-block' ),
+					__( 'Deadline:', 'wp-jobbnorge-block' ),
 					esc_attr( date_i18n( get_option( 'date_format' ), $date ) )
 				);
 			}
@@ -222,7 +222,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 			$excerpt = html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) );
 			$excerpt = esc_attr( wp_trim_words( $excerpt, $attributes['excerptLength'], '' ) );
 
-			$read_more = sprintf( ' ... <a href="%s">%s</a>', esc_url( $item->get_permalink() ), __( 'Read more', 'dss-jobbnorge-block' ) );
+			$read_more = sprintf( ' ... <a href="%s">%s</a>', esc_url( $item->get_permalink() ), __( 'Read more', 'wp-jobbnorge-block' ) );
 
 			$excerpt = '<div class="wp-block-dss-jobbnorge__item-excerpt">' . esc_html( $excerpt ) . $read_more . '</div>';
 		}
@@ -232,7 +232,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 			$scope = $item->get_jn_jobscope();
 			$scope = sprintf(
 				'<div class="wp-block-dss-jobbnorge__item-scope">%s: %s</div>',
-				__( 'Scope', 'dss-jobbnorge-block' ),
+				__( 'Scope', 'wp-jobbnorge-block' ),
 				esc_html( $scope )
 			);
 		}
@@ -241,7 +241,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 			$duration = $item->get_jn_jobduration();
 			$duration = sprintf(
 				'<div class="wp-block-dss-jobbnorge__item-duration">%s: %s</div>',
-				__( 'Duration', 'dss-jobbnorge-block' ),
+				__( 'Duration', 'wp-jobbnorge-block' ),
 				esc_html( $duration )
 			);
 		}

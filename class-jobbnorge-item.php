@@ -2,7 +2,7 @@
 /**
  * Jobbnorge Item.
  *
- * @package dss-jobbnorge-block
+ * @package wp-jobbnorge-block
  * @author Per Søderlind / DSS
  * @since 29/09/2019
  */

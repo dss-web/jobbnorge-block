@@ -26,7 +26,7 @@ List jobs from Jobbnorge.no
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/dss-jobbnorge-block` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/wp-jobbnorge-block` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
 You'll find the block in the "widget" category, look for "Jobbnorge".

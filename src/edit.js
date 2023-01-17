@@ -91,7 +91,7 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 	const toolbarControls = [
 		{
 			icon: edit,
-			title: __("Edit Jobbnorge URL", "dss-jobbnorge-block"),
+			title: __("Edit Jobbnorge URL", "wp-jobbnorge-block"),
 			onClick: () => setIsEditing(true),
 		},
 		{
@@ -142,17 +142,17 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 					<TextareaControl
 						label={__(
 							"No jobs found message",
-							"dss-jobbnorge-block"
+							"wp-jobbnorge-block"
 						)}
 						help={__(
 							"Message to display if no jobs are found",
-							"dss-jobbnorge-block"
+							"wp-jobbnorge-block"
 						)}
 						value={
 							noJobsMessage ||
 							__(
 								"There are no jobs at this time.",
-								"dss-jobbnorge-block"
+								"wp-jobbnorge-block"
 							)
 						}
 						onChange={(value) =>
@@ -160,24 +160,24 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 						}
 					/>
 				</PanelBody>
-				<PanelBody title={__("Item", "dss-jobbnorge-block")}>
+				<PanelBody title={__("Item", "wp-jobbnorge-block")}>
 					<ToggleControl
 						label={__("Display excerpt")}
 						checked={displayExcerpt}
 						onChange={toggleAttribute("displayExcerpt")}
 					/>
 					<ToggleControl
-						label={__("Display deadline", "dss-jobbnorge-block")}
+						label={__("Display deadline", "wp-jobbnorge-block")}
 						checked={displayDate}
 						onChange={toggleAttribute("displayDate")}
 					/>
 					<ToggleControl
-						label={__("Display scope", "dss-jobbnorge-block")}
+						label={__("Display scope", "wp-jobbnorge-block")}
 						checked={displayScope}
 						onChange={toggleAttribute("displayScope")}
 					/>
 					<ToggleControl
-						label={__("Display duration", "dss-jobbnorge-block")}
+						label={__("Display duration", "wp-jobbnorge-block")}
 						checked={displayDuration}
 						onChange={toggleAttribute("displayDuration")}
 					/>
