@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Jobbnorge Block 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dss-jobbnorge-block\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-jobbnorge-block\n"
 "Last-Translator: Per Søderlind <per@soderlind.no\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,14 +12,14 @@ msgstr ""
 "POT-Creation-Date: 2023-01-08T18:57:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
-"X-Domain: dss-jobbnorge-block\n"
+"X-Domain: wp-jobbnorge-block\n"
 
 #. Plugin Name of the plugin
 msgid "Jobbnorge Block"
 msgstr ""
 
 #. Plugin URI of the plugin
-msgid "https://github.com/dss-web/dss-jobbnorge-block"
+msgid "https://github.com/dss-web/wp-jobbnorge-block"
 msgstr ""
 
 #. Description of the plugin
