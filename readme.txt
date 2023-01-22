@@ -4,7 +4,7 @@ Tags:              block
 Tested up to:      6.1
 Requires at least: 5.9
 Requires PHP:      7.4
-Stable tag:        1.0.8
+Stable tag:        1.0.9
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,10 @@ The URL should look like this, replace 123456789 with your id: `https://www.jobb
 3. Grid view
 
 == Changelog ==
+
+= 1.0.9 =
+
+* Rename functions to avoid conflicts.
 
 = 1.0.8 =
 

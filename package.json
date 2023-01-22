@@ -1,6 +1,6 @@
 {
 	"name": "wp-jobbnorge-block",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"description": "Jobbnorge Block for WordPress Gutenberg",
 	"author": "Per Søderlind <per@soderlind.no>",
 	"license": "GPL-2.0-or-later",
