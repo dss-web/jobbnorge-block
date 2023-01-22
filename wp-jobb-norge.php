@@ -5,7 +5,7 @@
  * Description:       Viser jobber fra jobbnorge.no
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           1.0.8
+ * Version:           1.0.9
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,7 +17,7 @@
 namespace DSS\Jobbnorge;
 
 add_action( 'init', __NAMESPACE__ . '\dss_jobbnorge_init' );
-add_action( 'wp_feed_options', __NAMESPACE__ . '\action_reference_wp_feed_options', 9, 2 );
+add_action( 'wp_feed_options', __NAMESPACE__ . '\dss_jobbnorge_feed_options', 9, 2 );
 
 /**
  * Registers the block using the metadata loaded from the `block.json` file.
@@ -27,8 +27,8 @@ add_action( 'wp_feed_options', __NAMESPACE__ . '\action_reference_wp_feed_option
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 function dss_jobbnorge_init() {
-	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\action_enqueue_scripts' );
-	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\action_enqueue_scripts' );
+	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\dss_jobbnorge_enqueue_scripts' );
+	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\dss_jobbnorge_enqueue_scripts' );
 	load_plugin_textdomain( 'wp-jobbnorge-block', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	register_block_type(
 		__DIR__ . '/build',
@@ -44,7 +44,7 @@ function dss_jobbnorge_init() {
  * @param string $hook_suffix The current admin page.
  * @return void
  */
-function action_enqueue_scripts( string $hook_suffix ) : void {
+function dss_jobbnorge_enqueue_scripts( string $hook_suffix ) : void {
 
 	$deps_file = plugin_dir_path( __FILE__ ) . 'build/init.asset.php';
 
@@ -75,7 +75,7 @@ function action_enqueue_scripts( string $hook_suffix ) : void {
  * @param \SimplePie      $feed SimplePie feed object (passed by reference).
  * @param string|string[] $url  URL of feed or array of URLs of feeds to retrieve.
  */
-function action_reference_wp_feed_options( \SimplePie &$feed, $url = null ) : void {
+function dss_jobbnorge_feed_options( \SimplePie &$feed, $url = null ) : void {
 	if ( ! $url ) {
 		$url = $feed->feed_url;
 	}
