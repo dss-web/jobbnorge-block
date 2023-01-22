@@ -1,6 +1,6 @@
 # WP Jobbnorge Block
 
-This is a WordPress plugin that adds a block to the Gutenberg editor that displays a list of jobs from Jobbnorge.
+This WordPress plugin adds a block to the Gutenberg editor that displays a list of jobs from Jobbnorge.
 
 <img src=".wordpress-org/jobbnorge.gif">
 
