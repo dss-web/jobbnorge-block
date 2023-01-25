@@ -49,6 +49,10 @@ The URL should look like this, replace 123456789 with your id: `https://www.jobb
 
 == Changelog ==
 
+= 1.0.10 =
+
+* Update translation.
+
 = 1.0.9 =
 
 * Rename functions to avoid conflicts.

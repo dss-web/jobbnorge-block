@@ -1,5 +1,5 @@
 {
-    "translation-revision-date": "YEAR-MO-DA HO:MI+ZONE",
+    "translation-revision-date": "2023-01-25 19:21+0100",
     "generator": "WP-CLI\/2.4.0",
     "source": "src\/edit.js",
     "domain": "messages",
@@ -25,14 +25,14 @@
             "Item": [
                 "Element"
             ],
+            "Display deadline": [
+                "Vis s\u00f8knadsfrist"
+            ],
             "Display scope": [
                 "Vis omfang"
             ],
             "Display duration": [
                 "Vis varighet"
-            ],
-            "Display deadline": [
-                "Vis s\u00f8knadsfrist"
             ]
         }
     }

@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name:       Jobbnorge Block
- * Plugin URI:        https://github.com/dss-web/wp-jobbnorge-block
- * Description:       Viser jobber fra jobbnorge.no
+ * Plugin URI:        https://wordpress.org/plugins/jobbnorge-block/
+ * Description:       List jobs at jobbnorge.no
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           1.0.9
+ * Version:           1.0.10
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
