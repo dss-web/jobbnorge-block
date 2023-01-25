@@ -3,87 +3,78 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Jobbnorge Block 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-jobbnorge-block\n"
-"Last-Translator: Per Søderlind <per@soderlind.no\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jobbnorge-block\n"
+"POT-Creation-Date: 2023-01-25T18:15:23+00:00\n"
+"PO-Revision-Date: 2023-01-25 19:21+0100\n"
+"Last-Translator: Per Søderlind <per@soderlind.no>\n"
+"Language-Team: \n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-01-07T13:11:04+00:00\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Domain: wp-jobbnorge-block\n"
 
 #. Plugin Name of the plugin
 msgid "Jobbnorge Block"
-msgstr ""
+msgstr "Jobbnorge-blokken"
 
 #. Plugin URI of the plugin
-msgid "https://github.com/dss-web/wp-jobbnorge-block"
-msgstr ""
+msgid "https://wordpress.org/plugins/jobbnorge-block/"
+msgstr "https://wordpress.org/plugins/jobbnorge-block/"
 
 #. Description of the plugin
-msgid "Viser jobber fra jobbnorge.no"
-msgstr ""
+msgid "List jobs at jobbnorge.no"
+msgstr "Liste jobber på jobbnorge.no"
 
 #. Author of the plugin
 msgid "PerS"
-msgstr ""
+msgstr "PerS"
 
-#: dss-jobbnorge.php:142
-#: src/edit.js:147
-#: build/init.js:212
+#: wp-jobb-norge.php:146 src/edit.js:153
 msgid "There are no jobs at this time."
 msgstr "Det er for tiden ingen ledige stillinger."
 
-#: dss-jobbnorge.php:163
+#: wp-jobb-norge.php:214
 msgid "Deadline:"
 msgstr "Søknadsfrist:"
 
-#: dss-jobbnorge.php:175
+#: wp-jobb-norge.php:225
 msgid "Read more"
 msgstr "Les mer"
 
-#: dss-jobbnorge.php:185
+#: wp-jobb-norge.php:235
 msgid "Scope"
 msgstr "Omfang"
 
-#: dss-jobbnorge.php:194
+#: wp-jobb-norge.php:244
 msgid "Duration"
 msgstr "Varighet"
 
-#: src/edit.js:92
-#: build/init.js:157
+#: src/edit.js:94
 msgid "Edit Jobbnorge URL"
 msgstr "Rediger Jobbnorge URL"
 
 #: src/edit.js:143
-#: build/init.js:208
 msgid "No jobs found message"
 msgstr "Ingen jobber funnet melding"
 
 #: src/edit.js:147
-#: build/init.js:212
 msgid "Message to display if no jobs are found"
 msgstr "Melding som vises hvis ingen jobber er funnet"
 
-#: src/edit.js:141
-#: build/init.js:206
+#: src/edit.js:163
 msgid "Item"
 msgstr "Element"
 
-#: src/edit.js:128
-#: build/init.js:193
+#: src/edit.js:170
+msgid "Display deadline"
+msgstr "Vis søknadsfrist"
+
+#: src/edit.js:175
 msgid "Display scope"
 msgstr "Vis omfang"
 
-#: src/edit.js:133
-#: build/init.js:198
+#: src/edit.js:180
 msgid "Display duration"
 msgstr "Vis varighet"
-
-#: src/edit.js:138
-#: build/init.js:203
-msgid "Display deadline"
-msgstr "Vis søknadsfrist"
