@@ -2,13 +2,12 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 2,
   "name": "dss/jobbnorge",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "title": "Jobbnorge",
   "category": "widgets",
   "icon": "people",
-  "description": "Viser jobber fra jobbnorge.no",
+  "description": "List jobs at jobbnorge.no",
   "keywords": [
-    "jobb",
     "jobbnorge",
     "jobbnorge.no"
   ],
