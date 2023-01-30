@@ -1,5 +1,7 @@
 # WP Jobbnorge Block
 
+> Also available at https://wordpress.org/plugins/jobbnorge-block/
+
 This WordPress plugin adds a block to the Gutenberg editor that displays a list of jobs from Jobbnorge.
 
 <img src=".wordpress-org/jobbnorge.gif">
