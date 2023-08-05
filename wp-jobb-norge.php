@@ -163,57 +163,71 @@ function render_block_dss_jobbnorge( $attributes ) {
 
 		$deadline = '';
 		if ( $attributes['displayDate'] ) {
+			$deadline_date = $item->get_jn_deadline();
 
-			if ( class_exists( '\IntlDateFormatter' ) ) {
-				$formatter = \IntlDateFormatter::create( 'nb-NO', \IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT, date_default_timezone_get() );
-				$formatter->setPattern( 'd. MMM yyyy' ); // date format https://unicode-org.github.io/icu/userguide/format_parse/datetime/#date-field-symbol-table.
-				$date = $formatter->parse( $item->get_jn_deadline() );
-			} else {
-				/**
-				 * Hacky way to get the timestamp from Norwegian deadline date.
-				 */
-				$str_months = [
-					'januar',
-					'februar',
-					'mars',
-					'april',
-					'mai',
-					'juni',
-					'juli',
-					'august',
-					'september',
-					'oktober',
-					'november',
-					'desember',
-				];
-				$num_months = [
-					'01',
-					'02',
-					'03',
-					'04',
-					'05',
-					'06',
-					'07',
-					'08',
-					'09',
-					'10',
-					'11',
-					'12',
-				];
+			if ( $deadline_date ) {
+				try {
+					if ( class_exists( '\IntlDateFormatter' ) ) {
 
-				$dato = preg_replace( '/(\d{1})\./', '$1', $item->get_jn_deadline() ); // remove . from day.
-				$dato = preg_replace( '/(\d{1})\./', '0$1.', $dato ); // add 0 to day if needed.
-				$dato = str_replace( $str_months, $num_months, $dato ); // replace month names with numbers.
-				$dato = explode( ' ', $dato );// split into array.
-				$date = mktime( 0, 0, 0, $dato[1], $dato[0], $dato[2] );// create timestamp.
-			}
-			if ( $date ) {
-				$deadline = sprintf(
-					'<time datetime="%1$s" class="wp-block-dss-jobbnorge__item-deadline">%2$s %3$s</time> ',
-					esc_attr( date_i18n( 'c', $date ) ),
-					__( 'Deadline:', 'wp-jobbnorge-block' ),
-					esc_attr( date_i18n( get_option( 'date_format' ), $date ) )
-				);
+						$formatter = \IntlDateFormatter::create( 'nb-NO', \IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT, date_default_timezone_get() );
+						$formatter->setPattern( 'd. MMM yyyy' ); // date format https://unicode-org.github.io/icu/userguide/format_parse/datetime/#date-field-symbol-table.
+						$formatter->setPattern( 'EEEE d. MMMM y' ); // date format https://unicode-org.github.io/icu/userguide/format_parse/datetime/#date-field-symbol-table.
+						$date = $formatter->parse( $deadline_date );
+					} else {
+						/**
+						 * Hacky way to get the timestamp from Norwegian deadline date.
+						 */
+						$str_months = [
+							'januar',
+							'februar',
+							'mars',
+							'april',
+							'mai',
+							'juni',
+							'juli',
+							'august',
+							'september',
+							'oktober',
+							'november',
+							'desember',
+						];
+						$num_months = [
+							'01',
+							'02',
+							'03',
+							'04',
+							'05',
+							'06',
+							'07',
+							'08',
+							'09',
+							'10',
+							'11',
+							'12',
+						];
+						$dato       = preg_replace( '/(\d{1})\./', '$1', $deadline_date ); // remove . from day.
+						$dato       = preg_replace( '/(\d{1})\./', '0$1.', $dato ); // add 0 to day if needed.
+						$dato       = str_ireplace( $str_months, $num_months, $dato, $count ); // replace month names with numbers.
+
+						$dato_arr = explode( ' ', $dato );// split into array.
+
+						$date = mktime( 0, 0, 0, $dato_arr[2], $dato_arr[1], $dato_arr[3] );// create timestamp.
+					}
+					$str_date = date_i18n( get_option( 'date_format' ), $date );
+
+				} catch ( \Exception $e ) {
+					$str_date = $deadline_date; // fallback to original date.
+					$date     = false;
+				}
+
+				if ( $str_date ) {
+					$deadline = sprintf(
+						'<time datetime="%1$s" class="wp-block-dss-jobbnorge__item-deadline">%2$s %3$s</time> ',
+						( $date ) ? esc_attr( date_i18n( 'c', $date ) ) : '',
+						__( 'Deadline:', 'wp-jobbnorge-block' ),
+						esc_attr( $str_date )
+					);
+				}
 			}
 		}
 

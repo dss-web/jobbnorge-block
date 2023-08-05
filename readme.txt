@@ -1,10 +1,10 @@
 === Jobbnorge Block ===
 Contributors:      PerS, dssweb
 Tags:              block
-Tested up to:      6.2
+Tested up to:      6.3
 Requires at least: 5.9
 Requires PHP:      7.4
-Stable tag:        1.0.11
+Stable tag:        1.0.12
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,11 @@ The URL should look like this, replace 123456789 with your id: `https://www.jobb
 3. Grid view
 
 == Changelog ==
+
+= 1.0.12 =
+
+* Tested with WordPress 6.3
+* Deadline format fix.
 
 = 1.0.11 =
 
