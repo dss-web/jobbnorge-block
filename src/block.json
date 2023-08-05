@@ -1,64 +1,67 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 2,
-  "name": "dss/jobbnorge",
-  "version": "1.0.11",
-  "title": "Jobbnorge",
-  "category": "widgets",
-  "icon": "people",
-  "description": "List jobs at jobbnorge.no",
-  "keywords": ["jobbnorge", "jobbnorge.no"],
-  "supports": {
-    "html": false
-  },
-  "attributes": {
-    "columns": {
-      "type": "number",
-      "default": 3
-    },
-    "blockLayout": {
-      "type": "string",
-      "default": "grid"
-    },
-    "feedURL": {
-      "type": "string",
-      "default": ""
-    },
-    "noJobsMessage": {
-      "type": "string",
-      "default": ""
-    },
-    "itemsToShow": {
-      "type": "number",
-      "default": 5
-    },
-    "displayExcerpt": {
-      "type": "boolean",
-      "default": true
-    },
-    "displayDeadline": {
-      "type": "boolean",
-      "default": false
-    },
-    "displayScope": {
-      "type": "boolean",
-      "default": false
-    },
-    "displayDuration": {
-      "type": "boolean",
-      "default": false
-    },
-    "displayDate": {
-      "type": "boolean",
-      "default": true
-    },
-    "excerptLength": {
-      "type": "number",
-      "default": 55
-    }
-  },
-  "textdomain": "wp-jobbnorge-block",
-  "editorScript": "file:init.js",
-  "editorStyle": "file:editor.scss",
-  "style": "file:style.scss"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "dss/jobbnorge",
+	"version": "1.0.12",
+	"title": "Jobbnorge",
+	"category": "widgets",
+	"icon": "people",
+	"description": "List jobs at jobbnorge.no",
+	"keywords": [
+		"jobbnorge",
+		"jobbnorge.no"
+	],
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"blockLayout": {
+			"type": "string",
+			"default": "grid"
+		},
+		"feedURL": {
+			"type": "string",
+			"default": ""
+		},
+		"noJobsMessage": {
+			"type": "string",
+			"default": ""
+		},
+		"itemsToShow": {
+			"type": "number",
+			"default": 5
+		},
+		"displayExcerpt": {
+			"type": "boolean",
+			"default": true
+		},
+		"displayDeadline": {
+			"type": "boolean",
+			"default": false
+		},
+		"displayScope": {
+			"type": "boolean",
+			"default": false
+		},
+		"displayDuration": {
+			"type": "boolean",
+			"default": false
+		},
+		"displayDate": {
+			"type": "boolean",
+			"default": true
+		},
+		"excerptLength": {
+			"type": "number",
+			"default": 55
+		}
+	},
+	"textdomain": "wp-jobbnorge-block",
+	"editorScript": "file:init.js",
+	"editorStyle": "file:editor.scss",
+	"style": "file:style.scss"
 }
