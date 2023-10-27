@@ -1,6 +1,6 @@
 {
 	"name": "wp-jobbnorge-block",
-	"version": "1.0.12",
+	"version": "1.0.13",
 	"description": "Jobbnorge Block for WordPress Gutenberg",
 	"author": "Per Søderlind <per@soderlind.no>",
 	"license": "GPL-2.0-or-later",
@@ -26,17 +26,17 @@
 		"i18n": "npm run i18n-pot && npm run i18n-json && npm run i18n-mo"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^26.9.0"
+		"@wordpress/scripts": "^26.15.0"
 	},
 	"dependencies": {
-		"@masonite/wp-project-version-sync": "^1.1.0",
-		"@wordpress/block-editor": "^12.6.0",
-		"@wordpress/blocks": "^12.15.0",
-		"@wordpress/components": "^25.4.0",
-		"@wordpress/element": "^5.15.0",
-		"@wordpress/i18n": "^4.38.0",
-		"@wordpress/icons": "^9.29.0",
-		"@wordpress/server-side-render": "^4.15.0",
-		"@wordpress/url": "^3.39.0"
+		"@soderlind/wp-project-version-sync": "^2.0.1",
+		"@wordpress/block-editor": "^12.12.0",
+		"@wordpress/blocks": "^12.21.0",
+		"@wordpress/components": "^25.10.0",
+		"@wordpress/element": "^5.21.0",
+		"@wordpress/i18n": "^4.44.0",
+		"@wordpress/icons": "^9.35.0",
+		"@wordpress/server-side-render": "^4.21.0",
+		"@wordpress/url": "^3.45.0"
 	}
 }
