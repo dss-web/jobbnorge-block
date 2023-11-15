@@ -18,8 +18,7 @@ import { useState } from '@wordpress/element';
 import { grid, list, edit, people } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
-import { dispatch, useSelect } from '@wordpress/data';
-// import { useSelect } from '@wordpress/data';
+import { dispatch, select } from '@wordpress/data';
 
 import './editor.scss';
 
@@ -68,10 +67,11 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 				<Placeholder icon={people} label="Jobbnorge">
 					<form onSubmit={onSubmitURL} className="wp-block-dss-jobbnorge__placeholder-form">
 						<TextControl
-							placeholder={__('Enter Empoyer ID(s) here…', 'wp-jobbnorge-block')}
+							placeholder={__('Employer ID [,id2, id3, ..]', 'wp-jobbnorge-block')}
 							value={employerID}
 							onChange={(value) => setAttributes({ employerID: value })}
 							className="wp-block-dss-jobbnorge__placeholder-input"
+							// help={__('Comma to separate IDs', 'wp-jobbnorge-block')}
 						/>
 						<Button variant="primary" type="submit">
 							{__('Save', 'wp-jobbnorge-block')}
@@ -102,7 +102,6 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 		},
 	];
 
-
 	dispatch('core').addEntities([
 		{
 			name: 'jobbnorge/employers', // route name
@@ -111,12 +110,8 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 		},
 	]);
 
-
-	const employers = useSelect((select) => {
-		return select('core').getEntityRecords('dss/v1', 'jobbnorge/employers');
-	}, []);
-
-	// console.log(employers);
+	const employers = select('core').getEntityRecords('dss/v1', 'jobbnorge/employers');
+	console.log(employers);
 
 	return (
 		<>
