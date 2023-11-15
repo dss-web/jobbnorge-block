@@ -5,7 +5,7 @@
  * Description:       List jobs at jobbnorge.no
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           1.0.13
+ * Version:           2.0.0
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,8 +17,103 @@
 namespace DSS\Jobbnorge;
 
 add_action( 'init', __NAMESPACE__ . '\dss_jobbnorge_init' );
-add_action( 'wp_feed_options', __NAMESPACE__ . '\dss_jobbnorge_feed_options', 9, 2 );
-
+add_action(
+	'rest_api_init',
+	function () {
+		register_rest_route(
+			'dss/v1',
+			'/jobbnorge/employers',
+			array(
+				'method'              => 'GET',
+				'callback'            => function () {
+					$employers = array(
+						array(
+							'label'    => 'Select employers',
+							'value'    => '',
+							'disabled' => true,
+						),
+						array(
+							'label' => 'SMK',
+							'value' => '1981',
+						),
+						array(
+							'label' => 'AID',
+							'value' => '1992',
+						),
+						array(
+							'label' => 'BFD',
+							'value' => '1980',
+						),
+						array(
+							'label' => 'DFD',
+							'value' => '2770',
+						),
+						array(
+							'label' => 'FIN',
+							'value' => '1994',
+						),
+						array(
+							'label' => 'FD',
+							'value' => '1986',
+						),
+						array(
+							'label' => 'HOD',
+							'value' => '1984',
+						),
+						array(
+							'label' => 'JD',
+							'value' => '1985',
+						),
+						array(
+							'label' => 'KLD',
+							'value' => '1987',
+						),
+						array(
+							'label' => 'KDD',
+							'value' => '1996',
+						),
+						array(
+							'label' => 'KUD',
+							'value' => '1988',
+						),
+						array(
+							'label' => 'KD',
+							'value' => '1982',
+						),
+						array(
+							'label' => 'LMD',
+							'value' => '1983',
+						),
+						array(
+							'label' => 'NFD',
+							'value' => '1995',
+						),
+						array(
+							'label' => 'OED',
+							'value' => '1989',
+						),
+						array(
+							'label' => 'SD',
+							'value' => '1993',
+						),
+						array(
+							'label' => 'UD',
+							'value' => '1991',
+						),
+						array(
+							'label' => 'DSS',
+							'value' => '1956',
+						),
+					);
+					return rest_ensure_response( $employers );
+				},
+				'permission_callback' => function () {
+					return current_user_can( 'edit_posts' );
+				},
+			)
+		);
+	}
+);
 /**
  * Registers the block using the metadata loaded from the `block.json` file.
  * Behind the scenes, it registers also all assets so they can be enqueued
@@ -32,9 +127,9 @@ function dss_jobbnorge_init() {
 	load_plugin_textdomain( 'wp-jobbnorge-block', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	register_block_type(
 		__DIR__ . '/build',
-		[
+		array(
 			'render_callback' => __NAMESPACE__ . '\render_block_dss_jobbnorge',
-		]
+		)
 	);
 }
 
@@ -44,11 +139,11 @@ function dss_jobbnorge_init() {
  * @param string $hook_suffix The current admin page.
  * @return void
  */
-function dss_jobbnorge_enqueue_scripts( string $hook_suffix ) : void {
+function dss_jobbnorge_enqueue_scripts( string $hook_suffix ): void {
 
 	$deps_file = plugin_dir_path( __FILE__ ) . 'build/init.asset.php';
 
-	$jsdeps  = [];
+	$jsdeps  = array();
 	$version = wp_rand();
 	if ( file_exists( $deps_file ) ) {
 		$file    = require $deps_file;
@@ -56,10 +151,10 @@ function dss_jobbnorge_enqueue_scripts( string $hook_suffix ) : void {
 		$version = $file['version'];
 	}
 	if ( is_admin() ) {
-		wp_register_style( 'dss-jobbnorge-admin', plugin_dir_url( __FILE__ ) . 'build/init.css', [], $version );
+		wp_register_style( 'dss-jobbnorge-admin', plugin_dir_url( __FILE__ ) . 'build/init.css', array(), $version );
 		wp_enqueue_style( 'dss-jobbnorge-admin' );
 	}
-	wp_register_style( 'dss-jobbnorge', plugin_dir_url( __FILE__ ) . 'build/style-init.css', [], $version );
+	wp_register_style( 'dss-jobbnorge', plugin_dir_url( __FILE__ ) . 'build/style-init.css', array(), $version );
 	wp_enqueue_style( 'dss-jobbnorge' );
 	wp_set_script_translations(
 		'dss-jobbnorge-editor-script', // Handle = block.json "name" (replace / with -) + "-editor-script".
@@ -67,45 +162,6 @@ function dss_jobbnorge_enqueue_scripts( string $hook_suffix ) : void {
 		plugin_dir_path( __FILE__ ) . 'languages/'
 	);
 }
-
-
-/**
- * Fires just before processing the SimplePie feed object.
- *
- * @param \SimplePie      $feed SimplePie feed object (passed by reference).
- * @param string|string[] $url  URL of feed or array of URLs of feeds to retrieve.
- */
-function dss_jobbnorge_feed_options( \SimplePie &$feed, $url = null ) : void {
-	if ( ! $url ) {
-		$url = $feed->feed_url;
-	}
-
-	if ( false !== strstr( $url, 'jobbnorge' ) ) {
-
-		require_once 'class-simplepie-sort-on-deafline.php';
-
-		$feed = new \SimplePieSortOnDeadline();
-
-		$feed->set_sanitize_class( '\WP_SimplePie_Sanitize_KSES' );
-		// We must manually overwrite $feed->sanitize because SimplePie's
-		// constructor sets it before we have a chance to set the sanitization class.
-		$feed->sanitize = new \WP_SimplePie_Sanitize_KSES();
-
-		if ( method_exists( '\SimplePie_Cache', 'register' ) ) {
-			\SimplePie_Cache::register( 'wp_transient', 'WP_Feed_Cache_Transient' );
-			$feed->set_cache_location( 'wp_transient' );
-		} else {
-			// Back-compat for SimplePie 1.2.x.
-			require_once ABSPATH . WPINC . '/class-wp-feed-cache.php';
-			$feed->set_cache_class( 'WP_Feed_Cache' );
-		}
-
-		$feed->set_cache_duration( apply_filters( 'wp_feed_cache_transient_lifetime', 12 * HOUR_IN_SECONDS, $url ) );
-		$feed->set_file_class( '\WP_SimplePie_File' );
-		$feed->set_feed_url( $url );
-	}
-}
-
 
 
 /**
@@ -122,176 +178,263 @@ function dss_jobbnorge_feed_options( \SimplePie &$feed, $url = null ) : void {
  * @return string Returns the block content with received rss items.
  */
 function render_block_dss_jobbnorge( $attributes ) {
-	if ( in_array( untrailingslashit( $attributes['feedURL'] ), [ site_url(), home_url() ], true ) ) {
-		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Adding an Jobbnorge feed to this site’s homepage is not supported, as it could lead to a loop that slows down your site. Try using another block, like the <strong>Latest Posts</strong> block, to list posts from the site.' ) . '</div></div>';
+
+	// set default values for attributes.
+	$attributes = wp_parse_args(
+		$attributes,
+		array(
+			'employerID'      => '',
+			'displayEmployer' => false,
+			'displayDate'     => true,
+			'displayDeadline' => false,
+			'displayScope'    => false,
+			'displayDuration' => false,
+			'displayExcerpt'  => true,
+			'excerptLength'   => 20,
+			'blockLayout'     => 'list',
+			'columns'         => 2,
+		)
+	);
+
+	if ( ! array_filter( \explode( ',', $attributes['employerID'] ), 'is_numeric' ) ) {
+		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Invalid ID', 'wp-jobbnorge-block' ) . '</div></div>';
 	}
 
-	if ( false === strstr( $attributes['feedURL'], 'jobbnorge' ) ) {
-		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Invalid URL' ) . '</div></div>';
+	$jobbnorge_api_url = 'https://publicapi.jobbnorge.no/v2/Jobs?abroad=false';
+
+	$arr_ids = array_map( 'trim', explode( ',', $attributes['employerID'] ) );
+
+	foreach ( $arr_ids as $id ) {
+		$jobbnorge_api_url .= '&employer=' . $id;
 	}
 
-	require_once ABSPATH . WPINC . '/feed.php';
-	require_once 'class-jobbnorge-item.php';
+	$transient_key = md5( $jobbnorge_api_url );
+	$body          = get_transient( $transient_key );
+	if ( false === $body ) {
+		$response = wp_remote_get( $jobbnorge_api_url );
 
-	$feed = fetch_feed( $attributes['feedURL'] );
+		if ( is_wp_error( $response ) ) {
+			return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Error connecting to Jobbnorge.no', 'wp-jobbnorge-block' ) . '</div></div>';
 
-	if ( is_wp_error( $feed ) ) {
-		return '<div class="components-placeholder"><div class="notice notice-error"><strong>' . __( 'Jobbnorge Error:' ) . '</strong> ' . esc_html( $feed->get_error_message() ) . '</div></div>';
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		set_transient( $transient_key, $body, 5 * MINUTE_IN_SECONDS );
 	}
 
-	$feed->set_item_class( '\Jobbnorge_Item' ); // Replace the item class with the extended item class Jobbnorge_Item.
-	$feed->init();
-	$feed->handle_content_type();
-	if ( ! $feed->get_item_quantity() ) {
-		$no_jobs_message = ( '' !== wp_strip_all_tags( $attributes['noJobsMessage'] ) ) ? wp_strip_all_tags( $attributes['noJobsMessage'] ) : __( 'There are no jobs at this time.', 'wp-jobbnorge-block' );
-		return '<div class="components-placeholder">' . $no_jobs_message . '</div>';
+	$items = json_decode( $body, true );
+
+	if ( ! $items ) {
+		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'No jobs found', 'wp-jobbnorge-block' ) . '</div></div>';
 	}
 
-	$items      = $feed->get_items( 0, $attributes['itemsToShow'] );
 	$list_items = '';
 	foreach ( $items as $item ) {
-		$title = esc_html( trim( wp_strip_all_tags( $item->get_title() ) ) );
-		if ( empty( $title ) ) {
-			$title = __( '(no title)' );
-		}
-		$link = $item->get_link();
-		$link = esc_url( $link );
-		if ( $link ) {
-			$title = "<a href='{$link}'>{$title}</a>";
-		}
+		$title = esc_html( trim( wp_strip_all_tags( $item['title'] ) ) );
+		$title = empty( $title ) ? __( '(no title)' ) : $title;
+
+		$link  = esc_url( $item['link'] );
+		$title = $link ? "<a href='{$link}'>{$title}</a>" : $title;
+
 		$title = "<div class='wp-block-dss-jobbnorge__item-title'>{$title}</div>";
 
 		$deadline = '';
-		if ( $attributes['displayDate'] ) {
-			$deadline_date = $item->get_jn_deadline();
-
-			if ( $deadline_date ) {
-				try {
-					if ( class_exists( '\IntlDateFormatter' ) ) {
-
-						$formatter = \IntlDateFormatter::create( 'nb-NO', \IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT, date_default_timezone_get() );
-						$formatter->setPattern( 'd. MMM yyyy' ); // date format https://unicode-org.github.io/icu/userguide/format_parse/datetime/#date-field-symbol-table.
-						$formatter->setPattern( 'EEEE d. MMMM y' ); // date format https://unicode-org.github.io/icu/userguide/format_parse/datetime/#date-field-symbol-table.
-						$date = $formatter->parse( $deadline_date );
-					} else {
-						/**
-						 * Hacky way to get the timestamp from Norwegian deadline date.
-						 */
-						$str_months = [
-							'januar',
-							'februar',
-							'mars',
-							'april',
-							'mai',
-							'juni',
-							'juli',
-							'august',
-							'september',
-							'oktober',
-							'november',
-							'desember',
-						];
-						$num_months = [
-							'01',
-							'02',
-							'03',
-							'04',
-							'05',
-							'06',
-							'07',
-							'08',
-							'09',
-							'10',
-							'11',
-							'12',
-						];
-						$dato       = preg_replace( '/(\d{1})\./', '$1', $deadline_date ); // remove . from day.
-						$dato       = preg_replace( '/(\d{1})\./', '0$1.', $dato ); // add 0 to day if needed.
-						$dato       = str_ireplace( $str_months, $num_months, $dato, $count ); // replace month names with numbers.
-
-						$dato_arr = explode( ' ', $dato );// split into array.
-
-						$date = mktime( 0, 0, 0, $dato_arr[2], $dato_arr[1], $dato_arr[3] );// create timestamp.
-					}
-					$str_date = date_i18n( get_option( 'date_format' ), $date );
-
-				} catch ( \Exception $e ) {
-					$str_date = $deadline_date; // fallback to original date.
-					$date     = false;
-				}
-
-				if ( $str_date ) {
-					$deadline = sprintf(
-						'<time datetime="%1$s" class="wp-block-dss-jobbnorge__item-deadline">%2$s %3$s</time> ',
-						( $date ) ? esc_attr( date_i18n( 'c', $date ) ) : '',
-						__( 'Deadline:', 'wp-jobbnorge-block' ),
-						esc_attr( $str_date )
-					);
-				}
-			}
+		if ( $attributes['displayDate'] && isset( $item['deadline'] ) ) {
+			$deadline = format_deadline( $item['deadline'] );
 		}
 
-		$excerpt = '';
-		if ( $attributes['displayExcerpt'] ) {
-			$excerpt = html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) );
-			$excerpt = esc_attr( wp_trim_words( $excerpt, $attributes['excerptLength'], '' ) );
-
-			$read_more = sprintf( ' ... <a href="%s">%s</a>', esc_url( $item->get_permalink() ), __( 'Read more', 'wp-jobbnorge-block' ) );
-
-			$excerpt = '<div class="wp-block-dss-jobbnorge__item-excerpt">' . esc_html( $excerpt ) . $read_more . '</div>';
-		}
-
-		$scope = '';
-		if ( $attributes['displayScope'] ) {
-			$scope = $item->get_jn_jobscope();
-			$scope = sprintf(
-				'<div class="wp-block-dss-jobbnorge__item-scope">%s: %s</div>',
-				__( 'Scope', 'wp-jobbnorge-block' ),
-				esc_html( $scope )
-			);
-		}
-		$duration = '';
-		if ( $attributes['displayDuration'] ) {
-			$duration = $item->get_jn_jobduration();
-			$duration = sprintf(
-				'<div class="wp-block-dss-jobbnorge__item-duration">%s: %s</div>',
-				__( 'Duration', 'wp-jobbnorge-block' ),
-				esc_html( $duration )
-			);
-		}
+		$excerpt  = format_excerpt( $attributes, $item, $attributes['excerptLength'], 'displayExcerpt', 'summary', 'wp-block-dss-jobbnorge__item-excerpt' );
+		$employer = format_attribute( $attributes, $item, 'employer', 'displayEmployer', 'wp-block-dss-jobbnorge__item-employer', __( 'Employer', 'wp-jobbnorge-block' ) );
+		$scope    = format_attribute( $attributes, $item, 'jobScope', 'displayScope', 'wp-block-dss-jobbnorge__item-scope', __( 'Scope', 'wp-jobbnorge-block' ) );
+		$duration = format_attribute( $attributes, $item, 'jobDuration', 'displayDuration', 'wp-block-dss-jobbnorge__item-duration', __( 'Duration', 'wp-jobbnorge-block' ) );
 
 		$meta = '';
-		if ( $deadline || $scope || $duration ) {
-			$meta = '<div class="wp-block-dss-jobbnorge__item-meta">' . $deadline . $scope . $duration . '</div>';
+		if ( $employer || $deadline || $scope || $duration ) {
+			$meta = '<div class="wp-block-dss-jobbnorge__item-meta">' . $employer . $deadline . $scope . $duration . '</div>';
 		}
 
 		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$title}{$meta}{$excerpt}</li>";
 	}
 
-	$classnames = [];
-	if ( isset( $attributes['blockLayout'] ) && 'grid' === $attributes['blockLayout'] ) {
-		$classnames[] = 'is-grid';
-	}
-	if ( isset( $attributes['columns'] ) && 'grid' === $attributes['blockLayout'] ) {
-		$classnames[] = 'columns-' . $attributes['columns'];
-	}
-	if ( $attributes['displayDate'] ) {
-		$classnames[] = 'has-dates';
-	}
-	if ( $attributes['displayDeadline'] ) {
-		$classnames[] = 'has-deadline';
-	}
-	if ( $attributes['displayScope'] ) {
-		$classnames[] = 'has-scope';
-	}
-	if ( $attributes['displayDuration'] ) {
-		$classnames[] = 'has-duration';
-	}
-	if ( $attributes['displayExcerpt'] ) {
-		$classnames[] = 'has-excerpts';
+	$classnames = array();
+	if ( 'grid' === $attributes['blockLayout'] ) {
+		add_classname( $classnames, $attributes, 'blockLayout', 'is-grid' );
+		add_classname( $classnames, $attributes, 'columns', 'columns-' . $attributes['columns'] );
 	}
 
-	$wrapper_attributes = get_block_wrapper_attributes( [ 'class' => implode( ' ', $classnames ) ] );
+	add_classname( $classnames, $attributes, 'displayEmployer', 'has-employer' );
+	add_classname( $classnames, $attributes, 'displayDate', 'has-dates' );
+	add_classname( $classnames, $attributes, 'displayDeadline', 'has-deadline' );
+	add_classname( $classnames, $attributes, 'displayScope', 'has-scope' );
+	add_classname( $classnames, $attributes, 'displayDuration', 'has-duration' );
+	add_classname( $classnames, $attributes, 'displayExcerpt', 'has-excerpts' );
+
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classnames ) ) );
 
 	return sprintf( '<ul %s>%s</ul>', $wrapper_attributes, $list_items );
+}
+
+/**
+ * Formats the excerpt of an item.
+ *
+ * @param array  $attributes     The attributes array to check the key in.
+ * @param array  $item           The item array to get the attribute from.
+ * @param int    $excerpt_length The length of the excerpt.
+ * @param string $display_key    The key to check in the attributes array.
+ * @param string $attribute_key  The key to get from the item array.
+ * @param string $css_class      The class name to add to the div.
+ * @return string The formatted excerpt.
+ */
+function format_excerpt( $attributes, $item, $excerpt_length, $display_key, $attribute_key, $css_class ) {
+	$result = '';
+	if ( $attributes[ $display_key ] && isset( $item[ $attribute_key ] ) ) {
+		$excerpt = html_entity_decode( $item[ $attribute_key ], ENT_QUOTES, get_option( 'blog_charset' ) );
+		$excerpt = esc_attr( wp_trim_words( $excerpt, $excerpt_length, '' ) );
+
+		$read_more = sprintf( ' ... <a href="%s">%s</a>', esc_url( $item['link'] ), __( 'Read more', 'wp-jobbnorge-block' ) );
+
+		$result = sprintf( '<div class="%s">%s%s</div>', $css_class, esc_html( $excerpt ), $read_more );
+	}
+	return $result;
+}
+
+/**
+ * Formats an attribute of an item.
+ *
+ * @param array  $attributes    The attributes array to check the key in.
+ * @param array  $item          The item array to get the attribute from.
+ * @param string $attribute_key The key to get from the item array.
+ * @param string $display_key   The key to check in the attributes array.
+ * @param string $css_class     The class name to add to the div.
+ * @param string $label         The label to display before the attribute.
+ * @return string The formatted attribute.
+ */
+function format_attribute( $attributes, $item, $attribute_key, $display_key, $css_class, $label ) {
+	$result = '';
+	if ( $attributes[ $display_key ] && isset( $item[ $attribute_key ] ) ) {
+		$result = sprintf(
+			'<div class="%s">%s: %s</div>',
+			$css_class,
+			__( $label, 'wp-jobbnorge-block' ),
+			esc_html( $item[ $attribute_key ] )
+		);
+	}
+	return $result;
+}
+
+/**
+ * Formats the deadline date.
+ *
+ * @param string $deadline_date The deadline date.
+ *
+ * @return string The formatted deadline date.
+ */
+function format_deadline( $deadline_date ) {
+	if ( ! $deadline_date ) {
+		return '';
+	}
+
+	try {
+		$date     = parse_date( $deadline_date );
+		$str_date = date_i18n( get_option( 'date_format' ), $date );
+	} catch ( \Exception $e ) {
+		$str_date = $deadline_date; // fallback to original date.
+		$date     = false;
+	}
+
+	if ( $str_date ) {
+		return sprintf(
+			'<time datetime="%1$s" class="wp-block-dss-jobbnorge__item-deadline">%2$s %3$s</time> ',
+			( $date ) ? esc_attr( date_i18n( 'c', $date ) ) : '',
+			__( 'Deadline:', 'wp-jobbnorge-block' ),
+			esc_attr( $str_date )
+		);
+	}
+
+	return '';
+}
+
+/**
+ * Parses the deadline date.
+ *
+ * @param string $deadline_date The deadline date.
+ *
+ * @return mixed The parsed deadline date.
+ */
+function parse_date( $deadline_date ) {
+	if ( class_exists( '\IntlDateFormatter' ) ) {
+		return parse_date_intl( $deadline_date );
+	}
+
+	return parse_date_fallback( $deadline_date );
+}
+
+/**
+ * Parses the deadline date using IntlDateFormatter.
+ *
+ * @param string $deadline_date The deadline date.
+ *
+ * @return mixed The parsed deadline date.
+ */
+function parse_date_intl( $deadline_date ) {
+	$formatter = \IntlDateFormatter::create( 'nb-NO', \IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT, date_default_timezone_get() );
+	$formatter->setPattern( 'EEEE d. MMMM y' );
+	return $formatter->parse( $deadline_date );
+}
+
+/**
+ * Parses the deadline date as a fallback.
+ *
+ * @param string $deadline_date The deadline date.
+ *
+ * @return mixed The parsed deadline date.
+ */
+function parse_date_fallback( $deadline_date ) {
+	$str_months = array(
+		'januar',
+		'februar',
+		'mars',
+		'april',
+		'mai',
+		'juni',
+		'juli',
+		'august',
+		'september',
+		'oktober',
+		'november',
+		'desember',
+	);
+	$num_months = array(
+		'01',
+		'02',
+		'03',
+		'04',
+		'05',
+		'06',
+		'07',
+		'08',
+		'09',
+		'10',
+		'11',
+		'12',
+	);
+	$dato       = preg_replace( '/(\d{1})\./', '$1', $deadline_date );
+	$dato       = preg_replace( '/(\d{1})\./', '0$1.', $dato );
+	$dato       = str_ireplace( $str_months, $num_months, $dato, $count );
+	$dato_arr   = explode( ' ', $dato );
+	return mktime( 0, 0, 0, $dato_arr[2], $dato_arr[1], $dato_arr[3] );
+}
+
+/**
+ * Adds a class name to the classnames array if the attribute key is set and truthy.
+ *
+ * @param array  $classnames The array to add the class name to.
+ * @param array  $attributes  The attributes array to check the key in.
+ * @param string $key         The key to check in the attributes array.
+ * @param string $classname   The class name to add to the classnames array.
+ */
+function add_classname( &$classnames, $attributes, $key, $classname ) {
+	if ( isset( $attributes[ $key ] ) && $attributes[ $key ] ) {
+		$classnames[] = $classname;
+	}
 }
