@@ -18,7 +18,7 @@ export const settings = {
 	icon,
 	example: {
 		attributes: {
-			feedURL: "https://wordpress.org",
+			employerID: "123[, 456, 789]",
 		},
 	},
 	edit,
