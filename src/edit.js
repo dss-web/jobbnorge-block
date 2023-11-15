@@ -107,6 +107,7 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 			name: 'jobbnorge/employers', // route name
 			kind: 'dss/v1', // namespace
 			baseURL: '/dss/v1/jobbnorge/employers', // API path without /wp-json
+			key: 'value', // unique identifier
 		},
 	]);
 
