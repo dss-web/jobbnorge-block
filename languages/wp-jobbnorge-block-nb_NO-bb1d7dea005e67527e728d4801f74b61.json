@@ -1,6 +1,6 @@
 {
-    "translation-revision-date": "2023-01-25 19:21+0100",
-    "generator": "WP-CLI\/2.4.0",
+    "translation-revision-date": "2023-11-15 09:44+0100",
+    "generator": "WP-CLI\/2.9.0",
     "source": "src\/edit.js",
     "domain": "messages",
     "locale_data": {
@@ -10,9 +10,6 @@
                 "lang": "nb_NO",
                 "plural-forms": "nplurals=2; plural=(n != 1);"
             },
-            "There are no jobs at this time.": [
-                "Det er for tiden ingen ledige stillinger."
-            ],
             "Edit Jobbnorge URL": [
                 "Rediger Jobbnorge URL"
             ],
@@ -22,8 +19,14 @@
             "Message to display if no jobs are found": [
                 "Melding som vises hvis ingen jobber er funnet"
             ],
+            "There are no jobs at this time.": [
+                "Det er for tiden ingen ledige stillinger."
+            ],
             "Item": [
                 "Element"
+            ],
+            "Display employer": [
+                "Vis arbeidsgiver"
             ],
             "Display deadline": [
                 "Vis s\u00f8knadsfrist"
@@ -33,6 +36,36 @@
             ],
             "Display duration": [
                 "Vis varighet"
+            ],
+            "Enter Empoyer ID(s) here\u2026": [
+                "Skriv inn arbeidsgiver-ID(er) her\u2026"
+            ],
+            "Save": [
+                "Lagre"
+            ],
+            "List view": [
+                "Listevisning"
+            ],
+            "Grid view": [
+                "Rutem\u00f8nster"
+            ],
+            "Employers": [
+                "Arbeidsgivere"
+            ],
+            "Settings": [
+                "Innstillinger"
+            ],
+            "Number of items": [
+                "Antall oppf\u00f8ringer"
+            ],
+            "Max number of words in excerpt": [
+                "Maks antall ord i utdraget"
+            ],
+            "Display excerpt": [
+                "Vis utdrag"
+            ],
+            "Columns": [
+                "Kolonner"
             ]
         }
     }

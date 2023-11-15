@@ -1,6 +1,6 @@
 {
     "translation-revision-date": "YEAR-MO-DA HO:MI+ZONE",
-    "generator": "WP-CLI\/2.4.0",
+    "generator": "WP-CLI\/2.9.0",
     "source": "src\/edit.js",
     "domain": "messages",
     "locale_data": {
@@ -10,10 +10,31 @@
                 "lang": "en",
                 "plural-forms": "nplurals=2; plural=(n != 1);"
             },
-            "There are no jobs at this time.": [
+            "Enter Empoyer ID(s) here\u2026": [
+                ""
+            ],
+            "Save": [
                 ""
             ],
             "Edit Jobbnorge URL": [
+                ""
+            ],
+            "List view": [
+                ""
+            ],
+            "Grid view": [
+                ""
+            ],
+            "Employers": [
+                ""
+            ],
+            "Settings": [
+                ""
+            ],
+            "Number of items": [
+                ""
+            ],
+            "Max number of words in excerpt": [
                 ""
             ],
             "No jobs found message": [
@@ -22,7 +43,16 @@
             "Message to display if no jobs are found": [
                 ""
             ],
+            "There are no jobs at this time.": [
+                ""
+            ],
             "Item": [
+                ""
+            ],
+            "Display employer": [
+                ""
+            ],
+            "Display excerpt": [
                 ""
             ],
             "Display deadline": [
@@ -32,6 +62,9 @@
                 ""
             ],
             "Display duration": [
+                ""
+            ],
+            "Columns": [
                 ""
             ]
         }

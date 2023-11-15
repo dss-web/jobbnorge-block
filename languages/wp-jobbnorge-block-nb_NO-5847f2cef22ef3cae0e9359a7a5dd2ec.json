@@ -1,6 +1,6 @@
 {
-    "translation-revision-date": "YEAR-MO-DA HO:MI+ZONE",
-    "generator": "WP-CLI\/2.4.0",
+    "translation-revision-date": "2023-11-15 09:44+0100",
+    "generator": "WP-CLI\/2.9.0",
     "source": "build\/init.js",
     "domain": "messages",
     "locale_data": {
@@ -10,9 +10,6 @@
                 "lang": "nb_NO",
                 "plural-forms": "nplurals=2; plural=(n != 1);"
             },
-            "There are no jobs at this time.": [
-                "Det er for tiden ingen ledige stillinger."
-            ],
             "Edit Jobbnorge URL": [
                 "Rediger Jobbnorge URL"
             ],
@@ -22,17 +19,23 @@
             "Message to display if no jobs are found": [
                 "Melding som vises hvis ingen jobber er funnet"
             ],
+            "There are no jobs at this time.": [
+                "Det er for tiden ingen ledige stillinger."
+            ],
             "Item": [
                 "Element"
+            ],
+            "Display employer": [
+                "Vis arbeidsgiver"
+            ],
+            "Display deadline": [
+                "Vis s\u00f8knadsfrist"
             ],
             "Display scope": [
                 "Vis omfang"
             ],
             "Display duration": [
                 "Vis varighet"
-            ],
-            "Display deadline": [
-                "Vis s\u00f8knadsfrist"
             ]
         }
     }
