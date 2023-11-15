@@ -59,6 +59,20 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 		}
 	}
 
+	dispatch('core').addEntities([
+		{
+			name: 'jobbnorge/employers', // route name
+			kind: 'dss/v1', // namespace
+			baseURL: '/dss/v1/jobbnorge/employers', // API path without /wp-json
+			key: 'value', // unique identifier
+		},
+	]);
+
+	const employers = select('core').getEntityRecords('dss/v1', 'jobbnorge/employers', {
+		per_page: 100,
+	});
+	console.log(employers);
+
 	const blockProps = useBlockProps();
 
 	if (isEditing) {
@@ -66,13 +80,35 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 			<div {...blockProps}>
 				<Placeholder icon={people} label="Jobbnorge">
 					<form onSubmit={onSubmitURL} className="wp-block-dss-jobbnorge__placeholder-form">
-						<TextControl
-							placeholder={__('Employer ID [,id2, id3, ..]', 'wp-jobbnorge-block')}
-							value={employerID}
-							onChange={(value) => setAttributes({ employerID: value })}
-							className="wp-block-dss-jobbnorge__placeholder-input"
-							// help={__('Comma to separate IDs', 'wp-jobbnorge-block')}
-						/>
+						{employers ? (
+							<SelectControl
+								multiple
+								// label={__('Select employers:')}
+								// value={this.state.employers} // e.g: value = [ 'a', 'c' ]
+								// onChange={(employers) => {
+								// 	this.setState({ employers });
+								// }}
+								// value={employerID}
+								options={(employers ?? []).map((o) => ({
+									label: o.label,
+									value: o.value,
+									disabled: o?.disabled ?? false,
+								}))}
+								className="wp-block-dss-jobbnorge__placeholder-input"
+								help={__(
+									'Select employers to display. Ctrl + Click to select more than one',
+									'wp-jobbnorge-block'
+								)}
+								__nextHasNoMarginBottom
+							/>
+						) : (
+							<TextControl
+								placeholder={__('Employer ID [,id2, id3, ..]', 'wp-jobbnorge-block')}
+								value={employerID}
+								onChange={(value) => setAttributes({ employerID: value })}
+								className="wp-block-dss-jobbnorge__placeholder-input"
+							/>
+						)}
 						<Button variant="primary" type="submit">
 							{__('Save', 'wp-jobbnorge-block')}
 						</Button>
@@ -102,43 +138,12 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 		},
 	];
 
-	dispatch('core').addEntities([
-		{
-			name: 'jobbnorge/employers', // route name
-			kind: 'dss/v1', // namespace
-			baseURL: '/dss/v1/jobbnorge/employers', // API path without /wp-json
-			key: 'value', // unique identifier
-		},
-	]);
-
-	const employers = select('core').getEntityRecords('dss/v1', 'jobbnorge/employers');
-	console.log(employers);
-
 	return (
 		<>
 			<BlockControls>
 				<ToolbarGroup controls={toolbarControls} />
 			</BlockControls>
 			<InspectorControls>
-				{employers && (
-					<PanelBody title={__('Employers', 'wp-jobbnorge-block')}>
-						{/* https://bdwm.be/gutenberg-block-editor-dynamically-populate-selectcontrol-radiocontrol-or-checkboxcontrol-options/ */}
-						<SelectControl
-							multiple
-							// label={__('Select employers:')}
-							// value={this.state.employers} // e.g: value = [ 'a', 'c' ]
-							// onChange={(employers) => {
-							// 	this.setState({ employers });
-							// }}
-							options={(employers ?? []).map((o) => ({
-								label: o.label,
-								value: o.value,
-								disabled: o?.disabled ?? false,
-							}))}
-							__nextHasNoMarginBottom
-						/>
-					</PanelBody>
-				)}
 				<PanelBody title={__('Settings', 'wp-jobbnorge-block')}>
 					<RangeControl
 						__nextHasNoMarginBottom
