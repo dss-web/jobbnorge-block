@@ -45,7 +45,11 @@ function dss_jobbnorge_init() {
  */
 function dss_jobbnorge_enqueue_scripts( string $hook_suffix ): void {
 
-	write_log( $hook_suffix );
+	// write_log( $hook_suffix );
+
+	if ( 'post.php' !== $hook_suffix && 'post-new.php' !== $hook_suffix && 'edit.php' !== $hook_suffix ) {
+		return;
+	}
 
 	$deps_file = plugin_dir_path( __FILE__ ) . 'build/init.asset.php';
 
@@ -116,6 +120,8 @@ function render_block_dss_jobbnorge( $attributes ) {
 		$jobbnorge_api_url .= '&employer=' . $id;
 	}
 
+	write_log( $jobbnorge_api_url );
+
 	$transient_key = md5( $jobbnorge_api_url );
 	$body          = get_transient( $transient_key );
 	if ( false === $body ) {
@@ -156,11 +162,11 @@ function render_block_dss_jobbnorge( $attributes ) {
 
 		$employer = format_attribute( $attributes, $item, 'employer', 'displayEmployer', 'wp-block-dss-jobbnorge__item-employer', __( 'Employer', 'wp-jobbnorge-block' ) );
 		$scope    = format_attribute( $attributes, $item, 'jobScope', 'displayScope', 'wp-block-dss-jobbnorge__item-scope', __( 'Scope', 'wp-jobbnorge-block' ) );
-		$duration = format_attribute( $attributes, $item, 'jobDuration', 'displayDuration', 'wp-block-dss-jobbnorge__item-duration', __( 'Duration', 'wp-jobbnorge-block' ) );
+		// $duration = format_attribute( $attributes, $item, 'jobDuration', 'displayDuration', 'wp-block-dss-jobbnorge__item-duration', __( 'Duration', 'wp-jobbnorge-block' ) );
 
 		$meta = '';
-		if ( $employer || $deadline || $scope || $duration ) {
-			$meta = '<div class="wp-block-dss-jobbnorge__item-meta">' . $employer . $deadline . $scope . $duration . '</div>';
+		if ( $employer || $deadline || $scope ) {
+			$meta = '<div class="wp-block-dss-jobbnorge__item-meta">' . $employer . $deadline . $scope . '</div>';
 		}
 
 		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$title}{$meta}{$excerpt}</li>";
@@ -176,7 +182,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 	add_classname( $classnames, $attributes, 'displayDate', 'has-dates' );
 	add_classname( $classnames, $attributes, 'displayDeadline', 'has-deadline' );
 	add_classname( $classnames, $attributes, 'displayScope', 'has-scope' );
-	add_classname( $classnames, $attributes, 'displayDuration', 'has-duration' );
+	// add_classname( $classnames, $attributes, 'displayDuration', 'has-duration' );
 	add_classname( $classnames, $attributes, 'displayExcerpt', 'has-excerpts' );
 
 	$wrapper_attributes = get_block_wrapper_attributes( [ 'class' => implode( ' ', $classnames ) ] );
@@ -251,7 +257,7 @@ function format_deadline( $deadline_date ) {
 	if ( $str_date ) {
 		return sprintf(
 			'<time datetime="%1$s" class="wp-block-dss-jobbnorge__item-deadline">%2$s %3$s</time> ',
-			( $date ) ? esc_attr( date_i18n( 'c', $date ) ) : '',
+			( $date ) ? esc_attr( wp_date( 'c', $date ) ) : '',
 			__( 'Deadline:', 'wp-jobbnorge-block' ),
 			esc_attr( $str_date )
 		);
@@ -284,7 +290,8 @@ function parse_date( $deadline_date ) {
  */
 function parse_date_intl( $deadline_date ) {
 	$formatter = \IntlDateFormatter::create( 'nb-NO', \IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT, date_default_timezone_get() );
-	$formatter->setPattern( 'EEEE d. MMMM y' );
+	$formatter->setPattern( 'dd.MM.yyyy' );
+	// $formatter->setPattern( 'EEEE d. MMMM y' );
 	return $formatter->parse( $deadline_date );
 }
 
@@ -344,6 +351,7 @@ function add_classname( &$classnames, $attributes, $key, $classname ) {
 		$classnames[] = $classname;
 	}
 }
+
 
 //phpcs:disable
 if ( ! function_exists( 'write_log' ) ) {
