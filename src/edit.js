@@ -7,6 +7,7 @@ import {
 	Disabled,
 	PanelBody,
 	Placeholder,
+	RadioControl,
 	RangeControl,
 	SelectControl,
 	TextControl,
@@ -40,6 +41,7 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 		employerID,
 		itemsToShow,
 		noJobsMessage,
+		orderBy,
 	} = attributes;
 
 	function toggleAttribute(propName) {
@@ -64,14 +66,13 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 			name: 'jobbnorge/employers', // route name
 			kind: 'dss/v1', // namespace
 			baseURL: '/dss/v1/jobbnorge/employers', // API path without /wp-json
-			key: 'value', // unique identifier
+			key: 'value', // unique identifier, the field in the in the REAT API response that contains an unique identifier.
 		},
 	]);
 
 	const employers = select('core').getEntityRecords('dss/v1', 'jobbnorge/employers', {
 		per_page: 100,
 	});
-	console.log(employers);
 
 	const blockProps = useBlockProps();
 
@@ -83,12 +84,8 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 						{employers ? (
 							<SelectControl
 								multiple
-								// label={__('Select employers:')}
-								// value={this.state.employers} // e.g: value = [ 'a', 'c' ]
-								// onChange={(employers) => {
-								// 	this.setState({ employers });
-								// }}
-								// value={employerID}
+								value={employerID.split(',')}
+								onChange={(value) => setAttributes({ employerID: value.toString() })}
 								options={(employers ?? []).map((o) => ({
 									label: o.label,
 									value: o.value,
@@ -96,7 +93,7 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 								}))}
 								className="wp-block-dss-jobbnorge__placeholder-input"
 								help={__(
-									'Select employers to display. Ctrl + Click to select more than one',
+									'Select employers to display. Ctrl + Click to select more than one.',
 									'wp-jobbnorge-block'
 								)}
 								__nextHasNoMarginBottom
@@ -154,7 +151,7 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 						max={DEFAULT_MAX_ITEMS}
 						required
 					/>
-					{displayExcerpt && (
+					{/*displayExcerpt && (
 						<RangeControl
 							__nextHasNoMarginBottom
 							label={__('Max number of words in excerpt', 'wp-jobbnorge-block')}
@@ -164,7 +161,16 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 							max={100}
 							required
 						/>
-					)}
+					)*/}
+					{employerID.includes(',') && (<RadioControl
+						label={__('Order by', 'wp-jobbnorge-block')}
+						selected={orderBy}
+						options={[
+							{ label: __('Deadline', 'wp-jobbnorge-block'), value: 'Deadline' },
+							{ label: __('Employer', 'wp-jobbnorge-block'), value: 'Employer' },
+						]}
+						onChange={(value) => setAttributes({ orderBy: value })}
+					/>)}
 					<TextareaControl
 						label={__('No jobs found message', 'wp-jobbnorge-block')}
 						help={__('Message to display if no jobs are found', 'wp-jobbnorge-block')}

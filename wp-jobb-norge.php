@@ -17,103 +17,7 @@
 namespace DSS\Jobbnorge;
 
 add_action( 'init', __NAMESPACE__ . '\dss_jobbnorge_init' );
-add_action(
-	'rest_api_init',
-	function () {
-		register_rest_route(
-			'dss/v1',
-			'/jobbnorge/employers',
-			array(
-				'method'              => 'GET',
-				'callback'            => function () {
-					$employers = array(
-						array(
-							'label'    => 'Select employers',
-							'value'    => '',
-							'disabled' => true,
-						),
-						array(
-							'label' => 'SMK',
-							'value' => '1981',
-						),
-						array(
-							'label' => 'AID',
-							'value' => '1992',
-						),
-						array(
-							'label' => 'BFD',
-							'value' => '1980',
-						),
-						array(
-							'label' => 'DFD',
-							'value' => '2770',
-						),
-						array(
-							'label' => 'FIN',
-							'value' => '1994',
-						),
-						array(
-							'label' => 'FD',
-							'value' => '1986',
-						),
-						array(
-							'label' => 'HOD',
-							'value' => '1984',
-						),
-						array(
-							'label' => 'JD',
-							'value' => '1985',
-						),
-						array(
-							'label' => 'KLD',
-							'value' => '1987',
-						),
-						array(
-							'label' => 'KDD',
-							'value' => '1996',
-						),
-						array(
-							'label' => 'KUD',
-							'value' => '1988',
-						),
-						array(
-							'label' => 'KD',
-							'value' => '1982',
-						),
-						array(
-							'label' => 'LMD',
-							'value' => '1983',
-						),
-						array(
-							'label' => 'NFD',
-							'value' => '1995',
-						),
-						array(
-							'label' => 'OED',
-							'value' => '1989',
-						),
-						array(
-							'label' => 'SD',
-							'value' => '1993',
-						),
-						array(
-							'label' => 'UD',
-							'value' => '1991',
-						),
-						array(
-							'label' => 'DSS',
-							'value' => '1956',
-						),
-					);
-					return rest_ensure_response( $employers );
-				},
-				'permission_callback' => function () {
-					return current_user_can( 'edit_posts' );
-				},
-			)
-		);
-	}
-);
+
 /**
  * Registers the block using the metadata loaded from the `block.json` file.
  * Behind the scenes, it registers also all assets so they can be enqueued
@@ -190,19 +94,21 @@ function render_block_dss_jobbnorge( $attributes ) {
 			'displayScope'    => false,
 			'displayDuration' => false,
 			'displayExcerpt'  => true,
-			'excerptLength'   => 20,
+			'excerptLength'   => 55,
 			'blockLayout'     => 'list',
-			'columns'         => 2,
+			'orderBy'         => 'Deadline',
+			'columns'         => 3,
+			'itemsToShow'     => 5,
 		)
 	);
 
-	if ( ! array_filter( \explode( ',', $attributes['employerID'] ), 'is_numeric' ) ) {
+	$arr_ids = array_map( 'trim', explode( ',', $attributes['employerID'] ) );
+
+	if ( ! array_filter( $arr_ids, 'is_numeric' ) ) {
 		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Invalid ID', 'wp-jobbnorge-block' ) . '</div></div>';
 	}
 
-	$jobbnorge_api_url = 'https://publicapi.jobbnorge.no/v2/Jobs?abroad=false';
-
-	$arr_ids = array_map( 'trim', explode( ',', $attributes['employerID'] ) );
+	$jobbnorge_api_url = 'https://publicapi.jobbnorge.no/v2/Jobs?abroad=false&orderBy=' . $attributes['orderBy'];
 
 	foreach ( $arr_ids as $id ) {
 		$jobbnorge_api_url .= '&employer=' . $id;
@@ -223,6 +129,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 	}
 
 	$items = json_decode( $body, true );
+	$items = array_slice( $items, 0, $attributes['itemsToShow'] );
 
 	if ( ! $items ) {
 		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'No jobs found', 'wp-jobbnorge-block' ) . '</div></div>';
@@ -243,7 +150,8 @@ function render_block_dss_jobbnorge( $attributes ) {
 			$deadline = format_deadline( $item['deadline'] );
 		}
 
-		$excerpt  = format_excerpt( $attributes, $item, $attributes['excerptLength'], 'displayExcerpt', 'summary', 'wp-block-dss-jobbnorge__item-excerpt' );
+		$excerpt = format_excerpt( $attributes, $item );
+
 		$employer = format_attribute( $attributes, $item, 'employer', 'displayEmployer', 'wp-block-dss-jobbnorge__item-employer', __( 'Employer', 'wp-jobbnorge-block' ) );
 		$scope    = format_attribute( $attributes, $item, 'jobScope', 'displayScope', 'wp-block-dss-jobbnorge__item-scope', __( 'Scope', 'wp-jobbnorge-block' ) );
 		$duration = format_attribute( $attributes, $item, 'jobDuration', 'displayDuration', 'wp-block-dss-jobbnorge__item-duration', __( 'Duration', 'wp-jobbnorge-block' ) );
@@ -277,23 +185,19 @@ function render_block_dss_jobbnorge( $attributes ) {
 /**
  * Formats the excerpt of an item.
  *
- * @param array  $attributes     The attributes array to check the key in.
- * @param array  $item           The item array to get the attribute from.
- * @param int    $excerpt_length The length of the excerpt.
- * @param string $display_key    The key to check in the attributes array.
- * @param string $attribute_key  The key to get from the item array.
- * @param string $css_class      The class name to add to the div.
+ * @param array $attributes     The attributes array to check the key in.
+ * @param array $item           The item array to get the attribute from.
  * @return string The formatted excerpt.
  */
-function format_excerpt( $attributes, $item, $excerpt_length, $display_key, $attribute_key, $css_class ) {
+function format_excerpt( $attributes, $item ) {
 	$result = '';
-	if ( $attributes[ $display_key ] && isset( $item[ $attribute_key ] ) ) {
-		$excerpt = html_entity_decode( $item[ $attribute_key ], ENT_QUOTES, get_option( 'blog_charset' ) );
-		$excerpt = esc_attr( wp_trim_words( $excerpt, $excerpt_length, '' ) );
+	if ( $attributes['displayExcerpt'] && isset( $item['summary'] ) ) {
+		$excerpt = html_entity_decode( $item['summary'], ENT_QUOTES, get_option( 'blog_charset' ) );
+		$excerpt = esc_attr( wp_trim_words( $excerpt, $attributes['excerptLength'], '' ) );
 
 		$read_more = sprintf( ' ... <a href="%s">%s</a>', esc_url( $item['link'] ), __( 'Read more', 'wp-jobbnorge-block' ) );
 
-		$result = sprintf( '<div class="%s">%s%s</div>', $css_class, esc_html( $excerpt ), $read_more );
+		$result = sprintf( '<div class="wp-block-dss-jobbnorge__item-excerpt">%s%s</div>', esc_html( $excerpt ), $read_more );
 	}
 	return $result;
 }
