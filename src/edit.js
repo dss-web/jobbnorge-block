@@ -24,7 +24,7 @@ import { dispatch, select } from '@wordpress/data';
 import './editor.scss';
 
 const DEFAULT_MIN_ITEMS = 1;
-const DEFAULT_MAX_ITEMS = 20;
+const DEFAULT_MAX_ITEMS = 100;
 
 export default function JobbnorgeEdit({ attributes, setAttributes }) {
 	const [isEditing, setIsEditing] = useState(!attributes.employerID);
@@ -199,11 +199,11 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 						checked={displayScope}
 						onChange={toggleAttribute('displayScope')}
 					/>
-					<ToggleControl
+					{/* <ToggleControl
 						label={__('Display duration', 'wp-jobbnorge-block')}
 						checked={displayDuration}
 						onChange={toggleAttribute('displayDuration')}
-					/>
+					/> */}
 				</PanelBody>
 				{blockLayout === 'grid' && (
 					<PanelBody title={__('Grid view', 'wp-jobbnorge-block')}>
