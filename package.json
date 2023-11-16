@@ -1,10 +1,10 @@
 {
-	"name": "wp-jobbnorge-block",
+	"name": "jobbnorge-block",
 	"version": "2.0.0",
 	"description": "Jobbnorge Block for WordPress Gutenberg",
 	"author": "Per Søderlind <per@soderlind.no>",
 	"license": "GPL-2.0-or-later",
-	"homepage": "https://github.com/dss-web/wp-jobbnorge-block",
+	"homepage": "https://github.com/dss-web/jobbnorge-block",
 	"main": "build/init.js",
 	"files": [
 		"build/**",
