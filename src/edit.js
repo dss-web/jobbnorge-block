@@ -59,22 +59,21 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 		}
 	}
 
-	dispatch('core').addEntities([
-		{
-			name: 'jobbnorge/employers', // route name
-			kind: 'dss/v1', // namespace
-			baseURL: '/dss/v1/jobbnorge/employers', // API path without /wp-json
-			key: 'value', // unique identifier, the field in the in the REAT API response that contains an unique identifier.
-		},
-	]);
-
-	const employers = select('core').getEntityRecords('dss/v1', 'jobbnorge/employers', {
-		per_page: 100,
-	});
-
 	const blockProps = useBlockProps();
 
 	if (isEditing) {
+		dispatch('core').addEntities([
+			{
+				name: 'jobbnorge/employers', // route name
+				kind: 'dss/v1', // namespace
+				baseURL: '/dss/v1/jobbnorge/employers', // API path without /wp-json
+				key: 'value', // unique identifier, the field in the in the REAT API response that contains an unique identifier.
+			},
+		]);
+
+		const employers = select('core').getEntityRecords('dss/v1', 'jobbnorge/employers', {
+			per_page: 100,
+		});
 		return (
 			<div {...blockProps}>
 				<Placeholder icon={people} label="Jobbnorge">
@@ -160,15 +159,17 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 							required
 						/>
 					)*/}
-					{employerID.includes(',') && (<RadioControl
-						label={__('Order by', 'wp-jobbnorge-block')}
-						selected={orderBy}
-						options={[
-							{ label: __('Deadline', 'wp-jobbnorge-block'), value: 'Deadline' },
-							{ label: __('Employer', 'wp-jobbnorge-block'), value: 'Employer' },
-						]}
-						onChange={(value) => setAttributes({ orderBy: value })}
-					/>)}
+					{employerID.includes(',') && (
+						<RadioControl
+							label={__('Order by', 'wp-jobbnorge-block')}
+							selected={orderBy}
+							options={[
+								{ label: __('Deadline', 'wp-jobbnorge-block'), value: 'Deadline' },
+								{ label: __('Employer', 'wp-jobbnorge-block'), value: 'Employer' },
+							]}
+							onChange={(value) => setAttributes({ orderBy: value })}
+						/>
+					)}
 					<TextareaControl
 						label={__('No jobs found message', 'wp-jobbnorge-block')}
 						help={__('Message to display if no jobs are found', 'wp-jobbnorge-block')}
