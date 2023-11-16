@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jobbnorge Block 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jobbnorge-block\n"
-"POT-Creation-Date: 2023-11-15T08:36:59+00:00\n"
-"PO-Revision-Date: 2023-11-15 09:44+0100\n"
+"POT-Creation-Date: 2023-11-16T09:30:10+00:00\n"
+"PO-Revision-Date: 2023-11-16 10:31+0100\n"
 "Last-Translator: Per Søderlind <per@soderlind.no>\n"
 "Language-Team: \n"
 "Language: nb_NO\n"
@@ -31,111 +31,119 @@ msgstr "Liste jobber på jobbnorge.no"
 msgid "PerS"
 msgstr "PerS"
 
-#: wp-jobb-norge.php:200
+#: wp-jobb-norge.php:106
 msgid "Invalid ID"
 msgstr "Ugyldig ID"
 
-#: wp-jobb-norge.php:217
+#: wp-jobb-norge.php:123
 msgid "Error connecting to Jobbnorge.no"
 msgstr "Feil ved tilkobling til Jobbnorge.no"
 
-#: wp-jobb-norge.php:228
+#: wp-jobb-norge.php:135
 msgid "No jobs found"
 msgstr "Ingen jobber funnet"
 
-#: wp-jobb-norge.php:247
+#: wp-jobb-norge.php:154 build/init.js:1 src/edit.js:170
 msgid "Employer"
 msgstr "Arbeidsgiver"
 
-#: wp-jobb-norge.php:248
+#: wp-jobb-norge.php:155
 msgid "Scope"
 msgstr "Omfang"
 
-#: wp-jobb-norge.php:249
+#: wp-jobb-norge.php:156
 msgid "Duration"
 msgstr "Varighet"
 
-#: wp-jobb-norge.php:294
+#: wp-jobb-norge.php:197
 msgid "Read more"
 msgstr "Les mer"
 
-#: wp-jobb-norge.php:349
+#: wp-jobb-norge.php:252
 msgid "Deadline:"
 msgstr "Søknadsfrist:"
 
-#: build/init.js:1 src/edit.js:88
-msgid "Edit Jobbnorge URL"
-msgstr "Rediger Jobbnorge URL"
+#: build/init.js:1 src/edit.js:95
+msgid "Select employers to display. Ctrl + Click to select more than one."
+msgstr "Velg arbeidsgivere som skal vises. Ctrl + klikk for å velge flere enn én."
 
-#: build/init.js:1 src/edit.js:167
-msgid "No jobs found message"
-msgstr "Ingen jobber funnet melding"
+#: build/init.js:1 src/edit.js:103
+msgid "Employer ID [,id2, id3, ..]"
+msgstr "Arbeidsgiver-ID [,id2, id3, ...]"
 
-#: build/init.js:1 src/edit.js:168
-msgid "Message to display if no jobs are found"
-msgstr "Melding som vises hvis ingen jobber er funnet"
-
-#: build/init.js:1 src/edit.js:169
-msgid "There are no jobs at this time."
-msgstr "Det er for tiden ingen ledige stillinger."
-
-#: build/init.js:1 src/edit.js:173
-msgid "Item"
-msgstr "Element"
-
-#: build/init.js:1 src/edit.js:175
-msgid "Display employer"
-msgstr "Vis arbeidsgiver"
-
-#: build/init.js:1 src/edit.js:185
-msgid "Display deadline"
-msgstr "Vis søknadsfrist"
-
-#: build/init.js:1 src/edit.js:190
-msgid "Display scope"
-msgstr "Vis omfang"
-
-#: build/init.js:1 src/edit.js:195
-msgid "Display duration"
-msgstr "Vis varighet"
-
-#: src/edit.js:71
-msgid "Enter Empoyer ID(s) here…"
-msgstr "Skriv inn arbeidsgiver-ID(er) her…"
-
-#: src/edit.js:77
+#: build/init.js:1 src/edit.js:110
 msgid "Save"
 msgstr "Lagre"
 
-#: src/edit.js:93
+#: build/init.js:1 src/edit.js:121
+msgid "Edit Jobbnorge URL"
+msgstr "Rediger Jobbnorge URL"
+
+#: build/init.js:1 src/edit.js:126
 msgid "List view"
 msgstr "Listevisning"
 
-#: src/edit.js:99 src/edit.js:201
+#: build/init.js:1 src/edit.js:132 src/edit.js:209
 msgid "Grid view"
 msgstr "Rutemønster"
 
-#: src/edit.js:127
-msgid "Employers"
-msgstr "Arbeidsgivere"
-
-#: src/edit.js:145
+#: build/init.js:1 src/edit.js:144
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: src/edit.js:148
+#: build/init.js:1 src/edit.js:147
 msgid "Number of items"
 msgstr "Antall oppføringer"
 
-#: src/edit.js:158
+#: build/init.js:1 src/edit.js:157
 msgid "Max number of words in excerpt"
 msgstr "Maks antall ord i utdraget"
 
-#: src/edit.js:180
+#: build/init.js:1 src/edit.js:166
+msgid "Order by"
+msgstr "Sorter etter"
+
+#: build/init.js:1 src/edit.js:169
+msgid "Deadline"
+msgstr "Søknadsfrist"
+
+#: build/init.js:1 src/edit.js:175
+msgid "No jobs found message"
+msgstr "Ingen jobber funnet melding"
+
+#: build/init.js:1 src/edit.js:176
+msgid "Message to display if no jobs are found"
+msgstr "Melding som vises hvis ingen jobber er funnet"
+
+#: build/init.js:1 src/edit.js:177
+msgid "There are no jobs at this time."
+msgstr "Det er for tiden ingen ledige stillinger."
+
+#: build/init.js:1 src/edit.js:181
+msgid "Item"
+msgstr "Element"
+
+#: build/init.js:1 src/edit.js:183
+msgid "Display employer"
+msgstr "Vis arbeidsgiver"
+
+#: build/init.js:1 src/edit.js:188
 msgid "Display excerpt"
 msgstr "Vis utdrag"
 
-#: src/edit.js:204
+#: build/init.js:1 src/edit.js:193
+msgid "Display deadline"
+msgstr "Vis søknadsfrist"
+
+#: build/init.js:1 src/edit.js:198
+msgid "Display scope"
+msgstr "Vis omfang"
+
+#: build/init.js:1 src/edit.js:203
+msgid "Display duration"
+msgstr "Vis varighet"
+
+#: build/init.js:1 src/edit.js:212
 msgid "Columns"
 msgstr "Kolonner"
 
@@ -158,3 +166,12 @@ msgstr "Jobbnorge"
 msgctxt "block keyword"
 msgid "jobbnorge.no"
 msgstr "jobbnorge.no"
+
+#~ msgid "Select employers to display. Ctrl + Click to select more than one"
+#~ msgstr "Velg arbeidsgivere som skal vises. Ctrl + klikk for å velge flere enn én"
+
+#~ msgid "Enter Empoyer ID(s) here…"
+#~ msgstr "Skriv inn arbeidsgiver-ID(er) her…"
+
+#~ msgid "Employers"
+#~ msgstr "Arbeidsgivere"

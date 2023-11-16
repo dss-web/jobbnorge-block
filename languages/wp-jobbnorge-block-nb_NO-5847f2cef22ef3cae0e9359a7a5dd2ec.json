@@ -1,5 +1,5 @@
 {
-    "translation-revision-date": "2023-11-15 09:44+0100",
+    "translation-revision-date": "2023-11-16 10:31+0100",
     "generator": "WP-CLI\/2.9.0",
     "source": "build\/init.js",
     "domain": "messages",
@@ -10,8 +10,41 @@
                 "lang": "nb_NO",
                 "plural-forms": "nplurals=2; plural=(n != 1);"
             },
+            "Employer": [
+                "Arbeidsgiver"
+            ],
+            "Select employers to display. Ctrl + Click to select more than one.": [
+                "Velg arbeidsgivere som skal vises. Ctrl + klikk for \u00e5 velge flere enn \u00e9n."
+            ],
+            "Employer ID [,id2, id3, ..]": [
+                "Arbeidsgiver-ID [,id2, id3, ...]"
+            ],
+            "Save": [
+                "Lagre"
+            ],
             "Edit Jobbnorge URL": [
                 "Rediger Jobbnorge URL"
+            ],
+            "List view": [
+                "Listevisning"
+            ],
+            "Grid view": [
+                "Rutem\u00f8nster"
+            ],
+            "Settings": [
+                "Innstillinger"
+            ],
+            "Number of items": [
+                "Antall oppf\u00f8ringer"
+            ],
+            "Max number of words in excerpt": [
+                "Maks antall ord i utdraget"
+            ],
+            "Order by": [
+                "Sorter etter"
+            ],
+            "Deadline": [
+                "S\u00f8knadsfrist"
             ],
             "No jobs found message": [
                 "Ingen jobber funnet melding"
@@ -28,6 +61,9 @@
             "Display employer": [
                 "Vis arbeidsgiver"
             ],
+            "Display excerpt": [
+                "Vis utdrag"
+            ],
             "Display deadline": [
                 "Vis s\u00f8knadsfrist"
             ],
@@ -36,6 +72,9 @@
             ],
             "Display duration": [
                 "Vis varighet"
+            ],
+            "Columns": [
+                "Kolonner"
             ]
         }
     }
