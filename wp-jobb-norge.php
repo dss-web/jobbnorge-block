@@ -31,9 +31,9 @@ function dss_jobbnorge_init() {
 	load_plugin_textdomain( 'wp-jobbnorge-block', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	register_block_type(
 		__DIR__ . '/build',
-		array(
+		[
 			'render_callback' => __NAMESPACE__ . '\render_block_dss_jobbnorge',
-		)
+		]
 	);
 }
 
@@ -45,9 +45,11 @@ function dss_jobbnorge_init() {
  */
 function dss_jobbnorge_enqueue_scripts( string $hook_suffix ): void {
 
+	write_log( $hook_suffix );
+
 	$deps_file = plugin_dir_path( __FILE__ ) . 'build/init.asset.php';
 
-	$jsdeps  = array();
+	$jsdeps  = [];
 	$version = wp_rand();
 	if ( file_exists( $deps_file ) ) {
 		$file    = require $deps_file;
@@ -55,10 +57,10 @@ function dss_jobbnorge_enqueue_scripts( string $hook_suffix ): void {
 		$version = $file['version'];
 	}
 	if ( is_admin() ) {
-		wp_register_style( 'dss-jobbnorge-admin', plugin_dir_url( __FILE__ ) . 'build/init.css', array(), $version );
+		wp_register_style( 'dss-jobbnorge-admin', plugin_dir_url( __FILE__ ) . 'build/init.css', [], $version );
 		wp_enqueue_style( 'dss-jobbnorge-admin' );
 	}
-	wp_register_style( 'dss-jobbnorge', plugin_dir_url( __FILE__ ) . 'build/style-init.css', array(), $version );
+	wp_register_style( 'dss-jobbnorge', plugin_dir_url( __FILE__ ) . 'build/style-init.css', [], $version );
 	wp_enqueue_style( 'dss-jobbnorge' );
 	wp_set_script_translations(
 		'dss-jobbnorge-editor-script', // Handle = block.json "name" (replace / with -) + "-editor-script".
@@ -86,7 +88,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 	// set default values for attributes.
 	$attributes = wp_parse_args(
 		$attributes,
-		array(
+		[
 			'employerID'      => '',
 			'displayEmployer' => false,
 			'displayDate'     => true,
@@ -99,7 +101,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 			'orderBy'         => 'Deadline',
 			'columns'         => 3,
 			'itemsToShow'     => 5,
-		)
+		]
 	);
 
 	$arr_ids = array_map( 'trim', explode( ',', $attributes['employerID'] ) );
@@ -164,7 +166,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$title}{$meta}{$excerpt}</li>";
 	}
 
-	$classnames = array();
+	$classnames = [];
 	if ( 'grid' === $attributes['blockLayout'] ) {
 		add_classname( $classnames, $attributes, 'blockLayout', 'is-grid' );
 		add_classname( $classnames, $attributes, 'columns', 'columns-' . $attributes['columns'] );
@@ -177,7 +179,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 	add_classname( $classnames, $attributes, 'displayDuration', 'has-duration' );
 	add_classname( $classnames, $attributes, 'displayExcerpt', 'has-excerpts' );
 
-	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classnames ) ) );
+	$wrapper_attributes = get_block_wrapper_attributes( [ 'class' => implode( ' ', $classnames ) ] );
 
 	return sprintf( '<ul %s>%s</ul>', $wrapper_attributes, $list_items );
 }
@@ -219,7 +221,7 @@ function format_attribute( $attributes, $item, $attribute_key, $display_key, $cs
 		$result = sprintf(
 			'<div class="%s">%s: %s</div>',
 			$css_class,
-			__( $label, 'wp-jobbnorge-block' ),
+			$label,
 			esc_html( $item[ $attribute_key ] )
 		);
 	}
@@ -294,7 +296,7 @@ function parse_date_intl( $deadline_date ) {
  * @return mixed The parsed deadline date.
  */
 function parse_date_fallback( $deadline_date ) {
-	$str_months = array(
+	$str_months = [
 		'januar',
 		'februar',
 		'mars',
@@ -307,8 +309,8 @@ function parse_date_fallback( $deadline_date ) {
 		'oktober',
 		'november',
 		'desember',
-	);
-	$num_months = array(
+	];
+	$num_months = [
 		'01',
 		'02',
 		'03',
@@ -321,7 +323,7 @@ function parse_date_fallback( $deadline_date ) {
 		'10',
 		'11',
 		'12',
-	);
+	];
 	$dato       = preg_replace( '/(\d{1})\./', '$1', $deadline_date );
 	$dato       = preg_replace( '/(\d{1})\./', '0$1.', $dato );
 	$dato       = str_ireplace( $str_months, $num_months, $dato, $count );
@@ -342,3 +344,25 @@ function add_classname( &$classnames, $attributes, $key, $classname ) {
 		$classnames[] = $classname;
 	}
 }
+
+//phpcs:disable
+if ( ! function_exists( 'write_log' ) ) {
+	/**
+	* Utility function for logging arbitrary variables to the error log.
+	*
+	* Set the constant WP_DEBUG to true and the constant WP_DEBUG_LOG to true to log to wp-content/debug.log.
+	* You can view the log in realtime in your terminal by executing `tail -f debug.log` and Ctrl+C to stop.
+	*
+	* @param mixed $log Whatever to log.
+	*/
+	function write_log( $log ) {
+		if ( true === WP_DEBUG ) {
+			if ( is_scalar( $log ) ) {
+				error_log( $log );
+			} else {
+				error_log( print_r( $log, true ) );
+			}
+		}
+	}
+}
+//phpcs:enable
