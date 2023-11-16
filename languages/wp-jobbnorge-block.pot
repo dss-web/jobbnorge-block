@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-16T09:35:33+00:00\n"
+"POT-Creation-Date: 2023-11-16T18:10:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: wp-jobbnorge-block\n"
@@ -30,143 +30,129 @@ msgstr ""
 msgid "PerS"
 msgstr ""
 
-#: wp-jobb-norge.php:106
+#: wp-jobb-norge.php:113
 msgid "Invalid ID"
 msgstr ""
 
-#: wp-jobb-norge.php:123
+#: wp-jobb-norge.php:128
 msgid "Error connecting to Jobbnorge.no"
 msgstr ""
 
-#: wp-jobb-norge.php:135
+#: wp-jobb-norge.php:140
 msgid "No jobs found"
 msgstr ""
 
-#: wp-jobb-norge.php:154
+#: wp-jobb-norge.php:160
 #: build/init.js:1
-#: src/edit.js:170
+#: src/edit.js:168
 msgid "Employer"
 msgstr ""
 
-#: wp-jobb-norge.php:155
+#: wp-jobb-norge.php:161
 msgid "Scope"
 msgstr ""
 
-#: wp-jobb-norge.php:156
-msgid "Duration"
-msgstr ""
-
-#: wp-jobb-norge.php:197
+#: wp-jobb-norge.php:203
 msgid "Read more"
 msgstr ""
 
-#: wp-jobb-norge.php:252
+#: wp-jobb-norge.php:258
 msgid "Deadline:"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:95
+#: src/edit.js:93
 msgid "Select employers to display. Ctrl + Click to select more than one."
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:103
+#: src/edit.js:101
 msgid "Employer ID [,id2, id3, ..]"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:110
+#: src/edit.js:108
 msgid "Save"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:121
+#: src/edit.js:119
 msgid "Edit Jobbnorge URL"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:126
+#: src/edit.js:124
 msgid "List view"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:132
-#: src/edit.js:209
+#: src/edit.js:130
+#: src/edit.js:202
 msgid "Grid view"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:144
+#: src/edit.js:142
 msgid "Settings"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:147
+#: src/edit.js:145
 msgid "Number of items"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:157
-msgid "Max number of words in excerpt"
-msgstr ""
-
-#: build/init.js:1
-#: src/edit.js:166
+#: src/edit.js:164
 msgid "Order by"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:169
+#: src/edit.js:167
 msgid "Deadline"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:175
+#: src/edit.js:173
 msgid "No jobs found message"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:176
+#: src/edit.js:174
 msgid "Message to display if no jobs are found"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:177
+#: src/edit.js:175
 msgid "There are no jobs at this time."
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:181
+#: src/edit.js:179
 msgid "Item"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:183
+#: src/edit.js:181
 msgid "Display employer"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:188
+#: src/edit.js:186
 msgid "Display excerpt"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:193
+#: src/edit.js:191
 msgid "Display deadline"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:198
+#: src/edit.js:196
 msgid "Display scope"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:203
-msgid "Display duration"
-msgstr ""
-
-#: build/init.js:1
-#: src/edit.js:212
+#: src/edit.js:205
 msgid "Columns"
 msgstr ""
 

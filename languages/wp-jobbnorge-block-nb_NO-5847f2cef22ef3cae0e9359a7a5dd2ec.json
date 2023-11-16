@@ -1,5 +1,5 @@
 {
-    "translation-revision-date": "2023-11-16 10:31+0100",
+    "translation-revision-date": "2023-11-16 19:09+0100",
     "generator": "WP-CLI\/2.9.0",
     "source": "build\/init.js",
     "domain": "messages",
@@ -37,9 +37,6 @@
             "Number of items": [
                 "Antall oppf\u00f8ringer"
             ],
-            "Max number of words in excerpt": [
-                "Maks antall ord i utdraget"
-            ],
             "Order by": [
                 "Sorter etter"
             ],
@@ -69,9 +66,6 @@
             ],
             "Display scope": [
                 "Vis omfang"
-            ],
-            "Display duration": [
-                "Vis varighet"
             ],
             "Columns": [
                 "Kolonner"
