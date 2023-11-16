@@ -55,10 +55,6 @@
       "type": "boolean",
       "default": false
     },
-    "displayDuration": {
-      "type": "boolean",
-      "default": false
-    },
     "displayDate": {
       "type": "boolean",
       "default": true

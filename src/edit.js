@@ -33,11 +33,9 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 		blockLayout,
 		columns,
 		displayScope,
-		displayDuration,
 		displayDate,
 		displayEmployer,
 		displayExcerpt,
-		excerptLength,
 		employerID,
 		itemsToShow,
 		noJobsMessage,
@@ -199,11 +197,6 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 						checked={displayScope}
 						onChange={toggleAttribute('displayScope')}
 					/>
-					{/* <ToggleControl
-						label={__('Display duration', 'wp-jobbnorge-block')}
-						checked={displayDuration}
-						onChange={toggleAttribute('displayDuration')}
-					/> */}
 				</PanelBody>
 				{blockLayout === 'grid' && (
 					<PanelBody title={__('Grid view', 'wp-jobbnorge-block')}>
