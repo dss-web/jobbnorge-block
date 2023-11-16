@@ -45,7 +45,6 @@ function dss_jobbnorge_init() {
  */
 function dss_jobbnorge_enqueue_scripts( string $hook_suffix ): void {
 
-	// write_log( $hook_suffix );
 
 	if ( 'post.php' !== $hook_suffix && 'post-new.php' !== $hook_suffix && 'edit.php' !== $hook_suffix ) {
 		return;
@@ -119,8 +118,6 @@ function render_block_dss_jobbnorge( $attributes ) {
 	foreach ( $arr_ids as $id ) {
 		$jobbnorge_api_url .= '&employer=' . $id;
 	}
-
-	write_log( $jobbnorge_api_url );
 
 	$transient_key = md5( $jobbnorge_api_url );
 	$body          = get_transient( $transient_key );
@@ -352,25 +349,3 @@ function add_classname( &$classnames, $attributes, $key, $classname ) {
 	}
 }
 
-
-//phpcs:disable
-if ( ! function_exists( 'write_log' ) ) {
-	/**
-	* Utility function for logging arbitrary variables to the error log.
-	*
-	* Set the constant WP_DEBUG to true and the constant WP_DEBUG_LOG to true to log to wp-content/debug.log.
-	* You can view the log in realtime in your terminal by executing `tail -f debug.log` and Ctrl+C to stop.
-	*
-	* @param mixed $log Whatever to log.
-	*/
-	function write_log( $log ) {
-		if ( true === WP_DEBUG ) {
-			if ( is_scalar( $log ) ) {
-				error_log( $log );
-			} else {
-				error_log( print_r( $log, true ) );
-			}
-		}
-	}
-}
-//phpcs:enable
