@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "dss/jobbnorge",
-	"version": "1.0.13",
+	"version": "2.0.0",
 	"title": "Jobbnorge",
 	"category": "widgets",
 	"icon": "people",
@@ -21,9 +21,9 @@
 		},
 		"blockLayout": {
 			"type": "string",
-			"default": "grid"
+			"default": "list"
 		},
-		"feedURL": {
+		"employerID": {
 			"type": "string",
 			"default": ""
 		},
@@ -31,9 +31,17 @@
 			"type": "string",
 			"default": ""
 		},
+		"orderBy": {
+			"type": "string",
+			"default": "Deadline"
+		},
 		"itemsToShow": {
 			"type": "number",
 			"default": 5
+		},
+		"displayEmployer": {
+			"type": "boolean",
+			"default": false
 		},
 		"displayExcerpt": {
 			"type": "boolean",
@@ -44,10 +52,6 @@
 			"default": false
 		},
 		"displayScope": {
-			"type": "boolean",
-			"default": false
-		},
-		"displayDuration": {
 			"type": "boolean",
 			"default": false
 		},

@@ -1,8 +1,8 @@
 {
-	"name": "dss-web/wp-jobbnorge-block",
+	"name": "dss-web/jobbnorge-block",
 	"description": "WordPress Jobbnorge Block",
 	"type": "wordpress-plugin",
-	"homepage": "https://github.com/dss-web/wp-jobbnorge-block",
+	"homepage": "https://github.com/dss-web/jobbnorge-block",
 	"authors": [
 		{
 			"name": "Per Søderlind",

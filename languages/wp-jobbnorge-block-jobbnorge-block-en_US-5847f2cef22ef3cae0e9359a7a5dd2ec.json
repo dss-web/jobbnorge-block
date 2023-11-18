@@ -1,5 +1,5 @@
 {
-    "translation-revision-date": "2023-11-16 19:09+0100",
+    "translation-revision-date": "YEAR-MO-DA HO:MI+ZONE",
     "generator": "WP-CLI\/2.9.0",
     "source": "build\/init.js",
     "domain": "messages",
@@ -7,68 +7,74 @@
         "messages": {
             "": {
                 "domain": "messages",
-                "lang": "nb_NO",
+                "lang": "en",
                 "plural-forms": "nplurals=2; plural=(n != 1);"
             },
             "Employer": [
-                "Arbeidsgiver"
+                ""
             ],
             "Select employers to display. Ctrl + Click to select more than one.": [
-                "Velg arbeidsgivere som skal vises. Ctrl + klikk for \u00e5 velge flere enn \u00e9n."
+                ""
             ],
             "Employer ID [,id2, id3, ..]": [
-                "Arbeidsgiver-ID [,id2, id3, ...]"
+                ""
             ],
             "Save": [
-                "Lagre"
+                ""
             ],
             "Edit Jobbnorge URL": [
-                "Rediger Jobbnorge URL"
+                ""
             ],
             "List view": [
-                "Listevisning"
+                ""
             ],
             "Grid view": [
-                "Rutem\u00f8nster"
+                ""
             ],
             "Settings": [
-                "Innstillinger"
+                ""
             ],
             "Number of items": [
-                "Antall oppf\u00f8ringer"
+                ""
+            ],
+            "Max number of words in excerpt": [
+                ""
             ],
             "Order by": [
-                "Sorter etter"
+                ""
             ],
             "Deadline": [
-                "S\u00f8knadsfrist"
+                ""
             ],
             "No jobs found message": [
-                "Ingen jobber funnet melding"
+                ""
             ],
             "Message to display if no jobs are found": [
-                "Melding som vises hvis ingen jobber er funnet"
+                ""
             ],
             "There are no jobs at this time.": [
-                "Det er for tiden ingen ledige stillinger."
+                ""
             ],
             "Item": [
-                "Element"
+                ""
             ],
             "Display employer": [
-                "Vis arbeidsgiver"
+                ""
             ],
             "Display excerpt": [
-                "Vis utdrag"
+                ""
             ],
             "Display deadline": [
-                "Vis s\u00f8knadsfrist"
+                ""
             ],
             "Display scope": [
-                "Vis omfang"
+                ""
+            ],
+            "Display duration": [
+                ""
             ],
             "Columns": [
-                "Kolonner"
+                ""
             ]
         }
     }
