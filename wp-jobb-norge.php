@@ -97,6 +97,26 @@ function dss_jobbnorge_enqueue_scripts( string $hook_suffix ): void {
 		'wp-jobbnorge-block',
 		plugin_dir_path( __FILE__ ) . 'languages/'
 	);
+
+	// Apply filter to modify the employers list.
+	$employers = apply_filters( 'jobbnorge_employers', false );
+
+	// Proceed with localization if employers is not false.
+	if ( false !== $employers ) {
+		// Ensure employers is an array.
+		if ( ! is_array( $employers ) ) {
+			$employers = [];
+		}
+
+		// Localize the script to make employers data available.
+		wp_localize_script(
+			'dss-jobbnorge-editor-script',
+			'wpJobbnorgeBlock',
+			[
+				'employers' => $employers,
+			]
+		);
+	}
 }
 
 

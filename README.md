@@ -24,8 +24,32 @@ In 2.0 the new Jobbnorge API is used, and the following features are available (
 -   Display the jobs in a grid or list view.
 -   Set the number of columns in the grid view.
 
-Nedw features in 2.0:
--  Add more than one employer.
+New features in 2.0:
+- Add more than one employer.
+- If more than one employer is added, order jobs by employer or deadline.
+- Define which employers are available in the block, using the `jobbnorge_employers` filter:
+
+	```php
+	add_filter( 'jobbnorge_employers', function( $employers ) {
+		$employers = [
+			[
+				'label'    => 'Select employer',
+				'value'    => '',
+				'disabled' => true, // Optional.
+			],
+			[
+				'label' => 'Employer 1',
+				'value' => '1234',
+			],
+			[
+				'label' => 'Employer 2',
+				'value' => '5678',
+			],
+		];
+		return $employers;
+	} );
+	```
+	<img src=".wordpress-org/screenshot-5.png">
 
 ## Installation
 
