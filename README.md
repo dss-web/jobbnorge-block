@@ -55,7 +55,10 @@ In 2.0 the new Jobbnorge API is used, and the following features are available (
 
 Either, add the block from the Block Directory:
 
-1. To add a block from the Block Directory, navigate to the post editor. Place your cursor where you would like a new block option. Select the “Add Block” button in the top-left area of the editor screen. Search for “Jobbnorge” and select the “Jobbnorge" block.
+1. To add a block from the Block Directory, navigate to the post editor. 
+1. Place your cursor where you would like a new block option. 
+1. Select the “Add Block” button in the top-left area of the editor screen. 
+1. Search for “Jobbnorge” and select the “Jobbnorge" block.
 
 	<img src=".wordpress-org/screenshot-1.png">
 
