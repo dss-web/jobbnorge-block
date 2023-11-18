@@ -24,7 +24,7 @@ In 2.0 the new Jobbnorge API is used, and the following features are available (
 -   Display the jobs in a grid or list view.
 -   Set the number of columns in the grid view.
 
-New features in 2.0:
+**New features in 2.0**:
 - Add more than one employer.
 - If more than one employer is added, order jobs by employer or deadline.
 - Define which employers are available in the block, using the `jobbnorge_employers` filter:
