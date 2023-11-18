@@ -1,6 +1,6 @@
 # WP Jobbnorge Block
 
-> NOTE: Breaking change in 2.0.0: The Public Jobbnorge API is used, and you will have to use and add the employerID. You get the employerID from your Jobbnorge contact.  The old block is still available in the 1.0 branch and releases.
+> **NOTE**: Breaking change in 2.0.0: The Public Jobbnorge API is used, and you will have to use and add the employerID. You get the employerID from your Jobbnorge contact.  The old block is still available in the 1.0 branch and releases.
 
 > Also available at https://wordpress.org/plugins/jobbnorge-block/
 
