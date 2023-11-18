@@ -8,46 +8,93 @@ Stable tag:        2.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-List jobs from Jobbnorge.no
+This WordPress plugin adds a block to the Gutenberg editor that displays a list of jobs from Jobbnorge.
 
 == Description ==
+
+In 2.0 the new Jobbnorge API is used, and the following features are available ( ~~strikethrough~~ means removed, since it's not in the new API):
 
 -   Sort jobs bye deadline, closest first.
 -   Does not show jobs that are past the deadline.
 -   Set the number of jobs to display.
--   Set the number of words in the excerpt.
+-   ~~Set the number of words in the excerpt.~~
 -   Set the no jobs message.
 -   Show or hide the job excerpt.
 -   Show or hide the job deadline.
 -   Show or hide the job scope.
--   Show or hide the job duration.
+-   ~~Show or hide the job duration.~~
 -   Display the jobs in a grid or list view.
 -   Set the number of columns in the grid view.
 
+**New features in 2.0**:
+- Add more than one employer.
+- If more than one employer is added, order jobs by employer or deadline.
+- Define which employers are available in the block, using the `jobbnorge_employers` filter.
+
+= Filter =
+
+`jobbnorge_employers`
+
+The `jobbnorge_employers` filter can be used to define which employers are available in the block: 
+`
+add_filter( 'jobbnorge_employers', function( $employers ) {
+	$employers = [
+		[
+			'label'    => 'Select employer',
+			'value'    => '',
+			'disabled' => true, // Optional.
+		],
+		[
+			'label' => 'Employer 1',
+			'value' => '1234',
+		],
+		[
+			'label' => 'Employer 2',
+			'value' => '5678',
+		],
+	];
+	return $employers;
+} );
+`
+
+= GitHub =
+
+The plugin is also available on GitHub: https://github.com/dss-web/jobbnorge-block
+
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/wp-jobbnorge-block` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
+Either, add the block from the Block Directory:
 
-You'll find the block in the "widget" category, look for "Jobbnorge".
+1. To add a block from the Block Directory, navigate to the post editor. 
+1. Place your cursor where you would like a new block option. 
+1. Select the “Add Block” button in the top-left area of the editor screen. 
+1. Search for “Jobbnorge” and select the “Jobbnorge" block.
+
+Or, add the block from the WordPress admin:
+
+1. In the WordPress admin, go to the "Plugins" screen, click "Add New" and search for "Jobbnorge".
+1. Click "Install Now" and then "Activate Plugin".
+1. Use the Gutenberg editor to add the block to a page or post.
 
 == Frequently Asked Questions ==
 
-= Where's the block? =
+= Where to I find the employer ID? =
 
-The block is in the "widget" category, look for "Jobbnorge".
-
-= Jobbnorge RSS feed URL? =
-
-The URL should look like this, replace 123456789 with your id: `https://www.jobbnorge.no/apps/joblist/JobListBuilder.ashx?id=123456789&trid=1`
+You get it from your Jobbnorge contact.
 
 == Screenshots ==
 
-1. Add the Jobbnorge RSS feed URL to the block settings.
-2. Block settings.
-3. Grid view
+1. Install the block from the Block Directory.
+2. Add employer ID.
+3. Listview with options.
+4. Gridview with options.
+5. Custom Select field for employer ID.
 
 == Changelog ==
+
+= 2.0.0 =
+
+* BREAKING CHANGE, using the Public Jobbnorge API and you need to add the employer ID.
 
 = 1.0.12 =
 

@@ -1,4 +1,4 @@
-# WP Jobbnorge Block
+# Jobbnorge Block
 
 > **NOTE**: Breaking change in 2.0.0: The Public Jobbnorge API is used, and you will have to use and add the employerID. You get the employerID from your Jobbnorge contact.  The old block is still available in the 1.0 branch and releases.
 
@@ -127,10 +127,10 @@ Default styling is provided by the [`style.scss`](src/style.scss) file.
 
 ## Copyright and license
 
-WP Jobbnorge Block is copyright 2023 Per Søderlind
+The Jobbnorge Block is copyright 2023 Per Søderlind
 
-WP Jobbnorge Block is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
+The Jobbnorge Block is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 
-WP Jobbnorge Block is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+The Jobbnorge Block is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License along with the Extension. If not, see http://www.gnu.org/licenses/.
