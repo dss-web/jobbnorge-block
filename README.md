@@ -84,7 +84,7 @@ You'll find the block in the "widget" category, look for "Jobbnorge".
 -   Show or hide the job deadline.
 -   Show or hide the job scope.
 
-If you've added more than onw employer, you can order jobbs by employer or deadline.
+If you've added more than one employer, you can order jobbs by employer or deadline.
 
 [![Modify the block settings.](.wordpress-org/screenshot-3.png)](.wordpress-org/screenshot-3.png)
 
