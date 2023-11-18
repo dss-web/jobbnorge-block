@@ -19,16 +19,27 @@ import { useState } from '@wordpress/element';
 import { grid, list, edit, people } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
-import { dispatch, select } from '@wordpress/data';
 
 import './editor.scss';
 
 const DEFAULT_MIN_ITEMS = 1;
 const DEFAULT_MAX_ITEMS = 100;
 
+/**
+ * Description placeholder
+ * @date 17/11/2023 - 16:21:26
+ *
+ * @export
+ * @param {{ attributes: any; setAttributes: any; }} param0
+ * @param {*} param0.attributes
+ * @param {*} param0.setAttributes
+ * @returns {*}
+ */
 export default function JobbnorgeEdit({ attributes, setAttributes }) {
+	// Initialize the isEditing state variable. If the employerID attribute is not set, isEditing will be true.
 	const [isEditing, setIsEditing] = useState(!attributes.employerID);
 
+	// Destructure the attributes object to get the individual attributes.
 	const {
 		blockLayout,
 		columns,
@@ -42,6 +53,8 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 		orderBy,
 	} = attributes;
 
+	// Define a function to toggle an attribute.
+	// This function returns another function that, when called, will toggle the value of the attribute specified by propName.
 	function toggleAttribute(propName) {
 		return () => {
 			const value = attributes[propName];
@@ -50,6 +63,8 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 		};
 	}
 
+	// Define a function to handle the form submission.
+	// This function will set the employerID attribute and set isEditing to false.
 	function onSubmitURL(event) {
 		event.preventDefault();
 
@@ -62,28 +77,16 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps();
 
 	if (isEditing) {
-		dispatch('core').addEntities([
-			{
-				name: 'jobbnorge/employers', // route name
-				kind: 'dss/v1', // namespace
-				baseURL: '/dss/v1/jobbnorge/employers', // API path without /wp-json
-				key: 'value', // unique identifier, the field in the in the REAT API response that contains an unique identifier.
-			},
-		]);
-
-		const employers = select('core').getEntityRecords('dss/v1', 'jobbnorge/employers', {
-			per_page: 100,
-		});
 		return (
 			<div {...blockProps}>
 				<Placeholder icon={people} label="Jobbnorge">
 					<form onSubmit={onSubmitURL} className="wp-block-dss-jobbnorge__placeholder-form">
-						{employers ? (
+						{window.wpJobbnorgeBlock && window.wpJobbnorgeBlock.employers ? (
 							<SelectControl
 								multiple
 								value={employerID.split(',')}
 								onChange={(value) => setAttributes({ employerID: value.toString() })}
-								options={(employers ?? []).map((o) => ({
+								options={(wpJobbnorgeBlock.employers ?? []).map((o) => ({
 									label: o.label,
 									value: o.value,
 									disabled: o?.disabled ?? false,
@@ -148,17 +151,6 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 						max={DEFAULT_MAX_ITEMS}
 						required
 					/>
-					{/*displayExcerpt && (
-						<RangeControl
-							__nextHasNoMarginBottom
-							label={__('Max number of words in excerpt', 'wp-jobbnorge-block')}
-							value={excerptLength}
-							onChange={(value) => setAttributes({ excerptLength: value })}
-							min={10}
-							max={100}
-							required
-						/>
-					)*/}
 					{employerID.includes(',') && (
 						<RadioControl
 							label={__('Order by', 'wp-jobbnorge-block')}
