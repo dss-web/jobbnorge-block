@@ -59,7 +59,7 @@ add_filter( 'jobbnorge_employers', function( $employers ) {
 
 = GitHub =
 
-The plugin is also available on GitHub: https://github.com/dss-web/jobbnorge-block
+The plugin is also available on [GitHub](https://github.com/dss-web/jobbnorge-block)
 
 == Installation ==
 
