@@ -78,6 +78,8 @@ You'll find the block in the "widget" category, look for "Jobbnorge".
 
 > You get the employerID from your Jobbnorge contact.
 
+Separate multiple employerIDs with a comma, or add employers using the [`jobbnorge_employers`](#filters) filter.
+
 [![Add the employerID to Jobbnorge.](.wordpress-org/screenshot-2.png)](.wordpress-org/screenshot-2.png)
 
 
