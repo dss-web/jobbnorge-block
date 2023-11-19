@@ -5,7 +5,7 @@
  * Description:       List jobs at jobbnorge.no
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           2.0.0
+ * Version:           2.1.0
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -15,6 +15,11 @@
  */
 
 namespace DSS\Jobbnorge;
+
+if ( ! \class_exists( 'Jobbnorge_CacheHandler' ) ) {
+	require_once __DIR__ . '/class-jobbnorge-cachehandler.php';
+}
+
 
 add_action( 'init', __NAMESPACE__ . '\dss_jobbnorge_init' );
 
@@ -169,24 +174,22 @@ function render_block_dss_jobbnorge( $attributes ) {
 		$jobbnorge_api_url .= '&employer=' . $id;
 	}
 
-	// Create a transient key based on the API URL.
-	$transient_key = md5( $jobbnorge_api_url );
+	$cache_path = apply_filters( 'jobbnorge_cache_path', WP_CONTENT_DIR . '/cache/jobbnorge' );
+	$cache      = new \Jobbnorge_CacheHandler( $cache_path );
 
-	// Try to get the response body from the transient.
-	$body = get_transient( $transient_key );
+	$cache_key  = md5( $jobbnorge_api_url );
+	$expiration = apply_filters( 'jobbnorge_cache_time', 30 * MINUTE_IN_SECONDS );
+	$body       = $cache->get( $cache_key, $expiration );
 
-	// If the transient does not exist, fetch the data from the API.
 	if ( false === $body ) {
 		$response = wp_remote_get( $jobbnorge_api_url );
 
-		// If there was an error with the request, return an error message.
 		if ( is_wp_error( $response ) ) {
 			return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Error connecting to Jobbnorge.no', 'wp-jobbnorge-block' ) . '</div></div>';
 		}
 
-		// Retrieve the body of the response and set the transient.
 		$body = wp_remote_retrieve_body( $response );
-		set_transient( $transient_key, $body, 5 * MINUTE_IN_SECONDS );
+		$cache->set( $cache_key, $body );
 	}
 
 	// Decode the JSON response and limit the number of items.

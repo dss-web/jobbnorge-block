@@ -4,7 +4,7 @@ Tags:              block
 Tested up to:      6.4
 Requires at least: 5.9
 Requires PHP:      7.4
-Stable tag:        2.0.0
+Stable tag:        2.1.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ In 2.0 the new Jobbnorge API is used, and the following features are available (
 - If more than one employer is added, order jobs by employer or deadline.
 - Define which employers are available in the block, using the `jobbnorge_employers` filter.
 
-= Filter =
+= Filters =
 
 `jobbnorge_employers`
 
@@ -56,6 +56,15 @@ add_filter( 'jobbnorge_employers', function( $employers ) {
 	return $employers;
 } );
 `
+
+`jobbnorge_cache_path`
+
+The `jobbnorge_cache_path` filter can be used to define the cache path. Default is `WP_CONTENT_DIR . '/cache/jobbnorge'`.
+
+`jobbnorge_cache_time`
+The `jobbnorge_cache_time` filter can be used to define the cache time. Default is `30 * MINUTE_IN_SECONDS`.
+
+
 
 = GitHub =
 
@@ -91,6 +100,11 @@ You get it from your Jobbnorge contact.
 5. Custom Select field for employer ID.
 
 == Changelog ==
+
+= 2.1.0 =
+
+* Use local cache. The local cache is a simple caching mechanism that stores data in PHP files. In theory, nothing is faster in PHP than loading and executing another PHP file. If you have PHP OPcache enabled, then the PHP content will be cached in memory, and the PHP file will not be parsed again.
+* Add filter for cache path and cache time.
 
 = 2.0.0 =
 
