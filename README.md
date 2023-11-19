@@ -6,7 +6,7 @@
 
 This WordPress plugin adds a block to the Gutenberg editor that displays a list of jobs from Jobbnorge.
 
-See: [Features](#features) | [Installation](#installation) | [Use](#use) | [Filters](#filters) | [Styling](#styling) | [License](#license)
+See: [Features](#features) | [Installation](#installation) | [Use](#use) | [Filters](#filters) | [Styling](#styling) | [License](#license) | [Changelog](CHANGELOG.md)
 
 
 <img src=".wordpress-org/jobbnorge.gif">
