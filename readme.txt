@@ -8,7 +8,7 @@ Stable tag:        2.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-This WordPress plugin adds a block to the Gutenberg editor that displays a list of jobs from Jobbnorge.
+Retrieve and display job listings from Jobbnorge.no
 
 == Description ==
 
