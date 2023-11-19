@@ -97,6 +97,56 @@ If you've added more than one employer, you can order jobbs by employer or deadl
 
 [![Grid view.](.wordpress-org/screenshot-4.png)](.wordpress-org/screenshot-4.png)
 
+
+## Filters
+
+### `jobbnorge_employers`
+
+The `jobbnorge_employers` filter can be used to define which employers are available in the block: 
+
+```php
+add_filter( 'jobbnorge_employers', function( $employers ) {
+	$employers = [
+		[
+			'label'    => 'Select employer',
+			'value'    => '',
+			'disabled' => true, // Optional.
+		],
+		[
+			'label' => 'Employer 1',
+			'value' => '1234',
+		],
+		[
+			'label' => 'Employer 2',
+			'value' => '5678',
+		],
+	];
+	return $employers;
+} );
+```
+
+### `jobbnorge_cache_path`
+
+The `jobbnorge_cache_path` filter can be used to define the cache path. Default is `WP_CONTENT_DIR . '/cache/jobbnorge'`.
+
+```php
+add_filter( 'jobbnorge_cache_path', function( $path ) {
+	$path = WP_CONTENT_DIR . '/cache/jobbnorge';
+	return $path;
+} );
+```
+
+### `jobbnorge_cache_time`
+
+The `jobbnorge_cache_time` filter can be used to define the cache time. Default is `30 * MINUTE_IN_SECONDS`.
+
+```php
+add_filter( 'jobbnorge_cache_time', function( $time ) {
+	$time = 30 * MINUTE_IN_SECONDS;
+	return $time;
+} );
+```
+
 ## Styling
 
 The block html look like this, and uses the following classes for styling:
