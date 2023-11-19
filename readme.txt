@@ -33,7 +33,7 @@ In 2.0 the new Jobbnorge API is used, and the following features are available (
 
 = Filters =
 
-`jobbnorge_employers`
+**jobbnorge_employers**
 
 The `jobbnorge_employers` filter can be used to define which employers are available in the block: 
 
@@ -58,10 +58,12 @@ add_filter( 'jobbnorge_employers', function( $employers ) {
 } );
 `
 
-`jobbnorge_cache_path`
+**jobbnorge_cache_path**
+
 The `jobbnorge_cache_path` filter can be used to define the cache path. Default is `WP_CONTENT_DIR . '/cache/jobbnorge'`.
 
-`jobbnorge_cache_time`
+**jobbnorge_cache_time**
+
 The `jobbnorge_cache_time` filter can be used to define the cache time. Default is `30 * MINUTE_IN_SECONDS`.
 
 
