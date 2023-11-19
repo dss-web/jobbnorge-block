@@ -2,10 +2,10 @@
 /**
  * Plugin Name:       Jobbnorge Block
  * Plugin URI:        https://wordpress.org/plugins/jobbnorge-block/
- * Description:       List jobs at jobbnorge.no
+ * Description:       Retrieve and display job listings from Jobbnorge.no
  * Requires at least: 5.9
  * Requires PHP:      7.0
- * Version:           2.1.0
+ * Version:           2.1.1
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -124,13 +124,6 @@ function dss_jobbnorge_enqueue_scripts( string $hook_suffix ): void {
 	}
 }
 
-
-/**
- * Server-side rendering of the `jobbnorge` block.
- *
- * @package WordPress
- */
-
 /**
  * Renders the `jobbnorge` block on server.
  *
@@ -194,6 +187,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 
 	// Decode the JSON response and limit the number of items.
 	$items = json_decode( $body, true );
+	// Just get desired number of items.
 	$items = array_slice( $items, 0, $attributes['itemsToShow'] );
 
 	// If there are no items, return an error message.
@@ -208,7 +202,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 	foreach ( $items as $item ) {
 		// Sanitize and format the title.
 		$title = esc_html( trim( wp_strip_all_tags( $item['title'] ) ) );
-		$title = empty( $title ) ? __( '(no title)' ) : $title;
+		$title = empty( $title ) ? __( '(no title)', 'wp-jobbnorge-block' ) : $title;
 
 		// Sanitize the link.
 		$link = esc_url( $item['link'] );

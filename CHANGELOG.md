@@ -1,5 +1,9 @@
 # Cangelog
 
+## 2.1.1
+
+* Update translation.
+
 ## 2.1.0
 
 * Use local cache. The local is a simple caching mechanism that stores data in PHP files. In theory, nothing is faster in PHP than loading and executing another PHP file. If you have PHP OPcache enabled, then the PHP content will be cached in memory, and the PHP file will not be parsed again.

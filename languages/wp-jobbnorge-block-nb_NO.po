@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jobbnorge Block 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jobbnorge-block\n"
-"POT-Creation-Date: 2023-11-16T18:07:43+00:00\n"
-"PO-Revision-Date: 2023-11-16 19:09+0100\n"
+"POT-Creation-Date: 2023-11-19T23:00:42+00:00\n"
+"PO-Revision-Date: 2023-11-20 00:01+0100\n"
 "Last-Translator: Per Søderlind <per@soderlind.no>\n"
 "Language-Team: \n"
 "Language: nb_NO\n"
@@ -24,114 +24,118 @@ msgid "https://wordpress.org/plugins/jobbnorge-block/"
 msgstr "https://wordpress.org/plugins/jobbnorge-block/"
 
 #. Description of the plugin
-msgid "List jobs at jobbnorge.no"
-msgstr "Liste jobber på jobbnorge.no"
+msgid "Retrieve and display job listings from Jobbnorge.no"
+msgstr "Hente og vise stillingsannonser fra Jobbnorge.no"
 
 #. Author of the plugin
 msgid "PerS"
 msgstr "PerS"
 
-#: wp-jobb-norge.php:113
+#: wp-jobb-norge.php:159
 msgid "Invalid ID"
 msgstr "Ugyldig ID"
 
-#: wp-jobb-norge.php:128
+#: wp-jobb-norge.php:181
 msgid "Error connecting to Jobbnorge.no"
 msgstr "Feil ved tilkobling til Jobbnorge.no"
 
-#: wp-jobb-norge.php:140
+#: wp-jobb-norge.php:195
 msgid "No jobs found"
 msgstr "Ingen jobber funnet"
 
-#: wp-jobb-norge.php:160 build/init.js:1 src/edit.js:168
+#: wp-jobb-norge.php:205
+msgid "(no title)"
+msgstr "(ingen tittel)"
+
+#: wp-jobb-norge.php:226 build/init.js:1 src/edit.js:160
 msgid "Employer"
 msgstr "Arbeidsgiver"
 
-#: wp-jobb-norge.php:161
+#: wp-jobb-norge.php:227
 msgid "Scope"
 msgstr "Omfang"
 
-#: wp-jobb-norge.php:203
+#: wp-jobb-norge.php:282
 msgid "Read more"
 msgstr "Les mer"
 
-#: wp-jobb-norge.php:258
+#: wp-jobb-norge.php:353
 msgid "Deadline:"
 msgstr "Søknadsfrist:"
 
-#: build/init.js:1 src/edit.js:93
+#: build/init.js:1 src/edit.js:95
 msgid "Select employers to display. Ctrl + Click to select more than one."
 msgstr "Velg arbeidsgivere som skal vises. Ctrl + klikk for å velge flere enn én."
 
-#: build/init.js:1 src/edit.js:101
+#: build/init.js:1 src/edit.js:103
 msgid "Employer ID [,id2, id3, ..]"
 msgstr "Arbeidsgiver-ID [,id2, id3, ...]"
 
-#: build/init.js:1 src/edit.js:108
+#: build/init.js:1 src/edit.js:110
 msgid "Save"
 msgstr "Lagre"
 
-#: build/init.js:1 src/edit.js:119
+#: build/init.js:1 src/edit.js:121
 msgid "Edit Jobbnorge URL"
 msgstr "Rediger Jobbnorge URL"
 
-#: build/init.js:1 src/edit.js:124
+#: build/init.js:1 src/edit.js:126
 msgid "List view"
 msgstr "Listevisning"
 
-#: build/init.js:1 src/edit.js:130 src/edit.js:202
+#: build/init.js:1 src/edit.js:132 src/edit.js:195
 msgid "Grid view"
 msgstr "Rutemønster"
 
-#: build/init.js:1 src/edit.js:142
+#: build/init.js:1 src/edit.js:144
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: build/init.js:1 src/edit.js:145
+#: build/init.js:1 src/edit.js:147
 msgid "Number of items"
 msgstr "Antall oppføringer"
 
-#: build/init.js:1 src/edit.js:164
+#: build/init.js:1 src/edit.js:156
 msgid "Order by"
 msgstr "Sorter etter"
 
-#: build/init.js:1 src/edit.js:167
+#: build/init.js:1 src/edit.js:159
 msgid "Deadline"
 msgstr "Søknadsfrist"
 
-#: build/init.js:1 src/edit.js:173
+#: build/init.js:1 src/edit.js:166
 msgid "No jobs found message"
 msgstr "Ingen jobber funnet melding"
 
-#: build/init.js:1 src/edit.js:174
+#: build/init.js:1 src/edit.js:167
 msgid "Message to display if no jobs are found"
 msgstr "Melding som vises hvis ingen jobber er funnet"
 
-#: build/init.js:1 src/edit.js:175
+#: build/init.js:1 src/edit.js:168
 msgid "There are no jobs at this time."
 msgstr "Det er for tiden ingen ledige stillinger."
 
-#: build/init.js:1 src/edit.js:179
+#: build/init.js:1 src/edit.js:172
 msgid "Item"
 msgstr "Element"
 
-#: build/init.js:1 src/edit.js:181
+#: build/init.js:1 src/edit.js:174
 msgid "Display employer"
 msgstr "Vis arbeidsgiver"
 
-#: build/init.js:1 src/edit.js:186
+#: build/init.js:1 src/edit.js:179
 msgid "Display excerpt"
 msgstr "Vis utdrag"
 
-#: build/init.js:1 src/edit.js:191
+#: build/init.js:1 src/edit.js:184
 msgid "Display deadline"
 msgstr "Vis søknadsfrist"
 
-#: build/init.js:1 src/edit.js:196
+#: build/init.js:1 src/edit.js:189
 msgid "Display scope"
 msgstr "Vis omfang"
 
-#: build/init.js:1 src/edit.js:205
+#: build/init.js:1 src/edit.js:198
 msgid "Columns"
 msgstr "Kolonner"
 
@@ -154,3 +158,6 @@ msgstr "Jobbnorge"
 msgctxt "block keyword"
 msgid "jobbnorge.no"
 msgstr "jobbnorge.no"
+
+#~ msgid "List jobs at jobbnorge.no"
+#~ msgstr "Liste jobber på jobbnorge.no"
