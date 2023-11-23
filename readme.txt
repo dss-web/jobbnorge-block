@@ -99,9 +99,13 @@ You get it from your Jobbnorge contact.
 2. Add employer ID.
 3. Listview with options.
 4. Gridview with options.
-5. Custom Select field for employer ID.
+5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Alt-click (Windows) or Option-click (Mac) to select a range of employers.
 
 == Changelog ==
+
+= 2.1.2 =
+
+* Update translation.
 
 = 2.1.1 =
 

@@ -13,7 +13,7 @@
             "Employer": [
                 ""
             ],
-            "Select employers to display. Ctrl + Click to select more than one.": [
+            "Select employers to display. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Alt-click (Windows) or Option-click (Mac) to select a range of employers.": [
                 ""
             ],
             "Employer ID [,id2, id3, ..]": [

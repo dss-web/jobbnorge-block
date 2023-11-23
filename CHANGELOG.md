@@ -1,5 +1,9 @@
 # Cangelog
 
+## 2.1.2
+
+* Update translation.
+
 ## 2.1.1
 
 * Update translation.

@@ -53,6 +53,9 @@ In 2.0 the new Jobbnorge API is used, and the following features are available (
 	} );
 	```
 	<img src=".wordpress-org/screenshot-5.png">
+	
+	* Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers.
+	* Alt-click (Windows) or Option-click (Mac) to select a range of employers.
 
 ## Installation
 
