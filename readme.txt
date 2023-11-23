@@ -4,7 +4,7 @@ Tags:              block
 Tested up to:      6.4
 Requires at least: 5.9
 Requires PHP:      7.4
-Stable tag:        2.1.1
+Stable tag:        2.1.3
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,10 @@ You get it from your Jobbnorge contact.
 5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Alt-click (Windows) or Option-click (Mac) to select a range of employers.
 
 == Changelog ==
+
+= 2.1.3 =
+
+* Bump version.
 
 = 2.1.2 =
 
