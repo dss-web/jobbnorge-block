@@ -160,28 +160,27 @@ add_filter( 'jobbnorge_cache_time', function( $time ) {
 The block html look like this, and uses the following classes for styling:
 
 ```html
-<ul
-	class="wp-block-dss-jobbnorge is-grid columns-N has-excerpts has-deadline has-scope has-duration"
->
+<ul class="has-employer has-dates has-scope has-excerpts wp-block-dss-jobbnorge">
 	<li class="wp-block-dss-jobbnorge__item">
-		<div class="wp-block-dss-jobbnorge__item-title">
-			<a href="URL">Title</a>
-		</div>
+		<div class="wp-block-dss-jobbnorge__item-title"><a
+				href="https://www.jobbnorge.no/ledige-stillinger/stilling/XXXXXX">Title</a></div>
 		<div class="wp-block-dss-jobbnorge__item-meta">
-			<time datetime="" class="wp-block-dss-jobbnorge__item-deadline">
-				Date
-			</time>
-			<div class="wp-block-dss-jobbnorge__item-scope">Scope</div>
+			<div class="wp-block-dss-jobbnorge__item-employer">Employer</div>
+			<time datetime="2023-11-26T00:00:00+00:00" class="wp-block-dss-jobbnorge__item-deadline">Deadline:
+				1/1/1970</time>
+			<div class="wp-block-dss-jobbnorge__item-scope">Scope: Full time</div>
 		</div>
-		<div class="wp-block-dss-jobbnorge__item-excerpt">
-			Excerpt
-			<a href="URL">Read More</a>
+		<div class="wp-block-dss-jobbnorge__item-excerpt">The excerpt … <a
+				href="https://www.jobbnorge.no/ledige-stillinger/stilling/XXXXXX">Read more</a>
 		</div>
 	</li>
+	.
+	.
+	.
 </ul>
 ```
 
-`is-grid`, `columns-N` (N = 2-6), `has-excerpts`, `has-deadline`, `has-scope` and `has-duration` are added to the `<ul>` element depending on the block settings.
+`is-grid`, `columns-N` (N = 2-6), `has-employer`, `has-excerpts`, `has-deadline` and `has-scope` are added to the `<ul>` element depending on the block settings.
 
 Default styling is provided by the [`style.scss`](src/style.scss) file.
 
