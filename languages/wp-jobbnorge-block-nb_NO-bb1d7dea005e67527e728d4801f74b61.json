@@ -1,5 +1,5 @@
 {
-    "translation-revision-date": "2023-11-23 14:49+0100",
+    "translation-revision-date": "2023-11-28 13:09+0100",
     "generator": "WP-CLI\/2.9.0",
     "source": "src\/edit.js",
     "domain": "messages",
@@ -13,8 +13,8 @@
             "Employer": [
                 "Arbeidsgiver"
             ],
-            "Select employers to display. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Alt-click (Windows) or Option-click (Mac) to select a range of employers.": [
-                "Velg arbeidsgivere som skal vises. Ctrl-klikk (Windows) eller Cmd-klikk (Mac) for \u00e5 velge flere arbeidsgivere. Alt-klikk (Windows) eller Option-klikk (Mac) for \u00e5 velge et utvalg av arbeidsgivere."
+            "Select employers to display. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.": [
+                "Velg arbeidsgivere som skal vises. Ctrl-klikk (Windows) eller Cmd-klikk (Mac) for \u00e5 velge flere arbeidsgivere. Shift-klikk for \u00e5 velge et utvalg av arbeidsgivere."
             ],
             "Employer ID [,id2, id3, ..]": [
                 "Arbeidsgiver-ID [,id2, id3, ...]"
