@@ -1,5 +1,9 @@
 # Cangelog
 
+## 2.1.4
+
+* Update translation.
+
 ## 2.1.3
 
 * Bump version.

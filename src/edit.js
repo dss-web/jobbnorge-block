@@ -93,7 +93,7 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 								}))}
 								className="wp-block-dss-jobbnorge__placeholder-input"
 								help={__(
-									'Select employers to display. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Alt-click (Windows) or Option-click (Mac) to select a range of employers.',
+									'Select employers to display. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.',
 									'wp-jobbnorge-block'
 								)}
 								__nextHasNoMarginBottom
