@@ -1,5 +1,9 @@
 # Cangelog
 
+## 2.1.5
+
+* Add uninstall handler. Will remove the cache directory when the plugin is uninstalled.
+
 ## 2.1.4
 
 * Update translation.

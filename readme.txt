@@ -4,7 +4,7 @@ Tags:              block
 Tested up to:      6.4
 Requires at least: 5.9
 Requires PHP:      7.4
-Stable tag:        2.1.4
+Stable tag:        2.1.5
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,10 @@ You get it from your Jobbnorge contact.
 5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.
 
 == Changelog ==
+
+= 2.1.5 =
+
+* Add uninstall handler. Will remove the cache directory when the plugin is uninstalled.
 
 = 2.1.4 =
 
