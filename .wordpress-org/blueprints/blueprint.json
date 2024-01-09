@@ -15,7 +15,7 @@
 			"step": "installPlugin",
 			"pluginZipFile": {
 				"resource": "wordpress.org\/plugins",
-				"slug": "jsonnorge-block"
+				"slug": "jobbnorge-block"
 			},
 			"options": {
 				"activate": true
