@@ -20,10 +20,6 @@
 			"options": {
 				"activate": true
 			}
-		},
-		{
-			"step": "runPHP",
-			"code": "<?php require '/wordpress/wp-load.php'; wp_update_post( array('ID' => 2, 'post_title'    => 'Jobbnorge','post_content'  => 'TEST' ) );"
 		}
 	]
 }
