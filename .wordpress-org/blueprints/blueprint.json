@@ -23,7 +23,7 @@
 		},
 		{
 			"step": "runPHP",
-			"code": "<?php require '/wordpress/wp-load.php'; wp_update_post( array('ID' => 2, 'post_title'    => 'Jobbnorge','post_content'  => '<!-- wp:dss/jobbnorge {\"employerID\":\"1981,1992,1980,2770,1989,1994,1986,1984,1985,1987,1996,1988,1982,1983,1995,1993,1991\"} /-->' ) );"
+			"code": "<?php require '/wordpress/wp-load.php'; wp_update_post( array('ID' => 2, 'post_title'    => 'Jobbnorge','post_content'  => 'TEST' ) );"
 		}
 	]
 }
