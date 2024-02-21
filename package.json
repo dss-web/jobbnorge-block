@@ -26,7 +26,7 @@
 		"i18n": "npm run i18n-pot && npm run i18n-json && npm run i18n-mo"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^26.15.0"
+		"@wordpress/scripts": "^26.19.0"
 	},
 	"dependencies": {
 		"@soderlind/wp-project-version-sync": "^2.0.1",
