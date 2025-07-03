@@ -35,9 +35,9 @@ function dss_jobbnorge_init() {
 	// This function will be called when scripts and styles are enqueued for the admin panel.
 	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\dss_jobbnorge_enqueue_scripts' );
 
-	// Add the 'dss_jobbnorge_enqueue_scripts' function to the 'wp_enqueue_scripts' action hook.
+	// Add the 'dss_jobbnorge_enqueue_frontend_styles' function to the 'wp_enqueue_scripts' action hook.
 	// This function will be called when scripts and styles are enqueued for the front end of the site.
-	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\dss_jobbnorge_enqueue_scripts' );
+	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\dss_jobbnorge_enqueue_frontend_styles' );
 
 	// Load the plugin's text domain for internationalization.
 	// The second argument is set to false to not override the global locale.
@@ -92,10 +92,6 @@ function dss_jobbnorge_enqueue_scripts( string $hook_suffix ): void {
 		wp_enqueue_style( 'dss-jobbnorge-admin' );
 	}
 
-	// Register and enqueue a CSS file for the public view.
-	wp_register_style( 'dss-jobbnorge', plugin_dir_url( __FILE__ ) . 'build/style-init.css', [], $version );
-	wp_enqueue_style( 'dss-jobbnorge' );
-
 	// Set translations for the script.
 	wp_set_script_translations(
 		'dss-jobbnorge-editor-script', // Handle = block.json "name" (replace / with -) + "-editor-script".
@@ -122,6 +118,30 @@ function dss_jobbnorge_enqueue_scripts( string $hook_suffix ): void {
 			]
 		);
 	}
+}
+
+/**
+ * Enqueue frontend styles for the block
+ *
+ * @return void
+ */
+function dss_jobbnorge_enqueue_frontend_styles(): void {
+	// Define the path to the dependencies file.
+	$deps_file = plugin_dir_path( __FILE__ ) . 'build/init.asset.php';
+
+	// Initialize version number.
+	$version = wp_rand();
+
+	// Check if the dependencies file exists.
+	if ( file_exists( $deps_file ) ) {
+		// If it does, require it and get the version.
+		$file    = require $deps_file;
+		$version = $file[ 'version' ];
+	}
+
+	// Register and enqueue a CSS file for the public view.
+	wp_register_style( 'dss-jobbnorge', plugin_dir_url( __FILE__ ) . 'build/style-init.css', [], $version );
+	wp_enqueue_style( 'dss-jobbnorge' );
 }
 
 /**
@@ -273,27 +293,25 @@ function render_block_dss_jobbnorge( $attributes ) {
 		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$title}{$meta}{$excerpt}</li>";
 	}
 
-	// Initialize an array for the classnames.
-	$classnames = [];
+	// Get the block wrapper attributes (without grid classes)
+	$wrapper_classes = [];
+	add_classname( $wrapper_classes, $attributes, 'displayEmployer', 'has-employer' );
+	add_classname( $wrapper_classes, $attributes, 'displayDate', 'has-dates' );
+	add_classname( $wrapper_classes, $attributes, 'displayDeadline', 'has-deadline' );
+	add_classname( $wrapper_classes, $attributes, 'displayScope', 'has-scope' );
+	add_classname( $wrapper_classes, $attributes, 'displayExcerpt', 'has-excerpts' );
 
-	// If the blockLayout attribute is 'grid', add the 'is-grid' and 'columns-' classes.
-	if ( 'grid' === $attributes[ 'blockLayout' ] ) {
-		add_classname( $classnames, $attributes, 'blockLayout', 'is-grid' );
-		add_classname( $classnames, $attributes, 'columns', 'columns-' . $attributes[ 'columns' ] );
-	}
-
-	// Add the 'has-' classes based on the display attributes.
-	add_classname( $classnames, $attributes, 'displayEmployer', 'has-employer' );
-	add_classname( $classnames, $attributes, 'displayDate', 'has-dates' );
-	add_classname( $classnames, $attributes, 'displayDeadline', 'has-deadline' );
-	add_classname( $classnames, $attributes, 'displayScope', 'has-scope' );
-	add_classname( $classnames, $attributes, 'displayExcerpt', 'has-excerpts' );
-
-	// Get the block wrapper attributes and add the classnames to it.
 	$wrapper_attributes = get_block_wrapper_attributes( [ 
-		'class'           => implode( ' ', $classnames ),
+		'class'           => implode( ' ', $wrapper_classes ),
 		'data-attributes' => esc_attr( json_encode( $attributes ) ),
 	] );
+
+	// Generate the ul classes (including grid classes)
+	$ul_classes = [ 'wp-block-dss-jobbnorge' ];
+	if ( 'grid' === $attributes[ 'blockLayout' ] ) {
+		$ul_classes[] = 'is-grid';
+		$ul_classes[] = 'columns-' . $attributes[ 'columns' ];
+	}
 
 	// Generate pagination controls if enabled
 	$pagination_html = '';
@@ -302,7 +320,7 @@ function render_block_dss_jobbnorge( $attributes ) {
 	}
 
 	// Return the final HTML string, wrapping the list items in an unordered list.
-	return sprintf( '<div %s><ul class="wp-block-dss-jobbnorge__jobs">%s</ul>%s</div>', $wrapper_attributes, $list_items, $pagination_html );
+	return sprintf( '<div %s><ul class="%s">%s</ul>%s</div>', $wrapper_attributes, esc_attr( implode( ' ', $ul_classes ) ), $list_items, $pagination_html );
 }
 
 /**
