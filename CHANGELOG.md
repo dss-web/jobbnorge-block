@@ -1,4 +1,19 @@
-# Cangelog
+# Changelog
+
+## 2.2.0
+
+* **NEW**: Add frontend pagination support with AJAX loading
+* **NEW**: Add pagination controls (enable/disable, jobs per page setting)
+* **ENHANCEMENT**: Upgrade to Jobbnorge API v3 for better performance
+* **ENHANCEMENT**: Implement PHP-based pagination to work around API limitations with employer filtering
+* **ENHANCEMENT**: Add responsive grid layout that adapts to screen size
+* **ENHANCEMENT**: Improve cache key logic to include pagination and layout parameters
+* **ENHANCEMENT**: Add loading states and error handling for pagination
+* **ENHANCEMENT**: Separate frontend and admin CSS loading for better performance
+* **FIX**: Fix CSS class naming conflicts that prevented grid view from working on frontend
+* **FIX**: Resolve frontend style loading issues
+* **DEVELOPER**: Add comprehensive webpack build configuration for multiple entry points
+* **DEVELOPER**: Add pagination JavaScript with proper AJAX handling and nonce security
 
 ## 2.1.5
 

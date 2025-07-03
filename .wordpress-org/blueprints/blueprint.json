@@ -1,26 +1,35 @@
 {
 	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
-	"landingPage": "\/wp-admin\/post.php?post=2&action=edit",
+	"_comment1": "This is the landing page URL, Also see the runPHP step below",
+	"landingPage": "/wp-admin/post.php?post=2&action=edit",
+	"_comment2": "These are the preferred versions for PHP and WordPress",
 	"preferredVersions": {
 		"php": "8.1",
 		"wp": "latest"
 	},
+	"_comment3": "These are the PHP extension bundles",
 	"phpExtensionBundles": [
+		"_comment3.1": "kitchen-sink = gd, mbstring, iconv, openssl, libxml, xml, dom, simplexml, xmlreader and xmlwriter",
 		"kitchen-sink"
 	],
+	"_comment4": "These are the features",
 	"features": {
+		"_comment4.1": "Network access is required. The plugin needs access to the Jobbnorge API",
 		"networking": true
 	},
+	"_comment5": "These are the steps",
 	"steps": [
 		{
+			"_comment5.1": "This is the login step",
 			"step": "login",
 			"username": "admin",
 			"password": "password"
 		},
 		{
+			"_comment5.2": "This is the plugin installation step",
 			"step": "installPlugin",
 			"pluginZipFile": {
-				"resource": "wordpress.org\/plugins",
+				"resource": "wordpress.org/plugins",
 				"slug": "jobbnorge-block"
 			},
 			"options": {
@@ -28,6 +37,7 @@
 			}
 		},
 		{
+			"_comment5.3": "Use wp_update_post. post ID 2 exists (default sample page), I updated it with my content and made it my landing page",
 			"step": "runPHP",
 			"code": "<?php require '/wordpress/wp-load.php'; wp_update_post( array('ID' => 2, 'post_title'    => 'Jobbnorge','post_content'  => '<!-- wp:dss/jobbnorge {\"employerID\":\"1981,1992,1980,2770,1989,1994,1986,1984,1985,1987,1996,1988,1982,1983,1995,1993,1991\"} /-->' ) );"
 		}

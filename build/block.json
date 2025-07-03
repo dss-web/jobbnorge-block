@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 2,
   "name": "dss/jobbnorge",
-  "version": "2.1.5",
+  "version": "2.2.0",
   "title": "Jobbnorge",
   "category": "widgets",
   "icon": "people",
@@ -62,10 +62,18 @@
     "excerptLength": {
       "type": "number",
       "default": 55
+    },
+    "enablePagination": {
+      "type": "boolean",
+      "default": true
+    },
+    "jobsPerPage": {
+      "type": "number",
+      "default": 10
     }
   },
   "textdomain": "wp-jobbnorge-block",
   "editorScript": "file:init.js",
-  "editorStyle": "file:editor.scss",
-  "style": "file:style.scss"
+  "editorStyle": "file:editor.css",
+  "style": "file:style-init.css"
 }

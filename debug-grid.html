@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Grid CSS Debug Test</title>
+	<link rel="stylesheet" href="build/style-init.css">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 2em;
+			background: #f0f0f0;
+		}
+
+		.test-section {
+			margin: 2em 0;
+			padding: 1em;
+			background: white;
+			border: 1px solid #ddd;
+		}
+
+		/* Debug borders */
+		ul.wp-block-dss-jobbnorge.is-grid {
+			border: 3px solid red !important;
+		}
+
+		ul.wp-block-dss-jobbnorge.is-grid li {
+			border: 1px solid blue !important;
+			min-height: 100px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Grid CSS Debug Test</h1>
+
+	<div class="test-section">
+		<h2>Grid Layout Test (should show red border around ul, blue borders around li items)</h2>
+		<div class="wp-block-dss-jobbnorge has-employer has-dates has-excerpts">
+			<ul class="wp-block-dss-jobbnorge is-grid columns-3">
+				<li class="wp-block-dss-jobbnorge__item">
+					<div class="wp-block-dss-jobbnorge__item-title">
+						<a href="#">Software Developer</a>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-meta">
+						<div class="wp-block-dss-jobbnorge__item-employer">Employer: Tech Company A</div>
+						<time class="wp-block-dss-jobbnorge__item-deadline">Deadline: 2024-03-15</time>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-excerpt">
+						Exciting opportunity for a skilled developer...
+					</div>
+				</li>
+				<li class="wp-block-dss-jobbnorge__item">
+					<div class="wp-block-dss-jobbnorge__item-title">
+						<a href="#">Project Manager</a>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-meta">
+						<div class="wp-block-dss-jobbnorge__item-employer">Employer: Business Corp</div>
+						<time class="wp-block-dss-jobbnorge__item-deadline">Deadline: 2024-03-20</time>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-excerpt">
+						Lead innovative projects...
+					</div>
+				</li>
+				<li class="wp-block-dss-jobbnorge__item">
+					<div class="wp-block-dss-jobbnorge__item-title">
+						<a href="#">UX Designer</a>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-meta">
+						<div class="wp-block-dss-jobbnorge__item-employer">Employer: Design Studio</div>
+						<time class="wp-block-dss-jobbnorge__item-deadline">Deadline: 2024-03-25</time>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-excerpt">
+						Create amazing user experiences...
+					</div>
+				</li>
+				<li class="wp-block-dss-jobbnorge__item">
+					<div class="wp-block-dss-jobbnorge__item-title">
+						<a href="#">Frontend Developer</a>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-meta">
+						<div class="wp-block-dss-jobbnorge__item-employer">Employer: Web Agency</div>
+						<time class="wp-block-dss-jobbnorge__item-deadline">Deadline: 2024-03-30</time>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-excerpt">
+						Build amazing user interfaces...
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="test-section">
+		<h2>List Layout Test (should show normal vertical list)</h2>
+		<div class="wp-block-dss-jobbnorge has-employer has-dates has-excerpts">
+			<ul class="wp-block-dss-jobbnorge">
+				<li class="wp-block-dss-jobbnorge__item">
+					<div class="wp-block-dss-jobbnorge__item-title">
+						<a href="#">Software Developer</a>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-meta">
+						<div class="wp-block-dss-jobbnorge__item-employer">Employer: Tech Company A</div>
+						<time class="wp-block-dss-jobbnorge__item-deadline">Deadline: 2024-03-15</time>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-excerpt">
+						Exciting opportunity for a skilled developer...
+					</div>
+				</li>
+				<li class="wp-block-dss-jobbnorge__item">
+					<div class="wp-block-dss-jobbnorge__item-title">
+						<a href="#">Project Manager</a>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-meta">
+						<div class="wp-block-dss-jobbnorge__item-employer">Employer: Business Corp</div>
+						<time class="wp-block-dss-jobbnorge__item-deadline">Deadline: 2024-03-20</time>
+					</div>
+					<div class="wp-block-dss-jobbnorge__item-excerpt">
+						Lead innovative projects...
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="test-section">
+		<h2>Debug Info</h2>
+		<p><strong>If grid is working:</strong></p>
+		<ul>
+			<li>The first section should show jobs in 3 columns on desktop (red border around ul)</li>
+			<li>Each job should have a blue border</li>
+			<li>Jobs should be side by side, not stacked vertically</li>
+		</ul>
+		<p><strong>If grid is NOT working:</strong></p>
+		<ul>
+			<li>All jobs will be stacked vertically</li>
+			<li>The red border might not show or be very thin</li>
+			<li>CSS isn't loading or grid classes aren't working</li>
+		</ul>
+	</div>
+</body>
+
+</html>

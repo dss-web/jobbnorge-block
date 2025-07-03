@@ -7,7 +7,8 @@ $break-small: 600px;
 }
 
 
-ul.wp-block-dss-jobbnorge { // The ul is needed for specificity to override the reset styles in the editor.
+ul.wp-block-dss-jobbnorge {
+	// The ul is needed for specificity to override the reset styles in the editor.
 	list-style: none;
 	padding: 0;
 
@@ -20,13 +21,16 @@ ul.wp-block-dss-jobbnorge { // The ul is needed for specificity to override the 
 		/*rtl:ignore*/
 		margin-right: 2em;
 	}
+
 	&.alignright {
 		/*rtl:ignore*/
 		margin-left: 2em;
 	}
+
 	li {
 		margin: 0 0 1em 0;
 	}
+
 	&.is-grid {
 		display: flex;
 		flex-wrap: wrap;
@@ -42,7 +46,7 @@ ul.wp-block-dss-jobbnorge { // The ul is needed for specificity to override the 
 	@include break-small {
 		@for $i from 2 through 6 {
 			&.columns-#{ $i } li {
-				width: calc(( 100% / #{ $i } ) - 1em);
+				width: calc((100% / #{ $i }) - 1em);
 			}
 		}
 	}
@@ -62,9 +66,104 @@ ul.wp-block-dss-jobbnorge { // The ul is needed for specificity to override the 
 
 .wp-block-dss-jobbnorge__item-employer,
 .wp-block-dss-jobbnorge__item-deadline,
-.wp-block-dss-jobbnorge__item-scope{
+.wp-block-dss-jobbnorge__item-scope {
 	display: block;
 	font-weight: 600;
 	font-size: 0.8125em;
 }
 
+// Pagination styles
+.wp-block-dss-jobbnorge {
+	&__pagination {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		margin-top: 2rem;
+		padding: 1rem 0;
+		border-top: 1px solid #e0e0e0;
+
+		@include break-small {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+		}
+	}
+
+	&__pagination-info {
+		font-size: 0.875rem;
+		color: #666;
+		margin: 0;
+	}
+
+	&__pagination-controls {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+
+		button {
+			padding: 0.5rem 1rem;
+			border: 1px solid #ddd;
+			background: white;
+			cursor: pointer;
+			border-radius: 4px;
+			font-size: 0.875rem;
+			transition: all 0.2s ease;
+
+			&:hover:not(:disabled) {
+				background: #f5f5f5;
+				border-color: #999;
+			}
+
+			&:disabled {
+				opacity: 0.5;
+				cursor: not-allowed;
+			}
+		}
+
+		.wp-block-dss-jobbnorge__pagination-info {
+			font-size: 0.875rem;
+			color: #333;
+			margin: 0 0.5rem;
+		}
+	}
+
+	// Loading state
+	&__loading {
+		opacity: 0.6;
+		pointer-events: none;
+
+		&::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 20px;
+			height: 20px;
+			margin: -10px 0 0 -10px;
+			border: 2px solid #ccc;
+			border-top-color: #333;
+			border-radius: 50%;
+			animation: spin 1s linear infinite;
+		}
+	}
+
+	// Error message
+	&__error {
+		margin: 1rem 0;
+		padding: 0.75rem;
+		background: #ffebe8;
+		border: 1px solid #d63638;
+		border-radius: 4px;
+		color: #d63638;
+
+		p {
+			margin: 0;
+		}
+	}
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
