@@ -1,4 +1,5 @@
 $break-medium: 782px;
+$break-small: 600px;
 $grid-unit: 8px;
 $grid-unit-10: 1 * $grid-unit; // 8px
 
@@ -8,7 +9,13 @@ $grid-unit-10: 1 * $grid-unit; // 8px
 	}
 }
 
-.wp-block-dss-jobbnorge li a > div {
+@mixin break-small() {
+	@media (min-width: #{ ($break-small) }) {
+		@content;
+	}
+}
+
+.wp-block-dss-jobbnorge li a>div {
 	display: inline;
 }
 
@@ -16,18 +23,16 @@ $grid-unit-10: 1 * $grid-unit; // 8px
 	display: flex;
 	align-items: stretch;
 
-	> * {
+	>* {
 		margin-bottom: $grid-unit-10;
 	}
 
 	@include break-medium() {
-		> * {
+		>* {
 			margin-bottom: 0;
 		}
 	}
 }
-
-
 
 .wp-block-dss-jobbnorge__placeholder-input {
 	display: flex;
@@ -40,5 +45,39 @@ $grid-unit-10: 1 * $grid-unit; // 8px
 		align-items: stretch;
 		flex-grow: 1;
 		margin-right: $grid-unit-10;
+	}
+}
+
+// Grid styles for the editor
+ul.wp-block-dss-jobbnorge {
+	list-style: none;
+	padding: 0;
+
+	&.wp-block-dss-jobbnorge {
+		box-sizing: border-box;
+	}
+
+	li {
+		margin: 0 0 1em 0;
+	}
+
+	&.is-grid {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 0;
+		list-style: none;
+
+		li {
+			margin: 0 1em 1em 0;
+			width: 100%;
+		}
+	}
+
+	@include break-small {
+		@for $i from 2 through 6 {
+			&.columns-#{ $i } li {
+				width: calc((100% / #{ $i }) - 1em);
+			}
+		}
 	}
 }

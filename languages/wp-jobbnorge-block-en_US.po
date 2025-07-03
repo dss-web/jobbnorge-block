@@ -1,162 +1,205 @@
-# Copyright (C) 2023 PerS
+# Copyright (C) 2025 PerS
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Jobbnorge Block 2.1.4\n"
+"Project-Id-Version: Jobbnorge Block 2.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jobbnorge-block\n"
 "Last-Translator: Per Søderlind <per@soderlind.no\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-28T12:11:37+00:00\n"
+"POT-Creation-Date: 2025-07-03T21:16:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-jobbnorge-block\n"
 
 #. Plugin Name of the plugin
+#: wp-jobb-norge.php
 msgid "Jobbnorge Block"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: wp-jobb-norge.php
 msgid "https://wordpress.org/plugins/jobbnorge-block/"
 msgstr ""
 
 #. Description of the plugin
+#: wp-jobb-norge.php
 msgid "Retrieve and display job listings from Jobbnorge.no"
 msgstr ""
 
 #. Author of the plugin
+#: wp-jobb-norge.php
 msgid "PerS"
 msgstr ""
 
-#: wp-jobb-norge.php:159
+#: wp-jobb-norge.php:181
 msgid "Invalid ID"
 msgstr ""
 
-#: wp-jobb-norge.php:181
+#: wp-jobb-norge.php:212
 msgid "Error connecting to Jobbnorge.no"
 msgstr ""
 
-#: wp-jobb-norge.php:195
+#: wp-jobb-norge.php:251
 msgid "No jobs found"
 msgstr ""
 
-#: wp-jobb-norge.php:205
+#: wp-jobb-norge.php:261
 msgid "(no title)"
 msgstr ""
 
-#: wp-jobb-norge.php:226
+#: wp-jobb-norge.php:282
 #: build/init.js:1
-#: src/edit.js:160
+#: src/edit.js:181
 msgid "Employer"
 msgstr ""
 
-#: wp-jobb-norge.php:227
+#: wp-jobb-norge.php:283
 msgid "Scope"
 msgstr ""
 
-#: wp-jobb-norge.php:282
+#: wp-jobb-norge.php:345
 msgid "Read more"
 msgstr ""
 
-#: wp-jobb-norge.php:353
+#: wp-jobb-norge.php:416
 msgid "Deadline:"
 msgstr ""
 
+#: wp-jobb-norge.php:556
+msgid "Job listings pagination"
+msgstr ""
+
+#: wp-jobb-norge.php:562
+#, php-format
+msgid "Showing %d-%d of %d jobs"
+msgstr ""
+
+#: wp-jobb-norge.php:577
+#: wp-jobb-norge.php:582
+msgid "Previous"
+msgstr ""
+
+#: wp-jobb-norge.php:590
+#, php-format
+msgid "Page %d of %d"
+msgstr ""
+
+#: wp-jobb-norge.php:601
+#: wp-jobb-norge.php:606
+msgid "Next"
+msgstr ""
+
 #: build/init.js:1
-#: src/edit.js:95
+#: src/edit.js:97
 msgid "Select employers to display. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers."
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:103
+#: src/edit.js:105
 msgid "Employer ID [,id2, id3, ..]"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:110
+#: src/edit.js:112
 msgid "Save"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:121
+#: src/edit.js:123
 msgid "Edit Jobbnorge URL"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:126
+#: src/edit.js:128
 msgid "List view"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:132
-#: src/edit.js:195
+#: src/edit.js:134
+#: src/edit.js:216
 msgid "Grid view"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:144
+#: src/edit.js:146
 msgid "Settings"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:147
-msgid "Number of items"
+#: src/edit.js:148
+msgid "Enable pagination"
+msgstr ""
+
+#: build/init.js:1
+#: src/edit.js:149
+msgid "When enabled, all jobs will be displayed with pagination controls. When disabled, only the specified number of jobs will be shown."
 msgstr ""
 
 #: build/init.js:1
 #: src/edit.js:156
-msgid "Order by"
-msgstr ""
-
-#: build/init.js:1
-#: src/edit.js:159
-msgid "Deadline"
-msgstr ""
-
-#: build/init.js:1
-#: src/edit.js:166
-msgid "No jobs found message"
+msgid "Number of items"
 msgstr ""
 
 #: build/init.js:1
 #: src/edit.js:167
+msgid "Jobs per page"
+msgstr ""
+
+#: build/init.js:1
+#: src/edit.js:177
+msgid "Order by"
+msgstr ""
+
+#: build/init.js:1
+#: src/edit.js:180
+msgid "Deadline"
+msgstr ""
+
+#: build/init.js:1
+#: src/edit.js:187
+msgid "No jobs found message"
+msgstr ""
+
+#: build/init.js:1
+#: src/edit.js:188
 msgid "Message to display if no jobs are found"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:168
+#: src/edit.js:189
 msgid "There are no jobs at this time."
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:172
+#: src/edit.js:193
 msgid "Item"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:174
+#: src/edit.js:195
 msgid "Display employer"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:179
+#: src/edit.js:200
 msgid "Display excerpt"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:184
+#: src/edit.js:205
 msgid "Display deadline"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:189
+#: src/edit.js:210
 msgid "Display scope"
 msgstr ""
 
 #: build/init.js:1
-#: src/edit.js:198
+#: src/edit.js:219
 msgid "Columns"
 msgstr ""
 

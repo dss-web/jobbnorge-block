@@ -1,6 +1,6 @@
 {
     "translation-revision-date": "YEAR-MO-DA HO:MI+ZONE",
-    "generator": "WP-CLI\/2.9.0",
+    "generator": "WP-CLI\/2.12.0",
     "source": "build\/init.js",
     "domain": "messages",
     "locale_data": {
@@ -34,7 +34,16 @@
             "Settings": [
                 ""
             ],
+            "Enable pagination": [
+                ""
+            ],
+            "When enabled, all jobs will be displayed with pagination controls. When disabled, only the specified number of jobs will be shown.": [
+                ""
+            ],
             "Number of items": [
+                ""
+            ],
+            "Jobs per page": [
                 ""
             ],
             "Order by": [

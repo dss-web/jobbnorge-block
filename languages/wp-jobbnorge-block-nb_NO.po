@@ -4,66 +4,92 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jobbnorge Block 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jobbnorge-block\n"
-"POT-Creation-Date: 2023-11-28T11:53:20+00:00\n"
-"PO-Revision-Date: 2023-11-28 13:09+0100\n"
+"POT-Creation-Date: 2025-07-03T21:00:36+00:00\n"
+"PO-Revision-Date: 2025-07-03 23:16+0200\n"
 "Last-Translator: Per Søderlind <per@soderlind.no>\n"
 "Language-Team: \n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 3.6\n"
 "X-Domain: wp-jobbnorge-block\n"
 
 #. Plugin Name of the plugin
+#: wp-jobb-norge.php
 msgid "Jobbnorge Block"
 msgstr "Jobbnorge-blokken"
 
 #. Plugin URI of the plugin
+#: wp-jobb-norge.php
 msgid "https://wordpress.org/plugins/jobbnorge-block/"
 msgstr "https://wordpress.org/plugins/jobbnorge-block/"
 
 #. Description of the plugin
+#: wp-jobb-norge.php
 msgid "Retrieve and display job listings from Jobbnorge.no"
 msgstr "Hente og vise stillingsannonser fra Jobbnorge.no"
 
 #. Author of the plugin
+#: wp-jobb-norge.php
 msgid "PerS"
 msgstr "PerS"
 
-#: wp-jobb-norge.php:159
+#: wp-jobb-norge.php:181
 msgid "Invalid ID"
 msgstr "Ugyldig ID"
 
-#: wp-jobb-norge.php:181
+#: wp-jobb-norge.php:212
 msgid "Error connecting to Jobbnorge.no"
 msgstr "Feil ved tilkobling til Jobbnorge.no"
 
-#: wp-jobb-norge.php:195
+#: wp-jobb-norge.php:251
 msgid "No jobs found"
 msgstr "Ingen jobber funnet"
 
-#: wp-jobb-norge.php:205
+#: wp-jobb-norge.php:261
 msgid "(no title)"
 msgstr "(ingen tittel)"
 
-#: wp-jobb-norge.php:226 build/init.js:1 src/edit.js:160
+#: wp-jobb-norge.php:282 build/init.js:1 src/edit.js:181
 msgid "Employer"
 msgstr "Arbeidsgiver"
 
-#: wp-jobb-norge.php:227
+#: wp-jobb-norge.php:283
 msgid "Scope"
 msgstr "Omfang"
 
-#: wp-jobb-norge.php:282
+#: wp-jobb-norge.php:345
 msgid "Read more"
 msgstr "Les mer"
 
-#: wp-jobb-norge.php:353
+#: wp-jobb-norge.php:416
 msgid "Deadline:"
 msgstr "Søknadsfrist:"
 
-#: build/init.js:1 src/edit.js:95
+#: wp-jobb-norge.php:556
+msgid "Job listings pagination"
+msgstr "Paginering av stillingsannonser"
+
+#: wp-jobb-norge.php:562
+#, php-format
+msgid "Showing %d-%d of %d jobs"
+msgstr "Viser %d-%d av %d jobber"
+
+#: wp-jobb-norge.php:577 wp-jobb-norge.php:582
+msgid "Previous"
+msgstr "Forrige"
+
+#: wp-jobb-norge.php:590
+#, php-format
+msgid "Page %d of %d"
+msgstr "Side %d av %d"
+
+#: wp-jobb-norge.php:601 wp-jobb-norge.php:606
+msgid "Next"
+msgstr "Neste"
+
+#: build/init.js:1 src/edit.js:97
 msgid ""
 "Select employers to display. Ctrl-click (Windows) or Cmd-click (Mac) to "
 "select multiple employers. Shift-click to select a range of employers."
@@ -72,75 +98,92 @@ msgstr ""
 "(Mac) for å velge flere arbeidsgivere. Shift-klikk for å velge et utvalg av "
 "arbeidsgivere."
 
-#: build/init.js:1 src/edit.js:103
+#: build/init.js:1 src/edit.js:105
 msgid "Employer ID [,id2, id3, ..]"
 msgstr "Arbeidsgiver-ID [,id2, id3, ...]"
 
-#: build/init.js:1 src/edit.js:110
+#: build/init.js:1 src/edit.js:112
 msgid "Save"
 msgstr "Lagre"
 
-#: build/init.js:1 src/edit.js:121
+#: build/init.js:1 src/edit.js:123
 msgid "Edit Jobbnorge URL"
 msgstr "Rediger Jobbnorge URL"
 
-#: build/init.js:1 src/edit.js:126
+#: build/init.js:1 src/edit.js:128
 msgid "List view"
 msgstr "Listevisning"
 
-#: build/init.js:1 src/edit.js:132 src/edit.js:195
+#: build/init.js:1 src/edit.js:134 src/edit.js:216
 msgid "Grid view"
 msgstr "Rutemønster"
 
-#: build/init.js:1 src/edit.js:144
+#: build/init.js:1 src/edit.js:146
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: build/init.js:1 src/edit.js:147
+#: build/init.js:1 src/edit.js:148
+msgid "Enable pagination"
+msgstr "Aktiver paginering"
+
+#: build/init.js:1 src/edit.js:149
+msgid ""
+"When enabled, all jobs will be displayed with pagination controls. When "
+"disabled, only the specified number of jobs will be shown."
+msgstr ""
+"Når denne funksjonen er aktivert, vises alle jobber med "
+"pagineringskontroller. Når den er deaktivert, vises bare det angitte "
+"antallet jobber."
+
+#: build/init.js:1 src/edit.js:156
 msgid "Number of items"
 msgstr "Antall oppføringer"
 
-#: build/init.js:1 src/edit.js:156
+#: build/init.js:1 src/edit.js:167
+msgid "Jobs per page"
+msgstr "Jobber per side"
+
+#: build/init.js:1 src/edit.js:177
 msgid "Order by"
 msgstr "Sorter etter"
 
-#: build/init.js:1 src/edit.js:159
+#: build/init.js:1 src/edit.js:180
 msgid "Deadline"
 msgstr "Søknadsfrist"
 
-#: build/init.js:1 src/edit.js:166
+#: build/init.js:1 src/edit.js:187
 msgid "No jobs found message"
 msgstr "Ingen jobber funnet melding"
 
-#: build/init.js:1 src/edit.js:167
+#: build/init.js:1 src/edit.js:188
 msgid "Message to display if no jobs are found"
 msgstr "Melding som vises hvis ingen jobber er funnet"
 
-#: build/init.js:1 src/edit.js:168
+#: build/init.js:1 src/edit.js:189
 msgid "There are no jobs at this time."
 msgstr "Det er for tiden ingen ledige stillinger."
 
-#: build/init.js:1 src/edit.js:172
+#: build/init.js:1 src/edit.js:193
 msgid "Item"
 msgstr "Element"
 
-#: build/init.js:1 src/edit.js:174
+#: build/init.js:1 src/edit.js:195
 msgid "Display employer"
 msgstr "Vis arbeidsgiver"
 
-#: build/init.js:1 src/edit.js:179
+#: build/init.js:1 src/edit.js:200
 msgid "Display excerpt"
 msgstr "Vis utdrag"
 
-#: build/init.js:1 src/edit.js:184
+#: build/init.js:1 src/edit.js:205
 msgid "Display deadline"
 msgstr "Vis søknadsfrist"
 
-#: build/init.js:1 src/edit.js:189
+#: build/init.js:1 src/edit.js:210
 msgid "Display scope"
 msgstr "Vis omfang"
 
-#: build/init.js:1 src/edit.js:198
+#: build/init.js:1 src/edit.js:219
 msgid "Columns"
 msgstr "Kolonner"
 
