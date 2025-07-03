@@ -51,6 +51,8 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 		itemsToShow,
 		noJobsMessage,
 		orderBy,
+		enablePagination,
+		jobsPerPage,
 	} = attributes;
 
 	// Define a function to toggle an attribute.
@@ -142,15 +144,34 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 			</BlockControls>
 			<InspectorControls>
 				<PanelBody title={__('Settings', 'wp-jobbnorge-block')}>
-					<RangeControl
-						__nextHasNoMarginBottom
-						label={__('Number of items', 'wp-jobbnorge-block')}
-						value={itemsToShow}
-						onChange={(value) => setAttributes({ itemsToShow: value })}
-						min={DEFAULT_MIN_ITEMS}
-						max={DEFAULT_MAX_ITEMS}
-						required
+					<ToggleControl
+						label={__('Enable pagination', 'wp-jobbnorge-block')}
+						help={__('When enabled, all jobs will be displayed with pagination controls. When disabled, only the specified number of jobs will be shown.', 'wp-jobbnorge-block')}
+						checked={enablePagination}
+						onChange={(value) => setAttributes({ enablePagination: value })}
 					/>
+					{!enablePagination && (
+						<RangeControl
+							__nextHasNoMarginBottom
+							label={__('Number of items', 'wp-jobbnorge-block')}
+							value={itemsToShow}
+							onChange={(value) => setAttributes({ itemsToShow: value })}
+							min={DEFAULT_MIN_ITEMS}
+							max={DEFAULT_MAX_ITEMS}
+							required
+						/>
+					)}
+					{enablePagination && (
+						<RangeControl
+							__nextHasNoMarginBottom
+							label={__('Jobs per page', 'wp-jobbnorge-block')}
+							value={jobsPerPage}
+							onChange={(value) => setAttributes({ jobsPerPage: value })}
+							min={1}
+							max={50}
+							required
+						/>
+					)}
 					{employerID.includes(',') && (
 						<RadioControl
 							label={__('Order by', 'wp-jobbnorge-block')}

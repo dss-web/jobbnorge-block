@@ -62,6 +62,14 @@
 		"excerptLength": {
 			"type": "number",
 			"default": 55
+		},
+		"enablePagination": {
+			"type": "boolean",
+			"default": true
+		},
+		"jobsPerPage": {
+			"type": "number",
+			"default": 10
 		}
 	},
 	"textdomain": "wp-jobbnorge-block",
