@@ -97,10 +97,14 @@
                 // Reinitialize pagination for the new content
                 initializePagination();
                 
-                // Scroll to top of block
-                container.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start' 
+                // Scroll to 2em above the top of the block
+                const containerRect = container.getBoundingClientRect();
+                const twoEm = parseFloat(getComputedStyle(document.documentElement).fontSize) * 2;
+                const targetPosition = window.pageYOffset + containerRect.top - twoEm;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
                 });
                 
                 // Update URL with page parameter (optional)

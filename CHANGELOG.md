@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.2.1
+
+* **FIX**: Fix grid view not working in editor and frontend by properly configuring CSS file references
+* **FIX**: Add grid styles to editor.scss to ensure grid layout works in WordPress block editor
+* **ENHANCEMENT**: Update webpack configuration to build editor and style CSS separately
+* **ENHANCEMENT**: Improve pagination scroll behavior to position 2em above block for better user experience
+
 ## 2.2.0
 
 * **NEW**: Add frontend pagination support with AJAX loading
