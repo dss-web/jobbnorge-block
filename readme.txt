@@ -4,7 +4,7 @@ Tags:              block
 Tested up to:      6.8
 Requires at least: 6.5
 Requires PHP:      8.2
-Stable tag:        2.2.0
+Stable tag:        2.2.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,13 @@ You get it from your Jobbnorge contact.
 5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.
 
 == Changelog ==
+
+= 2.2.1 =
+
+* FIX: Fix grid view not working in editor and frontend by properly configuring CSS file references
+* FIX: Add grid styles to editor.scss to ensure grid layout works in WordPress block editor
+* ENHANCEMENT: Update webpack configuration to build editor and style CSS separately
+* ENHANCEMENT: Improve pagination scroll behavior to position 2em above block for better user experience
 
 = 2.2.0 =
 
