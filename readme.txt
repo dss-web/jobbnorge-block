@@ -97,8 +97,8 @@ You get it from your Jobbnorge contact.
 
 1. Install the block from the Block Directory.
 2. Add employer ID.
-3. Listview with options.
-4. Gridview with options.
+3. Listview with pagination.
+4. Gridview with pagination.
 5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.
 
 == Changelog ==
