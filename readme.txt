@@ -4,7 +4,7 @@ Tags:              block
 Tested up to:      6.8
 Requires at least: 6.5
 Requires PHP:      8.2
-Stable tag:        2.2.1
+Stable tag:        2.2.2
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,10 @@ You get it from your Jobbnorge contact.
 5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.
 
 == Changelog ==
+
+= 2.2.2 =
+* Update block.json to include default value and role for employerID
+  This change ensures that users can edit the content of the blocks when the template has been locked for content-only editing.
 
 = 2.2.1 =
 
