@@ -90,6 +90,9 @@ Separate multiple employerIDs with a comma, or add employers using the [`jobbnor
 
 ### 2) Modify the block settings.
 
+-   In pagination mode (default), set the number of jobs to display per page (10 is default), else set the number of jobs to display.
+-   Sort jobs bye deadline, closest first.
+-   Does not show jobs that are past the deadline.
 -   Set the number of jobs to display.
 -   Set the no jobs message.
 -   Show or hide the employer name.

@@ -14,6 +14,7 @@ Retrieve and display job listings from Jobbnorge.no
 
 In 2.0 the new Jobbnorge API is used, and the following features are available ( ~~strikethrough~~ means removed, since it's not in the new API):
 
+-   In pagination mode (default), set the number of jobs to display per page (10 is default), else set the number of jobs to display.
 -   Sort jobs bye deadline, closest first.
 -   Does not show jobs that are past the deadline.
 -   Set the number of jobs to display.
