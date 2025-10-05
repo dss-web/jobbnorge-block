@@ -136,13 +136,10 @@
 					);
 				}
 			} )
-		.catch( function ( error ) {
+			.catch( function ( error ) {
 				// eslint-disable-next-line no-console
 				console.error( 'AJAX request error:', error );
-				showError(
-					container,
-					'An error occurred while loading the page.'
-				);
+				showError( container, 'An error occurred while loading the page.' );
 			} )
 			.finally( function () {
 				// Remove loading state

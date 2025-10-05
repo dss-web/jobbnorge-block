@@ -132,6 +132,7 @@ function render_block_dss_jobbnorge( $attributes ): string {
 	$expiration    = (int) apply_filters( 'jobbnorge_cache_time', 30 * MINUTE_IN_SECONDS );
 	$response_data = $cache->get( $cache_key, $expiration );
 	if ( false === $response_data ) {
+		// Perform remote request when no *fresh* cache. We'll attempt a stale cache fallback below if available.
 		$response = wp_remote_get( $jobbnorge_api_url, [
 			'timeout' => 10,
 			'headers' => [
@@ -139,16 +140,69 @@ function render_block_dss_jobbnorge( $attributes ): string {
 				'User-Agent' => 'JobbnorgeBlock/' . WP_JOBBNORGE_VERSION . ' ' . home_url( '/' ),
 			],
 		] );
-		if ( is_wp_error( $response ) ) {
-			return '<div class="components-placeholder"><div class="notice notice-error">' . esc_html__( 'Error connecting to Jobbnorge.no', 'wp-jobbnorge-block' ) . '</div></div>';
-		}
-		$body = wp_remote_retrieve_body( $response );
-		$tmp  = json_decode( $body, true );
-		if ( json_last_error() === JSON_ERROR_NONE && is_array( $tmp ) ) {
+
+		$http_status = ! is_wp_error( $response ) ? wp_remote_retrieve_response_code( $response ) : 0;
+		$body        = ! is_wp_error( $response ) ? wp_remote_retrieve_body( $response ) : '';
+		$tmp         = $body ? json_decode( $body, true ) : null;
+		$json_ok     = is_array( $tmp ) && json_last_error() === JSON_ERROR_NONE;
+
+		if ( ! is_wp_error( $response ) && $http_status >= 200 && $http_status < 300 && $json_ok ) {
+			// Happy path: cache and proceed.
 			$response_data = $tmp;
 			$cache->set( $cache_key, $response_data );
 		} else {
-			return '<div class="components-placeholder"><div class="notice notice-error">' . esc_html__( 'No jobs found', 'wp-jobbnorge-block' ) . '</div></div>';
+			// Attempt stale cache fallback: read cache file ignoring expiration.
+			$stale_data = null;
+			$cache_file = apply_filters( 'jobbnorge_cache_path', WP_CONTENT_DIR . '/cache/jobbnorge' ) . '/' . $cache_key . '.php';
+			if ( file_exists( $cache_file ) ) {
+				// Suppress errors; include returns data array.
+				$maybe_stale = @include $cache_file; // phpcs:ignore
+				if ( is_array( $maybe_stale ) ) {
+					$stale_data = $maybe_stale;
+				}
+			}
+
+			$error_type = 'unknown';
+			if ( is_wp_error( $response ) ) {
+				$error_type = 'network';
+			} elseif ( $http_status >= 500 ) {
+				$error_type = 'server';
+			} elseif ( $http_status === 404 ) {
+				$error_type = 'not_found';
+			} elseif ( $http_status >= 400 ) {
+				$error_type = 'client';
+			} elseif ( ! $json_ok ) {
+				$error_type = 'invalid_json';
+			}
+
+			/**
+			 * Fires when the Jobbnorge API request fails.
+			 *
+			 * @param string $error_type One of network|server|client|not_found|invalid_json|unknown.
+			 * @param int    $http_status HTTP status code (0 if network error).
+			 * @param string $api_url     Requested API URL.
+			 */
+			do_action( 'jobbnorge_api_request_failed', $error_type, $http_status, $jobbnorge_api_url );
+
+			if ( $stale_data ) {
+				// Provide gentle notice while still rendering stale data.
+				$response_data = $stale_data;
+				// Prepend a warning message that content may be outdated.
+				$stale_notice = '<div class="notice notice-warning jobbnorge-stale" role="alert">' . esc_html__( 'Showing cached results due to a temporary connection issue.', 'wp-jobbnorge-block' ) . '</div>';
+			} else {
+				// User-facing message depending on error type.
+				$human_msg = __( 'Error connecting to Jobbnorge.no', 'wp-jobbnorge-block' );
+				if ( 'not_found' === $error_type ) {
+					$human_msg = __( 'Job listings not found (404).', 'wp-jobbnorge-block' );
+				} elseif ( 'server' === $error_type ) {
+					$human_msg = __( 'Jobbnorge service temporarily unavailable.', 'wp-jobbnorge-block' );
+				} elseif ( 'client' === $error_type ) {
+					$human_msg = __( 'Request error retrieving jobs.', 'wp-jobbnorge-block' );
+				} elseif ( 'invalid_json' === $error_type ) {
+					$human_msg = __( 'Received invalid data from Jobbnorge.', 'wp-jobbnorge-block' );
+				}
+				return '<div class="components-placeholder"><div class="notice notice-error">' . esc_html( $human_msg ) . '</div></div>';
+			}
 		}
 	}
 
