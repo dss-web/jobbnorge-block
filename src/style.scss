@@ -1,6 +1,7 @@
 $break-small: 600px;
 
 @mixin break-small() {
+
 	@media (min-width: #{ ($break-small) }) {
 		@content;
 	}
@@ -12,17 +13,20 @@ ul.wp-block-dss-jobbnorge {
 	list-style: none;
 	padding: 0;
 
-	// This needs extra specificity due to the reset mixin on the parent: https://github.com/WordPress/gutenberg/blob/a250e9e5fe00dd5195624f96a3d924e7078951c3/packages/edit-post/src/style.scss#L54
+	// This needs extra specificity due to the reset mixin on the parent:
+	// See: https://github.com/WordPress/gutenberg/blob/a250e9e5fe00dd5195624f96a3d924e7078951c3/packages/edit-post/src/style.scss#L54
 	&.wp-block-dss-jobbnorge {
 		box-sizing: border-box;
 	}
 
 	&.alignleft {
+
 		/*rtl:ignore*/
 		margin-right: 2em;
 	}
 
 	&.alignright {
+
 		/*rtl:ignore*/
 		margin-left: 2em;
 	}
@@ -44,6 +48,7 @@ ul.wp-block-dss-jobbnorge {
 	}
 
 	@include break-small {
+
 		@for $i from 2 through 6 {
 			&.columns-#{ $i } li {
 				width: calc((100% / #{ $i }) - 1em);
@@ -74,6 +79,7 @@ ul.wp-block-dss-jobbnorge {
 
 // Pagination styles
 .wp-block-dss-jobbnorge {
+
 	&__pagination {
 		display: flex;
 		flex-direction: column;
@@ -103,20 +109,20 @@ ul.wp-block-dss-jobbnorge {
 		button {
 			padding: 0.5rem 1rem;
 			border: 1px solid #ddd;
-			background: white;
+			background: #fff; // replaced named color per stylelint
 			cursor: pointer;
 			border-radius: 4px;
 			font-size: 0.875rem;
 			transition: all 0.2s ease;
 
-			&:hover:not(:disabled) {
-				background: #f5f5f5;
-				border-color: #999;
-			}
-
 			&:disabled {
 				opacity: 0.5;
 				cursor: not-allowed;
+			}
+
+			&:hover:not(:disabled) {
+				background: #f5f5f5;
+				border-color: #999;
 			}
 		}
 
@@ -133,7 +139,7 @@ ul.wp-block-dss-jobbnorge {
 		pointer-events: none;
 
 		&::after {
-			content: '';
+			content: "";
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -163,6 +169,7 @@ ul.wp-block-dss-jobbnorge {
 }
 
 @keyframes spin {
+
 	to {
 		transform: rotate(360deg);
 	}
