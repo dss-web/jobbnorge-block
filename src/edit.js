@@ -1,7 +1,11 @@
 /**
  * WordPress dependencies
  */
-import { BlockControls, InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import {
+	BlockControls,
+	InspectorControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
 import {
 	Button,
 	Disabled,
@@ -25,19 +29,19 @@ import './editor.scss';
 const DEFAULT_MIN_ITEMS = 1;
 const DEFAULT_MAX_ITEMS = 100;
 
+/* eslint-disable jsdoc/check-line-alignment */
 /**
- * Description placeholder
- * @date 17/11/2023 - 16:21:26
+ * Jobbnorge block editor component.
  *
- * @export
- * @param {{ attributes: any; setAttributes: any; }} param0
- * @param {*} param0.attributes
- * @param {*} param0.setAttributes
- * @returns {*}
+ * @param {Object}      props              Component props.
+ * @param {Object}      props.attributes   Block attributes.
+ * @param {Function}    props.setAttributes Setter for block attributes.
+ * @return {JSX.Element} Editor element.
  */
-export default function JobbnorgeEdit({ attributes, setAttributes }) {
+/* eslint-enable jsdoc/check-line-alignment */
+export default function JobbnorgeEdit( { attributes, setAttributes } ) {
 	// Initialize the isEditing state variable. If the employerID attribute is not set, isEditing will be true.
-	const [isEditing, setIsEditing] = useState(!attributes.employerID);
+	const [ isEditing, setIsEditing ] = useState( ! attributes.employerID );
 
 	// Destructure the attributes object to get the individual attributes.
 	const {
@@ -57,59 +61,74 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 
 	// Define a function to toggle an attribute.
 	// This function returns another function that, when called, will toggle the value of the attribute specified by propName.
-	function toggleAttribute(propName) {
+	function toggleAttribute( propName ) {
 		return () => {
-			const value = attributes[propName];
+			const value = attributes[ propName ];
 
-			setAttributes({ [propName]: !value });
+			setAttributes( { [ propName ]: ! value } );
 		};
 	}
 
 	// Define a function to handle the form submission.
 	// This function will set the employerID attribute and set isEditing to false.
-	function onSubmitURL(event) {
+	function onSubmitURL( event ) {
 		event.preventDefault();
 
-		if (employerID) {
-			setAttributes({ employerID: employerID });
-			setIsEditing(false);
+		if ( employerID ) {
+			setAttributes( { employerID } );
+			setIsEditing( false );
 		}
 	}
 
 	const blockProps = useBlockProps();
 
-	if (isEditing) {
+	if ( isEditing ) {
 		return (
-			<div {...blockProps}>
-				<Placeholder icon={people} label="Jobbnorge">
-					<form onSubmit={onSubmitURL} className="wp-block-dss-jobbnorge__placeholder-form">
-						{window.wpJobbnorgeBlock && window.wpJobbnorgeBlock.employers ? (
+			<div { ...blockProps }>
+				<Placeholder icon={ people } label="Jobbnorge">
+					<form
+						onSubmit={ onSubmitURL }
+						className="wp-block-dss-jobbnorge__placeholder-form"
+					>
+						{ window.wpJobbnorgeBlock &&
+						window.wpJobbnorgeBlock.employers ? (
 							<SelectControl
 								multiple
-								value={employerID.split(',')}
-								onChange={(value) => setAttributes({ employerID: value.toString() })}
-								options={(wpJobbnorgeBlock.employers ?? []).map((o) => ({
+								value={ employerID.split( ',' ) }
+								onChange={ ( value ) =>
+									setAttributes( {
+										employerID: value.toString(),
+									} )
+								}
+								options={ (
+									window.wpJobbnorgeBlock?.employers ?? []
+								).map( ( o ) => ( {
 									label: o.label,
 									value: o.value,
 									disabled: o?.disabled ?? false,
-								}))}
+								} ) ) }
 								className="wp-block-dss-jobbnorge__placeholder-input"
-								help={__(
+								help={ __(
 									'Select employers to display. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.',
 									'wp-jobbnorge-block'
-								)}
+								) }
 								__nextHasNoMarginBottom
 							/>
 						) : (
 							<TextControl
-								placeholder={__('Employer ID [,id2, id3, ..]', 'wp-jobbnorge-block')}
-								value={employerID}
-								onChange={(value) => setAttributes({ employerID: value })}
+								placeholder={ __(
+									'Employer ID [,id2, id3, ..]',
+									'wp-jobbnorge-block'
+								) }
+								value={ employerID }
+								onChange={ ( value ) =>
+									setAttributes( { employerID: value } )
+								}
 								className="wp-block-dss-jobbnorge__placeholder-input"
 							/>
-						)}
+						) }
 						<Button variant="primary" type="submit">
-							{__('Save', 'wp-jobbnorge-block')}
+							{ __( 'Save', 'wp-jobbnorge-block' ) }
 						</Button>
 					</form>
 				</Placeholder>
@@ -120,19 +139,19 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 	const toolbarControls = [
 		{
 			icon: edit,
-			title: __('Edit Jobbnorge URL', 'wp-jobbnorge-block'),
-			onClick: () => setIsEditing(true),
+			title: __( 'Edit Jobbnorge URL', 'wp-jobbnorge-block' ),
+			onClick: () => setIsEditing( true ),
 		},
 		{
 			icon: list,
-			title: __('List view', 'wp-jobbnorge-block'),
-			onClick: () => setAttributes({ blockLayout: 'list' }),
+			title: __( 'List view', 'wp-jobbnorge-block' ),
+			onClick: () => setAttributes( { blockLayout: 'list' } ),
 			isActive: blockLayout === 'list',
 		},
 		{
 			icon: grid,
-			title: __('Grid view', 'wp-jobbnorge-block'),
-			onClick: () => setAttributes({ blockLayout: 'grid' }),
+			title: __( 'Grid view', 'wp-jobbnorge-block' ),
+			onClick: () => setAttributes( { blockLayout: 'grid' } ),
 			isActive: blockLayout === 'grid',
 		},
 	];
@@ -140,95 +159,149 @@ export default function JobbnorgeEdit({ attributes, setAttributes }) {
 	return (
 		<>
 			<BlockControls>
-				<ToolbarGroup controls={toolbarControls} />
+				<ToolbarGroup controls={ toolbarControls } />
 			</BlockControls>
 			<InspectorControls>
-				<PanelBody title={__('Settings', 'wp-jobbnorge-block')}>
+				<PanelBody title={ __( 'Settings', 'wp-jobbnorge-block' ) }>
 					<ToggleControl
-						label={__('Enable pagination', 'wp-jobbnorge-block')}
-						help={__('When enabled, all jobs will be displayed with pagination controls. When disabled, only the specified number of jobs will be shown.', 'wp-jobbnorge-block')}
-						checked={enablePagination}
-						onChange={(value) => setAttributes({ enablePagination: value })}
+						label={ __(
+							'Enable pagination',
+							'wp-jobbnorge-block'
+						) }
+						help={ __(
+							'When enabled, all jobs will be displayed with pagination controls. When disabled, only the specified number of jobs will be shown.',
+							'wp-jobbnorge-block'
+						) }
+						checked={ enablePagination }
+						onChange={ ( value ) =>
+							setAttributes( { enablePagination: value } )
+						}
 					/>
-					{!enablePagination && (
+					{ ! enablePagination && (
 						<RangeControl
 							__nextHasNoMarginBottom
-							label={__('Number of items', 'wp-jobbnorge-block')}
-							value={itemsToShow}
-							onChange={(value) => setAttributes({ itemsToShow: value })}
-							min={DEFAULT_MIN_ITEMS}
-							max={DEFAULT_MAX_ITEMS}
+							label={ __(
+								'Number of items',
+								'wp-jobbnorge-block'
+							) }
+							value={ itemsToShow }
+							onChange={ ( value ) =>
+								setAttributes( { itemsToShow: value } )
+							}
+							min={ DEFAULT_MIN_ITEMS }
+							max={ DEFAULT_MAX_ITEMS }
 							required
 						/>
-					)}
-					{enablePagination && (
+					) }
+					{ enablePagination && (
 						<RangeControl
 							__nextHasNoMarginBottom
-							label={__('Jobs per page', 'wp-jobbnorge-block')}
-							value={jobsPerPage}
-							onChange={(value) => setAttributes({ jobsPerPage: value })}
-							min={1}
-							max={50}
+							label={ __(
+								'Jobs per page',
+								'wp-jobbnorge-block'
+							) }
+							value={ jobsPerPage }
+							onChange={ ( value ) =>
+								setAttributes( { jobsPerPage: value } )
+							}
+							min={ 1 }
+							max={ 50 }
 							required
 						/>
-					)}
-					{employerID.includes(',') && (
+					) }
+					{ employerID.includes( ',' ) && (
 						<RadioControl
-							label={__('Order by', 'wp-jobbnorge-block')}
-							selected={orderBy}
-							options={[
-								{ label: __('Deadline', 'wp-jobbnorge-block'), value: 'Deadline' },
-								{ label: __('Employer', 'wp-jobbnorge-block'), value: 'Employer' },
-							]}
-							onChange={(value) => setAttributes({ orderBy: value })}
+							label={ __( 'Order by', 'wp-jobbnorge-block' ) }
+							selected={ orderBy }
+							options={ [
+								{
+									label: __(
+										'Deadline',
+										'wp-jobbnorge-block'
+									),
+									value: 'Deadline',
+								},
+								{
+									label: __(
+										'Employer',
+										'wp-jobbnorge-block'
+									),
+									value: 'Employer',
+								},
+							] }
+							onChange={ ( value ) =>
+								setAttributes( { orderBy: value } )
+							}
 						/>
-					)}
+					) }
 					<TextareaControl
-						label={__('No jobs found message', 'wp-jobbnorge-block')}
-						help={__('Message to display if no jobs are found', 'wp-jobbnorge-block')}
-						value={noJobsMessage || __('There are no jobs at this time.', 'wp-jobbnorge-block')}
-						onChange={(value) => setAttributes({ noJobsMessage: value })}
+						label={ __(
+							'No jobs found message',
+							'wp-jobbnorge-block'
+						) }
+						help={ __(
+							'Message to display if no jobs are found',
+							'wp-jobbnorge-block'
+						) }
+						value={
+							noJobsMessage ||
+							__(
+								'There are no jobs at this time.',
+								'wp-jobbnorge-block'
+							)
+						}
+						onChange={ ( value ) =>
+							setAttributes( { noJobsMessage: value } )
+						}
 					/>
 				</PanelBody>
-				<PanelBody title={__('Item', 'wp-jobbnorge-block')}>
+				<PanelBody title={ __( 'Item', 'wp-jobbnorge-block' ) }>
 					<ToggleControl
-						label={__('Display employer', 'wp-jobbnorge-block')}
-						checked={displayEmployer}
-						onChange={toggleAttribute('displayEmployer')}
+						label={ __( 'Display employer', 'wp-jobbnorge-block' ) }
+						checked={ displayEmployer }
+						onChange={ toggleAttribute( 'displayEmployer' ) }
 					/>
 					<ToggleControl
-						label={__('Display excerpt', 'wp-jobbnorge-block')}
-						checked={displayExcerpt}
-						onChange={toggleAttribute('displayExcerpt')}
+						label={ __( 'Display excerpt', 'wp-jobbnorge-block' ) }
+						checked={ displayExcerpt }
+						onChange={ toggleAttribute( 'displayExcerpt' ) }
 					/>
 					<ToggleControl
-						label={__('Display deadline', 'wp-jobbnorge-block')}
-						checked={displayDate}
-						onChange={toggleAttribute('displayDate')}
+						label={ __( 'Display deadline', 'wp-jobbnorge-block' ) }
+						checked={ displayDate }
+						onChange={ toggleAttribute( 'displayDate' ) }
 					/>
 					<ToggleControl
-						label={__('Display scope', 'wp-jobbnorge-block')}
-						checked={displayScope}
-						onChange={toggleAttribute('displayScope')}
+						label={ __( 'Display scope', 'wp-jobbnorge-block' ) }
+						checked={ displayScope }
+						onChange={ toggleAttribute( 'displayScope' ) }
 					/>
 				</PanelBody>
-				{blockLayout === 'grid' && (
-					<PanelBody title={__('Grid view', 'wp-jobbnorge-block')}>
+				{ blockLayout === 'grid' && (
+					<PanelBody
+						title={ __( 'Grid view', 'wp-jobbnorge-block' ) }
+					>
 						<RangeControl
 							__nextHasNoMarginBottom
-							label={__('Columns', 'wp-jobbnorge-block')}
-							value={columns}
-							onChange={(value) => setAttributes({ columns: value })}
-							min={2}
-							max={6}
+							label={ __( 'Columns', 'wp-jobbnorge-block' ) }
+							value={ columns }
+							onChange={ ( value ) =>
+								setAttributes( { columns: value } )
+							}
+							min={ 2 }
+							max={ 6 }
 							required
 						/>
 					</PanelBody>
-				)}
+				) }
 			</InspectorControls>
-			<div {...blockProps}>
+			<div { ...blockProps }>
 				<Disabled>
-					<ServerSideRender block="dss/jobbnorge" attributes={attributes} httpMethod="POST" />
+					<ServerSideRender
+						block="dss/jobbnorge"
+						attributes={ attributes }
+						httpMethod="POST"
+					/>
 				</Disabled>
 			</div>
 		</>

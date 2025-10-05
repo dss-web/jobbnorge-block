@@ -4,18 +4,20 @@ $grid-unit: 8px;
 $grid-unit-10: 1 * $grid-unit; // 8px
 
 @mixin break-medium() {
+
 	@media (min-width: #{ ($break-medium) }) {
 		@content;
 	}
 }
 
 @mixin break-small() {
+
 	@media (min-width: #{ ($break-small) }) {
 		@content;
 	}
 }
 
-.wp-block-dss-jobbnorge li a>div {
+.wp-block-dss-jobbnorge li a > div {
 	display: inline;
 }
 
@@ -28,6 +30,7 @@ $grid-unit-10: 1 * $grid-unit; // 8px
 	}
 
 	@include break-medium() {
+
 		>* {
 			margin-bottom: 0;
 		}
@@ -74,6 +77,7 @@ ul.wp-block-dss-jobbnorge {
 	}
 
 	@include break-small {
+
 		@for $i from 2 through 6 {
 			&.columns-#{ $i } li {
 				width: calc((100% / #{ $i }) - 1em);

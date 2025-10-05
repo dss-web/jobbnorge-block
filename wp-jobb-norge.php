@@ -3,324 +3,235 @@
  * Plugin Name:       Jobbnorge Block
  * Plugin URI:        https://wordpress.org/plugins/jobbnorge-block/
  * Description:       Retrieve and display job listings from Jobbnorge.no
- * Requires at least: 5.9
- * Requires PHP:      7.0
- * Version:           2.2.2
+ * Requires at least: 6.5
+ * Requires PHP:      8.2
+ * Version:           2.2.3
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       wp-jobbnorge-block
- *
  * @package           wp-jobbnorge-block
  */
 
 namespace DSS\Jobbnorge;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Safety.
+}
+
+if ( ! defined( 'WP_JOBBNORGE_VERSION' ) ) {
+	define( 'WP_JOBBNORGE_VERSION', '2.2.3' );
+}
+
 if ( ! \class_exists( 'Jobbnorge_CacheHandler' ) ) {
 	require_once __DIR__ . '/class-jobbnorge-cachehandler.php';
 }
 
-
-add_action( 'init', __NAMESPACE__ . '\dss_jobbnorge_init' );
+add_action( 'init', __NAMESPACE__ . '\\dss_jobbnorge_init' );
 
 /**
- * Registers the block using the metadata loaded from the `block.json` file.
- * Behind the scenes, it registers also all assets so they can be enqueued
- * through the block editor in the corresponding context.
- *
- * @see https://developer.wordpress.org/reference/functions/register_block_type/
+ * Init: register block + i18n + enqueue hooks.
  */
-function dss_jobbnorge_init() {
-	// Add the 'dss_jobbnorge_enqueue_scripts' function to the 'admin_enqueue_scripts' action hook.
-	// This function will be called when scripts and styles are enqueued for the admin panel.
-	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\dss_jobbnorge_enqueue_scripts' );
-
-	// Add the 'dss_jobbnorge_enqueue_frontend_styles' function to the 'wp_enqueue_scripts' action hook.
-	// This function will be called when scripts and styles are enqueued for the front end of the site.
-	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\dss_jobbnorge_enqueue_frontend_styles' );
-
-	// Load the plugin's text domain for internationalization.
-	// The second argument is set to false to not override the global locale.
-	// The third argument is the path to the plugin's languages directory.
+function dss_jobbnorge_init(): void {
 	load_plugin_textdomain( 'wp-jobbnorge-block', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
-	// Register the block type.
-	// The first argument is the path to the block's build directory.
-	// The second argument is an array of options for the block, including a render callback function.
-	register_block_type(
-		__DIR__ . '/build',
-		[ 
-			'render_callback' => __NAMESPACE__ . '\render_block_dss_jobbnorge',
-		]
-	);
+	register_block_type( __DIR__ . '/build', [ 'render_callback' => __NAMESPACE__ . '\\render_block_dss_jobbnorge' ] );
+
+	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\dss_jobbnorge_enqueue_scripts' );
+	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\dss_jobbnorge_enqueue_frontend_styles' );
+	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_pagination_script' );
 }
 
 /**
- * Enqueue block editor only JavaScript and CSS
- *
- * @param string $hook_suffix The current admin page.
- * @return void
+ * Editor assets.
  */
 function dss_jobbnorge_enqueue_scripts( string $hook_suffix ): void {
-
-	// Check if the current page is a post editing page.
-	if ( 'post.php' !== $hook_suffix && 'post-new.php' !== $hook_suffix && 'edit.php' !== $hook_suffix ) {
-		// If not, exit early.
+	if ( ! in_array( $hook_suffix, [ 'post.php', 'post-new.php', 'edit.php' ], true ) ) {
 		return;
 	}
-
-	// Define the path to the dependencies file.
 	$deps_file = plugin_dir_path( __FILE__ ) . 'build/init.asset.php';
-
-	// Initialize an array for JavaScript dependencies and a random version number.
-	$jsdeps  = [];
-	$version = wp_rand();
-
-	// Check if the dependencies file exists.
+	$jsdeps    = [];
+	$version   = WP_JOBBNORGE_VERSION;
 	if ( file_exists( $deps_file ) ) {
-		// If it does, require it and merge its dependencies with the existing ones.
-		$file   = require $deps_file;
-		$jsdeps = array_merge( $jsdeps, $file[ 'dependencies' ] );
-		// Also, set the version to the one from the file.
+		$file    = require $deps_file; // phpcs:ignore
+		$jsdeps  = array_merge( $jsdeps, $file[ 'dependencies' ] );
 		$version = $file[ 'version' ];
 	}
-
-	// Check if the current view is the admin dashboard.
 	if ( is_admin() ) {
-		// If it is, register and enqueue a CSS file for the admin view.
 		wp_register_style( 'dss-jobbnorge-admin', plugin_dir_url( __FILE__ ) . 'build/init.css', [], $version );
 		wp_enqueue_style( 'dss-jobbnorge-admin' );
 	}
-
-	// Set translations for the script.
-	wp_set_script_translations(
-		'dss-jobbnorge-editor-script', // Handle = block.json "name" (replace / with -) + "-editor-script".
-		'wp-jobbnorge-block',
-		plugin_dir_path( __FILE__ ) . 'languages/'
-	);
-
-	// Apply filter to modify the employers list.
+	wp_set_script_translations( 'dss-jobbnorge-editor-script', 'wp-jobbnorge-block', plugin_dir_path( __FILE__ ) . 'languages/' );
 	$employers = apply_filters( 'jobbnorge_employers', false );
-
-	// Proceed with localization if employers is not false.
 	if ( false !== $employers ) {
-		// Ensure employers is an array.
 		if ( ! is_array( $employers ) ) {
 			$employers = [];
 		}
-
-		// Localize the script to make employers data available.
-		wp_localize_script(
-			'dss-jobbnorge-editor-script',
-			'wpJobbnorgeBlock',
-			[ 
-				'employers' => $employers,
-			]
-		);
+		wp_localize_script( 'dss-jobbnorge-editor-script', 'wpJobbnorgeBlock', [ 'employers' => $employers ] );
 	}
 }
 
 /**
- * Enqueue frontend styles for the block
- *
- * @return void
+ * Frontend styles.
  */
 function dss_jobbnorge_enqueue_frontend_styles(): void {
-	// Define the path to the dependencies file.
 	$deps_file = plugin_dir_path( __FILE__ ) . 'build/init.asset.php';
-
-	// Initialize version number.
-	$version = wp_rand();
-
-	// Check if the dependencies file exists.
+	$version   = WP_JOBBNORGE_VERSION;
 	if ( file_exists( $deps_file ) ) {
-		// If it does, require it and get the version.
-		$file    = require $deps_file;
+		$file    = require $deps_file; // phpcs:ignore
 		$version = $file[ 'version' ];
 	}
-
-	// Register and enqueue a CSS file for the public view.
 	wp_register_style( 'dss-jobbnorge', plugin_dir_url( __FILE__ ) . 'build/style-init.css', [], $version );
 	wp_enqueue_style( 'dss-jobbnorge' );
 }
 
 /**
- * Renders the `jobbnorge` block on server.
- *
- * @param array $attributes The block attributes.
- *
- * @return string Returns the block content with received rss items.
+ * Render block frontend.
  */
-function render_block_dss_jobbnorge( $attributes ) {
-
-	// Set default values for attributes.
-	$attributes = wp_parse_args(
-		$attributes,
-		[ 
-			'employerID'       => '',
-			'displayEmployer'  => false,
-			'displayDate'      => true,
-			'displayDeadline'  => false,
-			'displayScope'     => false,
-			'displayExcerpt'   => true,
-			'excerptLength'    => 55,
-			'blockLayout'      => 'list',
-			'orderBy'          => 'Deadline',
-			'columns'          => 3,
-			'itemsToShow'      => 5,
-			'enablePagination' => true,
-			'jobsPerPage'      => 10,
-		]
-	);
-
-	// Convert employer IDs to an array and trim whitespace.
-	$arr_ids = array_map( 'trim', explode( ',', $attributes[ 'employerID' ] ) );
-
-	// Check if all IDs are numeric. If not, return an error message.
-	if ( ! array_filter( $arr_ids, 'is_numeric' ) ) {
-		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Invalid ID', 'wp-jobbnorge-block' ) . '</div></div>';
-	}
-
-	// Get current page for pagination
-	$current_page = isset( $_GET[ 'jobbnorge_page' ] ) ? max( 1, intval( $_GET[ 'jobbnorge_page' ] ) ) : 1;
-
-	// Determine items per page based on pagination setting
-	$items_per_page = $attributes[ 'enablePagination' ] ? $attributes[ 'jobsPerPage' ] : $attributes[ 'itemsToShow' ];
-
-	// Construct the API URL for v3
-	// NOTE: API v3 pagination doesn't work correctly with employer filtering
-	// So we fetch all jobs for the employers and paginate in PHP
-	$jobbnorge_api_url = 'https://publicapi.jobbnorge.no/v3/Jobs?abroad=false&orderBy=' . $attributes[ 'orderBy' ];
-
-	// Add each employer ID to the API URL.
-	foreach ( $arr_ids as $id ) {
-		$jobbnorge_api_url .= '&employer=' . $id;
-	}
-
-	$cache_path = apply_filters( 'jobbnorge_cache_path', WP_CONTENT_DIR . '/cache/jobbnorge' );
-	$cache      = new \Jobbnorge_CacheHandler( $cache_path );
-
-	// Cache key based on employer IDs and settings, not pagination
-	$cache_key     = md5( $jobbnorge_api_url );
-	$expiration    = apply_filters( 'jobbnorge_cache_time', 30 * MINUTE_IN_SECONDS );
-	$response_data = $cache->get( $cache_key, $expiration );
-
-	if ( false === $response_data ) {
-		$response = wp_remote_get( $jobbnorge_api_url );
-
-		if ( is_wp_error( $response ) ) {
-			return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Error connecting to Jobbnorge.no', 'wp-jobbnorge-block' ) . '</div></div>';
-		}
-
-		$body          = wp_remote_retrieve_body( $response );
-		$response_data = json_decode( $body, true );
-		$cache->set( $cache_key, $response_data );
-	}
-
-	// Debug: Log the API response structure
-	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-		error_log( 'Jobbnorge API URL: ' . $jobbnorge_api_url );
-		error_log( 'Jobbnorge API Response: ' . print_r( $response_data, true ) );
-	}
-	// Handle v3 API response structure
-	$all_items  = isset( $response_data[ 'jobs' ] ) ? $response_data[ 'jobs' ] : $response_data;
-	$total_jobs = count( $all_items );
-
-	// Debug: Log the items array
-	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-		error_log( 'Items count: ' . count( $all_items ) );
-		error_log( 'Total jobs: ' . $total_jobs );
-		if ( ! empty( $all_items ) ) {
-			error_log( 'First item: ' . print_r( $all_items[ 0 ], true ) );
-		}
-	}
-
-	// Implement pagination in PHP since API pagination doesn't work with employer filtering
-	if ( $attributes[ 'enablePagination' ] && $total_jobs > 0 ) {
-		// Calculate pagination
-		$start_index = ( $current_page - 1 ) * $attributes[ 'jobsPerPage' ];
-		$items       = array_slice( $all_items, $start_index, $attributes[ 'jobsPerPage' ] );
-	} else {
-		// For non-paginated, limit to itemsToShow
-		$items      = array_slice( $all_items, 0, $attributes[ 'itemsToShow' ] );
-		$total_jobs = count( $items ); // Update total for non-paginated display
-	}
-
-	// If there are no items, return an error message.
-	if ( ! $items ) {
-		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'No jobs found', 'wp-jobbnorge-block' ) . '</div></div>';
-	}
-
-	// Initialize an empty string for the list items.
-	$list_items = '';
-
-	// Loop through each item.
-	foreach ( $items as $item ) {
-		// Sanitize and format the title.
-		$title = esc_html( trim( wp_strip_all_tags( $item[ 'title' ] ) ) );
-		$title = empty( $title ) ? __( '(no title)', 'wp-jobbnorge-block' ) : $title;
-
-		// Sanitize the link.
-		$link = esc_url( $item[ 'link' ] );
-		// If there's a link, wrap the title in an anchor tag.
-		$title = $link ? "<a href='{$link}'>{$title}</a>" : $title;
-
-		// Wrap the title in a div.
-		$title = "<div class='wp-block-dss-jobbnorge__item-title'>{$title}</div>";
-
-		// Initialize an empty string for the deadline.
-		$deadline = '';
-		// If the displayDate attribute is true and the item has a deadline, format the deadline.
-		if ( $attributes[ 'displayDate' ] && isset( $item[ 'deadline' ] ) ) {
-			$deadline = format_deadline( $item[ 'deadline' ] );
-		}
-
-		// Format the excerpt.
-		$excerpt = format_excerpt( $attributes, $item );
-
-		// Format the employer and scope attributes.
-		$employer = format_attribute( $attributes, $item, 'employer', 'displayEmployer', 'wp-block-dss-jobbnorge__item-employer', __( 'Employer', 'wp-jobbnorge-block' ) );
-		$scope    = format_attribute( $attributes, $item, 'jobScope', 'displayScope', 'wp-block-dss-jobbnorge__item-scope', __( 'Scope', 'wp-jobbnorge-block' ) );
-
-		// Initialize an empty string for the meta.
-		$meta = '';
-		// If there's an employer, deadline, or scope, wrap them in a div.
-		if ( $employer || $deadline || $scope ) {
-			$meta = '<div class="wp-block-dss-jobbnorge__item-meta">' . $employer . $deadline . $scope . '</div>';
-		}
-
-		// Add the item to the list items string.
-		$list_items .= "<li class='wp-block-dss-jobbnorge__item'>{$title}{$meta}{$excerpt}</li>";
-	}
-
-	// Get the block wrapper attributes (without grid classes)
-	$wrapper_classes = [];
-	add_classname( $wrapper_classes, $attributes, 'displayEmployer', 'has-employer' );
-	add_classname( $wrapper_classes, $attributes, 'displayDate', 'has-dates' );
-	add_classname( $wrapper_classes, $attributes, 'displayDeadline', 'has-deadline' );
-	add_classname( $wrapper_classes, $attributes, 'displayScope', 'has-scope' );
-	add_classname( $wrapper_classes, $attributes, 'displayExcerpt', 'has-excerpts' );
-
-	$wrapper_attributes = get_block_wrapper_attributes( [ 
-		'class'           => implode( ' ', $wrapper_classes ),
-		'data-attributes' => esc_attr( json_encode( $attributes ) ),
+function render_block_dss_jobbnorge( $attributes ): string {
+	$attributes = wp_parse_args( $attributes, [
+		'employerID'       => '',
+		'displayEmployer'  => false,
+		'displayDate'      => true, // currently unused but kept for backward compat.
+		'displayDeadline'  => false,
+		'displayScope'     => false,
+		'displayExcerpt'   => true,
+		'excerptLength'    => 55,
+		'blockLayout'      => 'list',
+		'orderBy'          => 'Deadline',
+		'columns'          => 3,
+		'itemsToShow'      => 5,
+		'enablePagination' => true,
+		'jobsPerPage'      => 10,
 	] );
 
-	// Generate the ul classes (including grid classes)
+	// Sanitize employer IDs.
+	$arr_ids_raw = array_filter( array_map( 'trim', explode( ',', (string) $attributes[ 'employerID' ] ) ) );
+	$arr_ids     = [];
+	foreach ( $arr_ids_raw as $maybe ) {
+		if ( ctype_digit( $maybe ) ) {
+			$arr_ids[] = (string) absint( $maybe );
+		}
+	}
+	if ( empty( $arr_ids ) && ! empty( $attributes[ 'employerID' ] ) ) {
+		return '<div class="components-placeholder"><div class="notice notice-error">' . esc_html__( 'Invalid ID', 'wp-jobbnorge-block' ) . '</div></div>';
+	}
+
+	$current_page   = isset( $_GET[ 'jobbnorge_page' ] ) ? max( 1, absint( $_GET[ 'jobbnorge_page' ] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read only.
+	$items_per_page = $attributes[ 'enablePagination' ] ? (int) $attributes[ 'jobsPerPage' ] : (int) $attributes[ 'itemsToShow' ];
+
+	// Build API URL.
+	$jobbnorge_api_url = 'https://publicapi.jobbnorge.no/v3/Jobs?abroad=false&orderBy=' . rawurlencode( $attributes[ 'orderBy' ] );
+	foreach ( $arr_ids as $id ) {
+		$jobbnorge_api_url .= '&employer=' . absint( $id );
+	}
+
+	$cache_path    = apply_filters( 'jobbnorge_cache_path', WP_CONTENT_DIR . '/cache/jobbnorge' );
+	$cache         = new \Jobbnorge_CacheHandler( $cache_path );
+	$cache_key     = md5( $jobbnorge_api_url );
+	$expiration    = (int) apply_filters( 'jobbnorge_cache_time', 30 * MINUTE_IN_SECONDS );
+	$response_data = $cache->get( $cache_key, $expiration );
+	if ( false === $response_data ) {
+		$response = wp_remote_get( $jobbnorge_api_url, [
+			'timeout' => 10,
+			'headers' => [
+				'Accept'     => 'application/json',
+				'User-Agent' => 'JobbnorgeBlock/' . WP_JOBBNORGE_VERSION . ' ' . home_url( '/' ),
+			],
+		] );
+		if ( is_wp_error( $response ) ) {
+			return '<div class="components-placeholder"><div class="notice notice-error">' . esc_html__( 'Error connecting to Jobbnorge.no', 'wp-jobbnorge-block' ) . '</div></div>';
+		}
+		$body = wp_remote_retrieve_body( $response );
+		$tmp  = json_decode( $body, true );
+		if ( json_last_error() === JSON_ERROR_NONE && is_array( $tmp ) ) {
+			$response_data = $tmp;
+			$cache->set( $cache_key, $response_data );
+		} else {
+			return '<div class="components-placeholder"><div class="notice notice-error">' . esc_html__( 'No jobs found', 'wp-jobbnorge-block' ) . '</div></div>';
+		}
+	}
+
+	$all_items = isset( $response_data[ 'jobs' ] ) && is_array( $response_data[ 'jobs' ] ) ? $response_data[ 'jobs' ] : ( is_array( $response_data ) ? $response_data : [] );
+	if ( ! is_array( $all_items ) ) {
+		$all_items = [];
+	}
+	$total_jobs = count( $all_items );
+	if ( 0 === $total_jobs ) {
+		return '<div class="components-placeholder"><div class="notice notice-error">' . esc_html__( 'No jobs found', 'wp-jobbnorge-block' ) . '</div></div>';
+	}
+
+	if ( $attributes[ 'enablePagination' ] ) {
+		$start_index = ( $current_page - 1 ) * $items_per_page;
+		$items       = array_slice( $all_items, $start_index, $items_per_page );
+	} else {
+		$items      = array_slice( $all_items, 0, $items_per_page );
+		$total_jobs = count( $items );
+	}
+	if ( empty( $items ) ) {
+		return '<div class="components-placeholder"><div class="notice notice-error">' . esc_html__( 'No jobs found', 'wp-jobbnorge-block' ) . '</div></div>';
+	}
+
+	$wrapper_classes = [ 'wp-block-dss-jobbnorge__wrapper' ];
+	if ( $attributes[ 'enablePagination' ] ) {
+		$wrapper_classes[] = 'has-pagination';
+	}
+
+	$wrapper_attributes = get_block_wrapper_attributes( [
+		'class'           => implode( ' ', $wrapper_classes ),
+		'data-attributes' => esc_attr( wp_json_encode( $attributes ) ),
+		'aria-live'       => 'polite',
+	] );
+
 	$ul_classes = [ 'wp-block-dss-jobbnorge' ];
 	if ( 'grid' === $attributes[ 'blockLayout' ] ) {
 		$ul_classes[] = 'is-grid';
-		$ul_classes[] = 'columns-' . $attributes[ 'columns' ];
+		$ul_classes[] = 'columns-' . (int) $attributes[ 'columns' ];
 	}
 
-	// Generate pagination controls if enabled
+	$list_items = '';
+	foreach ( $items as $item ) {
+		// Deadline filtering: hide past deadlines if ordering by deadline.
+		if ( isset( $item[ 'deadlineDate' ] ) && 'Deadline' === $attributes[ 'orderBy' ] ) {
+			$deadline_ts = false;
+			try {
+				$deadline_ts = parse_date( $item[ 'deadlineDate' ] );
+			} catch (\Throwable $t) {
+				$deadline_ts = false;
+			}
+			if ( $deadline_ts && $deadline_ts < time() ) {
+				continue; // Skip expired.
+			}
+		}
+		$title     = isset( $item[ 'title' ] ) ? $item[ 'title' ] : '';
+		$link      = isset( $item[ 'link' ] ) ? $item[ 'link' ] : '#';
+		$deadline  = $attributes[ 'displayDeadline' ] && ! empty( $item[ 'deadlineDate' ] ) ? format_deadline( $item[ 'deadlineDate' ] ) : '';
+		$excerpt   = format_excerpt( $attributes, $item );
+		$employer  = format_attribute( $attributes, $item, 'employer', 'displayEmployer', 'wp-block-dss-jobbnorge__item-employer', __( 'Employer', 'wp-jobbnorge-block' ) );
+		$scope     = format_attribute( $attributes, $item, 'jobScope', 'displayScope', 'wp-block-dss-jobbnorge__item-scope', __( 'Scope', 'wp-jobbnorge-block' ) );
+		$meta_html = '';
+		if ( $employer || $deadline || $scope ) {
+			$meta_html = sprintf( '<div class="wp-block-dss-jobbnorge__item-meta">%s%s%s</div>', $employer, $deadline, $scope );
+		}
+		$list_items .= sprintf(
+			'<li class="wp-block-dss-jobbnorge__item"><div class="wp-block-dss-jobbnorge__item-title"><a href="%s">%s</a></div>%s%s</li>',
+			esc_url( $link ),
+			esc_html( $title ),
+			$meta_html,
+			$excerpt
+		);
+	}
+
+	if ( '' === $list_items ) {
+		return '<div class="components-placeholder"><div class="notice notice-error">' . esc_html__( 'No jobs found', 'wp-jobbnorge-block' ) . '</div></div>';
+	}
+
 	$pagination_html = '';
-	if ( $attributes[ 'enablePagination' ] && count( $all_items ) > $attributes[ 'jobsPerPage' ] ) {
-		$pagination_html = generate_pagination_controls( $current_page, count( $all_items ), $attributes[ 'jobsPerPage' ], $attributes );
+	if ( $attributes[ 'enablePagination' ] && $total_jobs > $items_per_page ) {
+		$pagination_html = generate_pagination_controls( $current_page, $total_jobs, $items_per_page, $attributes );
 	}
 
-	// Return the final HTML string, wrapping the list items in an unordered list.
-	return sprintf( '<div %s><ul class="%s">%s</ul>%s</div>', $wrapper_attributes, esc_attr( implode( ' ', $ul_classes ) ), $list_items, $pagination_html );
+	return sprintf( '<div %1$s><ul class="%2$s">%3$s</ul>%4$s</div>', $wrapper_attributes, esc_attr( implode( ' ', $ul_classes ) ), $list_items, $pagination_html );
 }
 
 /**
@@ -330,26 +241,14 @@ function render_block_dss_jobbnorge( $attributes ) {
  * @param array $item           The item array to get the attribute from.
  * @return string The formatted excerpt.
  */
-function format_excerpt( $attributes, $item ) {
-	// Initialize an empty string for the result.
-	$result = '';
-
-	// If the displayExcerpt attribute is true and the item has a summary, format the excerpt.
-	if ( $attributes[ 'displayExcerpt' ] && isset( $item[ 'summary' ] ) ) {
-		// Decode the HTML entities in the summary.
-		$excerpt = html_entity_decode( $item[ 'summary' ], ENT_QUOTES, get_option( 'blog_charset' ) );
-		// Trim the excerpt to the excerptLength and escape it for safe use in HTML output.
-		$excerpt = esc_attr( wp_trim_words( $excerpt, $attributes[ 'excerptLength' ], '' ) );
-
-		// Format the read more link.
-		$read_more = sprintf( ' ... <a href="%s">%s</a>', esc_url( $item[ 'link' ] ), __( 'Read more', 'wp-jobbnorge-block' ) );
-
-		// Add the excerpt and read more link to the result string, wrapped in a div.
-		$result = sprintf( '<div class="wp-block-dss-jobbnorge__item-excerpt">%s%s</div>', esc_html( $excerpt ), $read_more );
+function format_excerpt( $attributes, $item ): string {
+	if ( empty( $attributes[ 'displayExcerpt' ] ) || empty( $item[ 'summary' ] ) ) {
+		return '';
 	}
-
-	// Return the result.
-	return $result;
+	$excerpt_raw = html_entity_decode( wp_strip_all_tags( (string) $item[ 'summary' ] ), ENT_QUOTES, get_option( 'blog_charset' ) );
+	$excerpt     = wp_trim_words( $excerpt_raw, (int) $attributes[ 'excerptLength' ], '' );
+	$read_more   = sprintf( ' <a href="%s">%s</a>', esc_url( $item[ 'link' ] ?? '#' ), esc_html__( 'Read more', 'wp-jobbnorge-block' ) );
+	return sprintf( '<div class="wp-block-dss-jobbnorge__item-excerpt">%s%s</div>', esc_html( $excerpt ), $read_more );
 }
 
 /**
@@ -389,37 +288,25 @@ function format_attribute( $attributes, $item, $attribute_key, $display_key, $cs
  *
  * @return string The formatted deadline date.
  */
-function format_deadline( $deadline_date ) {
-	// If there's no deadline date, return an empty string.
+function format_deadline( $deadline_date ): string {
 	if ( ! $deadline_date ) {
 		return '';
 	}
-
 	try {
-		// Try to parse the deadline date.
-		$date = parse_date( $deadline_date );
-		// Format the date according to the site's date format.
+		$date     = parse_date( $deadline_date );
 		$str_date = date_i18n( get_option( 'date_format' ), $date );
-	} catch (\Exception $e) {
-		// If there's an exception, fallback to the original date.
+	} catch (\Throwable $t) {
 		$str_date = $deadline_date;
 		$date     = false;
 	}
-
-	// If there's a formatted date, return a time element with the date.
 	if ( $str_date ) {
 		return sprintf(
-			'<time datetime="%1$s" class="wp-block-dss-jobbnorge__item-deadline">%2$s %3$s</time> ',
-				// If there's a parsed date, use it for the datetime attribute. Otherwise, leave it empty.
-			( $date ) ? esc_attr( wp_date( 'c', $date ) ) : '',
-			// Translate the 'Deadline:' string.
-			__( 'Deadline:', 'wp-jobbnorge-block' ),
-			// Escape the formatted date for safe use in HTML output.
-			esc_attr( $str_date )
+			'<time datetime="%1$s" class="wp-block-dss-jobbnorge__item-deadline">%2$s %3$s</time>',
+			$date ? esc_attr( wp_date( 'c', $date ) ) : '',
+			esc_html__( 'Deadline:', 'wp-jobbnorge-block' ),
+			esc_html( $str_date )
 		);
 	}
-
-	// If there's no formatted date, return an empty string.
 	return '';
 }
 
@@ -468,7 +355,7 @@ function parse_date_intl( $deadline_date ) {
  */
 function parse_date_fallback( $deadline_date ) {
 	// Define an array of month names in Norwegian.
-	$str_months = [ 
+	$str_months = [
 		'januar',
 		'februar',
 		'mars',
@@ -484,7 +371,7 @@ function parse_date_fallback( $deadline_date ) {
 	];
 
 	// Define an array of month numbers.
-	$num_months = [ 
+	$num_months = [
 		'01',
 		'02',
 		'03',
@@ -616,34 +503,24 @@ function generate_pagination_controls( $current_page, $total_jobs, $jobs_per_pag
 /**
  * Register AJAX endpoints for pagination.
  */
-add_action( 'wp_ajax_jobbnorge_get_jobs', __NAMESPACE__ . '\handle_ajax_get_jobs' );
-add_action( 'wp_ajax_nopriv_jobbnorge_get_jobs', __NAMESPACE__ . '\handle_ajax_get_jobs' );
+add_action( 'wp_ajax_jobbnorge_get_jobs', __NAMESPACE__ . '\\handle_ajax_get_jobs' );
+add_action( 'wp_ajax_nopriv_jobbnorge_get_jobs', __NAMESPACE__ . '\\handle_ajax_get_jobs' );
 
 /**
  * Handle AJAX request for paginated job listings.
  */
-function handle_ajax_get_jobs() {
-	// Verify nonce
-	if ( ! wp_verify_nonce( $_POST[ 'nonce' ], 'jobbnorge_pagination_nonce' ) ) {
-		wp_die( 'Security check failed' );
+function handle_ajax_get_jobs(): void {
+	if ( empty( $_POST[ 'nonce' ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ 'nonce' ] ) ), 'jobbnorge_pagination_nonce' ) ) {
+		wp_send_json_error( [ 'message' => __( 'Security check failed', 'wp-jobbnorge-block' ) ], 403 );
 	}
-
-	// Get and sanitize parameters
-	$page       = isset( $_POST[ 'page' ] ) ? max( 1, intval( $_POST[ 'page' ] ) ) : 1;
-	$attributes = isset( $_POST[ 'attributes' ] ) ? json_decode( stripslashes( $_POST[ 'attributes' ] ), true ) : [];
-
-	// Validate attributes
-	if ( empty( $attributes ) || ! is_array( $attributes ) ) {
-		wp_send_json_error( 'Invalid attributes' );
+	$page       = isset( $_POST[ 'page' ] ) ? max( 1, absint( wp_unslash( $_POST[ 'page' ] ) ) ) : 1;
+	$raw_attr   = isset( $_POST[ 'attributes' ] ) ? wp_unslash( $_POST[ 'attributes' ] ) : '';
+	$attributes = json_decode( $raw_attr, true );
+	if ( json_last_error() !== JSON_ERROR_NONE || empty( $attributes ) || ! is_array( $attributes ) ) {
+		wp_send_json_error( [ 'message' => __( 'Invalid attributes', 'wp-jobbnorge-block' ) ], 400 );
 	}
-
-	// Set current page in GET superglobal for compatibility
-	$_GET[ 'jobbnorge_page' ] = $page;
-
-	// Generate the job listings HTML
-	$html = render_block_dss_jobbnorge( $attributes );
-
-	// Return JSON response
+	$_GET[ 'jobbnorge_page' ] = $page; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$html                     = render_block_dss_jobbnorge( $attributes );
 	wp_send_json_success( [ 'html' => $html ] );
 }
 
@@ -684,7 +561,7 @@ function enqueue_pagination_script() {
 	wp_localize_script(
 		'jobbnorge-pagination',
 		'jobbnorgeAjax',
-		[ 
+		[
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 			'nonce'   => wp_create_nonce( 'jobbnorge_pagination_nonce' ),
 		]
@@ -692,4 +569,4 @@ function enqueue_pagination_script() {
 }
 
 // Hook into wp_enqueue_scripts to add pagination script
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_pagination_script' );
+// Enqueue pagination script already hooked in init via dss_jobbnorge_init.

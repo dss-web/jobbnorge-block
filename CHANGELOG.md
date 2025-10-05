@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.3
+* Version bump: synchronize plugin header, constant, readme Stable tag and package.json.
+* No functional changes.
+
 ## 2.2.2
 * Update block.json to include default value and role for `employerID`
   This change ensures that users can edit the content of the blocks when the template has been locked
