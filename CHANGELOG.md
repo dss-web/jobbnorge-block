@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.5
+* Cleanup: Removed temporary diagnostic probe and verbose debug logging used during supports warning investigation.
+* Cleanup: Removed debug HTML marker comment from AJAX responses.
+* Stability: Preserved lightweight normalization (attributes & supports) and synthetic AJAX block context.
+* Internal: Version bump and build refresh.
+
 ## 2.2.4
 * Fix: Normalize block registration to standard pattern to avoid potential core notices when resolving block supports.
 * Fix: Add defensive guard ensuring `$attributes` is always an array in `render_block_dss_jobbnorge`.
