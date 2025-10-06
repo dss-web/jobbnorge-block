@@ -57,6 +57,7 @@ export default function JobbnorgeEdit( { attributes, setAttributes } ) {
 		orderBy,
 		enablePagination,
 		jobsPerPage,
+		disableAutoScroll,
 	} = attributes;
 
 	// Define a function to toggle an attribute.
@@ -207,6 +208,14 @@ export default function JobbnorgeEdit( { attributes, setAttributes } ) {
 							min={ 1 }
 							max={ 50 }
 							required
+						/>
+					) }
+					{ enablePagination && (
+						<ToggleControl
+							label={ __( 'Disable auto scroll on pagination', 'wp-jobbnorge-block' ) }
+							help={ __( 'When enabled, the page will not scroll to the block after changing pages.', 'wp-jobbnorge-block' ) }
+							checked={ !! disableAutoScroll }
+							onChange={ ( value ) => setAttributes( { disableAutoScroll: value } ) }
 						/>
 					) }
 					{ employerID.includes( ',' ) && (

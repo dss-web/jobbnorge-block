@@ -4,7 +4,7 @@ Tags:              block
 Tested up to:      6.8
 Requires at least: 6.5
 Requires PHP:      8.2
-Stable tag:        2.2.3
+Stable tag:        2.2.4
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,19 @@ The `jobbnorge_cache_path` filter can be used to define the cache path. Default 
 
 The `jobbnorge_cache_time` filter can be used to define the cache time. Default is `30 * MINUTE_IN_SECONDS`.
 
+**jobbnorge_autoscroll_threshold**
+
+The `jobbnorge_autoscroll_threshold` filter adjusts when automatic scroll engages after pagination. The value is a float representing the fraction of the viewport height the block's top must be within to skip scrolling (default `0.25`). Example:
+
+`
+add_filter( 'jobbnorge_autoscroll_threshold', function( $threshold ) {
+	return 0.15; // Scroll only if block starts below top 15% of viewport.
+} );
+`
+
+= Block Settings =
+
+When pagination is enabled a setting **Disable auto scroll on pagination** becomes available. Enabling it adds a `disableAutoScroll` attribute (and `data-no-autoscroll` in markup) preventing the page from scrolling after changing pages.
 
 
 = GitHub =
@@ -103,6 +116,20 @@ You get it from your Jobbnorge contact.
 5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.
 
 == Changelog ==
+
+= 2.2.4 =
+* Fix: Normalize block registration to standard pattern to avoid potential core notices when resolving block supports.
+* Fix: Add defensive guard ensuring `$attributes` is always an array in `render_block_dss_jobbnorge`.
+* Fix: Move serialized `data-attributes` JSON from wrapper `<div>` to `<ul>` so pagination JS reliably reads them.
+* Enhancement: Show stale cache notice inline above listings when serving fallback data.
+* Internal: Version bump synchronization across metadata and build.
+* Accessibility: Add dedicated polite `role="status"` live region announcing current results & page (per instance) and force re-announcement after pagination.
+* Enhancement: Introduce stable `instanceId` with `data-block-instance` for precise multi-instance pagination & scroll targeting.
+* Enhancement: Refined scroll offset (2em above block) and limited scroll to affected instance only.
+* Internal: Added initial Jest test harness and basic pagination replacement test.
+* Enhancement: Added optional per-block "Disable auto scroll on pagination" setting (attribute `disableAutoScroll`).
+* Enhancement: Added `jobbnorge_autoscroll_threshold` filter to customize auto scroll visibility threshold (default 0.25 viewport height).
+* Test: Added multi-wrapper scroll isolation test ensuring only targeted instance triggers scroll & replacement.
 
 = 2.2.3 =
 * Version bump: synchronize plugin header, constant, readme Stable tag and package.json.

@@ -1,6 +1,6 @@
 {
 	"name": "jobbnorge-block",
-	"version": "2.2.3",
+	"version": "2.2.4",
 	"description": "Jobbnorge Block for WordPress Gutenberg",
 	"author": "Per Søderlind <per@soderlind.no>",
 	"license": "GPL-2.0-or-later",
@@ -13,6 +13,7 @@
 	],
 	"scripts": {
 		"build": "wp-scripts build",
+		"test": "jest --runInBand",
 		"bump": "wp-update-project-version -s package.json -p readme.txt src/block.json wp-jobb-norge.php",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
@@ -26,7 +27,10 @@
 		"i18n": "npm run i18n-pot && npm run i18n-json && npm run i18n-mo"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^26.15.0"
+		"@testing-library/dom": "^9.3.1",
+		"@testing-library/jest-dom": "^6.4.2",
+		"@wordpress/scripts": "^26.15.0",
+		"jest": "^29.7.0"
 	},
 	"dependencies": {
 		"@soderlind/wp-project-version-sync": "^2.0.1",

@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "dss/jobbnorge",
-	"version": "2.2.3",
+	"version": "2.2.4",
 	"title": "Jobbnorge",
 	"category": "widgets",
 	"icon": "people",
@@ -71,6 +71,10 @@
 		"jobsPerPage": {
 			"type": "number",
 			"default": 10
+		},
+		"disableAutoScroll": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"textdomain": "wp-jobbnorge-block",

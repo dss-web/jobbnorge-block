@@ -24,10 +24,5 @@ export const settings = {
 	edit,
 };
 
-const initBlock = ( block ) => {
-	// Accept an object with keys name, metadata, settings without shadowing outer scope.
-	const { metadata: md, settings: st, name: blockName } = block;
-	return registerBlockType( { name: blockName, ...md }, st );
-};
-
-export const init = () => initBlock( { name, metadata, settings } );
+// Standard registration pattern: pass full metadata then settings additions.
+export const init = () => registerBlockType( metadata, settings );
