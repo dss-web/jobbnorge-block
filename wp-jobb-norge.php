@@ -5,7 +5,7 @@
  * Description:       Retrieve and display job listings from Jobbnorge.no
  * Requires at least: 6.5
  * Requires PHP:      8.2
- * Version:           2.2.3
+ * Version:           2.2.4
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'WP_JOBBNORGE_VERSION' ) ) {
-	define( 'WP_JOBBNORGE_VERSION', '2.2.3' );
+	define( 'WP_JOBBNORGE_VERSION', '2.2.4' );
 }
 
 if ( ! \class_exists( 'Jobbnorge_CacheHandler' ) ) {
@@ -89,20 +89,28 @@ function dss_jobbnorge_enqueue_frontend_styles(): void {
  * Render block frontend.
  */
 function render_block_dss_jobbnorge( $attributes ): string {
-	$attributes = wp_parse_args( $attributes, [
-		'employerID'       => '',
-		'displayEmployer'  => false,
-		'displayDate'      => true, // currently unused but kept for backward compat.
-		'displayDeadline'  => false,
-		'displayScope'     => false,
-		'displayExcerpt'   => true,
-		'excerptLength'    => 55,
-		'blockLayout'      => 'list',
-		'orderBy'          => 'Deadline',
-		'columns'          => 3,
-		'itemsToShow'      => 5,
-		'enablePagination' => true,
-		'jobsPerPage'      => 10,
+	// Ensure attributes is always an array to avoid notices in core block supports handling.
+	if ( ! is_array( $attributes ) ) {
+		$attributes = [];
+	}
+
+	// Will hold a stale cache notice when applicable.
+	$stale_notice = '';
+	$attributes   = wp_parse_args( $attributes, [
+		'employerID'        => '',
+		'displayEmployer'   => false,
+		'displayDate'       => true, // currently unused but kept for backward compat.
+		'displayDeadline'   => false,
+		'displayScope'      => false,
+		'displayExcerpt'    => true,
+		'excerptLength'     => 55,
+		'blockLayout'       => 'list',
+		'orderBy'           => 'Deadline',
+		'columns'           => 3,
+		'itemsToShow'       => 5,
+		'enablePagination'  => true,
+		'jobsPerPage'       => 10,
+		'disableAutoScroll' => false,
 	] );
 
 	// Sanitize employer IDs.
@@ -231,11 +239,29 @@ function render_block_dss_jobbnorge( $attributes ): string {
 		$wrapper_classes[] = 'has-pagination';
 	}
 
-	$wrapper_attributes = get_block_wrapper_attributes( [
-		'class'           => implode( ' ', $wrapper_classes ),
-		'data-attributes' => esc_attr( wp_json_encode( $attributes ) ),
-		'aria-live'       => 'polite',
-	] );
+	// Stable instance id for multi-block pages; allow reuse if passed via AJAX.
+	$instance_id = '';
+	if ( isset( $attributes[ 'instanceId' ] ) && is_string( $attributes[ 'instanceId' ] ) ) {
+		$instance_id = sanitize_html_class( $attributes[ 'instanceId' ] );
+	}
+	if ( '' === $instance_id ) {
+		static $jobbnorge_instance_counter = 0;
+		$jobbnorge_instance_counter++;
+		$instance_id                = 'jobbnorge-' . $jobbnorge_instance_counter . '-' . wp_rand( 1000, 9999 );
+		$attributes[ 'instanceId' ] = $instance_id; // Persist in JSON for JS.
+	}
+
+	$threshold  = (float) apply_filters( 'jobbnorge_autoscroll_threshold', 0.25 ); // Portion of viewport height.
+	$extra_data = [
+		'class'                     => implode( ' ', $wrapper_classes ),
+		'aria-live'                 => 'polite',
+		'data-block-instance'       => esc_attr( $instance_id ),
+		'data-autoscroll-threshold' => esc_attr( $threshold ),
+	];
+	if ( ! empty( $attributes[ 'disableAutoScroll' ] ) ) {
+		$extra_data[ 'data-no-autoscroll' ] = 'true';
+	}
+	$wrapper_attributes = get_block_wrapper_attributes( $extra_data );
 
 	$ul_classes = [ 'wp-block-dss-jobbnorge' ];
 	if ( 'grid' === $attributes[ 'blockLayout' ] ) {
@@ -285,7 +311,26 @@ function render_block_dss_jobbnorge( $attributes ): string {
 		$pagination_html = generate_pagination_controls( $current_page, $total_jobs, $items_per_page, $attributes );
 	}
 
-	return sprintf( '<div %1$s><ul class="%2$s">%3$s</ul>%4$s</div>', $wrapper_attributes, esc_attr( implode( ' ', $ul_classes ) ), $list_items, $pagination_html );
+	// Screen reader status region text (always present for consistent announcements).
+	$total_pages   = $attributes[ 'enablePagination' ] ? (int) ceil( $total_jobs / $items_per_page ) : 1;
+	$start_item    = ( ( $current_page - 1 ) * $items_per_page ) + 1;
+	$end_item      = min( $current_page * $items_per_page, $total_jobs );
+	$status_text   = sprintf(
+		/* translators: 1: first item index, 2: last item index, 3: total, 4: current page, 5: total pages */
+		__( 'Showing %1$d–%2$d of %3$d jobs. Page %4$d of %5$d.', 'wp-jobbnorge-block' ),
+		$start_item,
+		$end_item,
+		$total_jobs,
+		$current_page,
+		$total_pages
+	);
+	$status_region = '<div class="jobbnorge-pagination-status screen-reader-text" aria-live="polite" role="status" data-status-for="' . esc_attr( $instance_id ) . '">' . esc_html( $status_text ) . '</div>';
+
+	// Prepend stale notice if present. Data attributes now live on the UL for JS pagination script.
+	$data_attr_json = esc_attr( wp_json_encode( $attributes ) );
+	$inner_html     = $stale_notice . $status_region . sprintf( '<ul class="%1$s" data-attributes="%3$s">%2$s</ul>', esc_attr( implode( ' ', $ul_classes ) ), $list_items, $data_attr_json );
+
+	return sprintf( '<div %1$s>%2$s%3$s</div>', $wrapper_attributes, $inner_html, $pagination_html );
 }
 
 /**

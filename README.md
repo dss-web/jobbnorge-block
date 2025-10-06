@@ -100,6 +100,8 @@ Separate multiple employerIDs with a comma, or add employers using the [`jobbnor
 -   Show or hide the job deadline.
 -   Show or hide the job scope.
 
+When pagination is enabled an additional option **Disable auto scroll on pagination** appears. Enabling it prevents the view from scrolling back to the block after changing pages (useful when composing long pages with multiple instances).
+
 If you've added more than one employer, you can order jobbs by employer or deadline.
 
 [![Modify the block settings.](.wordpress-org/screenshot-3.png)](.wordpress-org/screenshot-3.png)
@@ -159,6 +161,18 @@ add_filter( 'jobbnorge_cache_time', function( $time ) {
 	return $time;
 } );
 ```
+
+### `jobbnorge_autoscroll_threshold`
+
+Controls when automatic scroll engages after clicking a pagination control. The value is a float representing the fraction of the viewport height (from the top) within which the block must already appear to suppress scrolling (default `0.25`). Lower values make scrolling more likely; higher values make it less likely.
+
+```php
+add_filter( 'jobbnorge_autoscroll_threshold', function( $threshold ) {
+    return 0.15; // Scroll only if block starts below top 15% of viewport.
+} );
+```
+
+If you need to disable scroll entirely for a specific instance you can enable the block setting *Disable auto scroll on pagination* (adds `disableAutoScroll` attribute / `data-no-autoscroll` in markup).
 
 ## Styling
 

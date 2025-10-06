@@ -17,20 +17,23 @@
 	 * Initialize pagination functionality
 	 */
 	function initializePagination() {
-		const paginationContainers = document.querySelectorAll(
-			'.wp-block-dss-jobbnorge__pagination'
+		// We look for each wrapper that contains a UL with data-attributes.
+		const wrappers = document.querySelectorAll(
+			'.wp-block-dss-jobbnorge__wrapper'
 		);
 
-		paginationContainers.forEach( function ( container ) {
-			const blockContainer = container.closest(
-				'.wp-block-dss-jobbnorge'
+		wrappers.forEach( function ( wrapper ) {
+			const instanceId = wrapper.getAttribute( 'data-block-instance' );
+			const listEl = wrapper.querySelector(
+				'ul.wp-block-dss-jobbnorge[data-attributes]'
 			);
+			const paginationEl = wrapper.querySelector(
+				'.wp-block-dss-jobbnorge__pagination'
+			);
+			if ( ! listEl || ! paginationEl ) return;
 
-			if ( ! blockContainer ) return;
-
-			// Get block attributes from data attribute
-			const attributesData =
-				blockContainer.getAttribute( 'data-attributes' );
+			// Get block attributes from data attribute on UL
+			const attributesData = listEl.getAttribute( 'data-attributes' );
 			if ( ! attributesData ) return;
 
 			let attributes;
@@ -43,10 +46,10 @@
 			}
 
 			// Add event listeners to pagination buttons
-			const prevButton = container.querySelector(
+			const prevButton = paginationEl.querySelector(
 				'.wp-block-dss-jobbnorge__pagination-prev'
 			);
-			const nextButton = container.querySelector(
+			const nextButton = paginationEl.querySelector(
 				'.wp-block-dss-jobbnorge__pagination-next'
 			);
 
@@ -54,7 +57,7 @@
 				prevButton.addEventListener( 'click', function ( e ) {
 					e.preventDefault();
 					const page = parseInt( this.getAttribute( 'data-page' ) );
-					loadPage( page, attributes, blockContainer );
+					loadPage( page, attributes, wrapper, instanceId );
 				} );
 			}
 
@@ -62,7 +65,7 @@
 				nextButton.addEventListener( 'click', function ( e ) {
 					e.preventDefault();
 					const page = parseInt( this.getAttribute( 'data-page' ) );
-					loadPage( page, attributes, blockContainer );
+					loadPage( page, attributes, wrapper, instanceId );
 				} );
 			}
 		} );
@@ -75,7 +78,7 @@
 	 * @param {Object}  attributes - Block attributes
 	 * @param {Element} container  - Block container element
 	 */
-	function loadPage( page, attributes, container ) {
+	function loadPage( page, attributes, container, instanceId ) {
 		// Show loading state
 		container.classList.add( 'wp-block-dss-jobbnorge__loading' );
 
@@ -104,28 +107,46 @@
 			} )
 			.then( function ( data ) {
 				if ( data.success ) {
-					// Update the container with new content
-					container.innerHTML = data.data.html;
-
-					// Reinitialize pagination for the new content
+					// Replace wrapper
+					container.outerHTML = data.data.html;
+					// Query the updated instance
+					const selector = '.wp-block-dss-jobbnorge__wrapper[data-block-instance="' + instanceId + '"]';
+					const newWrapper = document.querySelector( selector );
+					if ( newWrapper ) {
+						// If consumer explicitly disables auto scroll on this instance, skip.
+						if ( newWrapper.hasAttribute( 'data-no-autoscroll' ) ) {
+							initializePagination();
+							updateURL( page );
+							return;
+						}
+						// Update status region announcement if present
+						const statusRegion = newWrapper.querySelector( '.jobbnorge-pagination-status' );
+						if ( statusRegion ) {
+							// Force polite announcement by briefly clearing then resetting text (some AT need mutation)
+							const current = statusRegion.textContent;
+							statusRegion.textContent = '';
+							statusRegion.textContent = current;
+						}
+						// Scroll near this wrapper only if it is not already mostly in view
+						try {
+							const rect = newWrapper.getBoundingClientRect();
+							const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+							const thresholdAttr = parseFloat( newWrapper.getAttribute( 'data-autoscroll-threshold' ) || '0.25' );
+							const threshold = isNaN( thresholdAttr ) ? 0.25 : thresholdAttr;
+							const mostlyVisible = rect.top >= 0 && rect.top < viewportHeight * threshold;
+							if ( ! mostlyVisible ) {
+								const twoEm = parseFloat( window.getComputedStyle( document.documentElement ).fontSize ) * 2;
+								window.scrollTo( {
+									top: window.pageYOffset + rect.top - twoEm,
+									behavior: 'smooth',
+								} );
+							}
+						} catch ( _e ) {
+							// Fail silently if measurements are not available.
+						}
+					}
+					// Reinitialize others (bind new pagination controls for this wrapper)
 					initializePagination();
-
-					// Scroll to 2em above the top of the block
-					const containerRect = container.getBoundingClientRect();
-					const twoEm =
-						parseFloat(
-							window.getComputedStyle( document.documentElement )
-								.fontSize
-							) * 2;
-					const targetPosition =
-						window.pageYOffset + containerRect.top - twoEm;
-
-					window.scrollTo( {
-						top: targetPosition,
-						behavior: 'smooth',
-					} );
-
-					// Update URL with page parameter (optional)
 					updateURL( page );
 				} else {
 					// eslint-disable-next-line no-console
