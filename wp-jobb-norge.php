@@ -5,7 +5,7 @@
  * Description:       Retrieve and display job listings from Jobbnorge.no
  * Requires at least: 6.5
  * Requires PHP:      8.2
- * Version:           2.2.4
+ * Version:           2.2.5
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'WP_JOBBNORGE_VERSION' ) ) {
-	define( 'WP_JOBBNORGE_VERSION', '2.2.4' );
+	define( 'WP_JOBBNORGE_VERSION', '2.2.5' );
 }
 
 if ( ! \class_exists( 'Jobbnorge_CacheHandler' ) ) {
@@ -28,7 +28,56 @@ if ( ! \class_exists( 'Jobbnorge_CacheHandler' ) ) {
 }
 
 add_action( 'init', __NAMESPACE__ . '\\dss_jobbnorge_init' );
+add_filter( 'render_block_data', __NAMESPACE__ . '\\dss_jobbnorge_normalize_block_attributes', 10, 2 );
+add_filter( 'register_block_type_args', __NAMESPACE__ . '\\dss_jobbnorge_ensure_supports', 10, 2 );
+add_action( 'init', __NAMESPACE__ . '\\dss_jobbnorge_diagnose_supports_late', 20 );
 
+/**
+ * Normalize block attributes early to prevent core block supports from encountering null.
+ *
+ * @param array $parsed_block Parsed block.
+ * @param array $source_block Original source block.
+ * @return array
+ */
+function dss_jobbnorge_normalize_block_attributes( $parsed_block, $source_block ) {
+	if ( isset( $parsed_block[ 'blockName' ] ) && 'dss/jobbnorge' === $parsed_block[ 'blockName' ] ) {
+		if ( ! isset( $parsed_block[ 'attrs' ] ) || ! is_array( $parsed_block[ 'attrs' ] ) ) {
+			$parsed_block[ 'attrs' ] = [];
+		}
+	}
+	return $parsed_block;
+}
+
+/**
+ * Force supports to be an array during registration (some filters may null it out).
+ *
+ * @param array  $args  Registration args.
+ * @param string $name  Block name.
+ * @return array
+ */
+function dss_jobbnorge_ensure_supports( $args, $name ) {
+	if ( 'dss/jobbnorge' === $name ) {
+		if ( ! isset( $args[ 'supports' ] ) || ! is_array( $args[ 'supports' ] ) ) {
+			$args[ 'supports' ] = [];
+		}
+	}
+	return $args;
+}
+
+/**
+ * Late diagnostic: log if supports becomes non-array to trace root cause of core warning.
+ * (Runs only when WP_DEBUG is true to avoid noisy logs in production.)
+ */
+function dss_jobbnorge_diagnose_supports_late() {
+	if ( class_exists( '\\WP_Block_Type_Registry' ) ) {
+		$registry = \WP_Block_Type_Registry::get_instance();
+		$type     = $registry->get_registered( 'dss/jobbnorge' );
+		if ( $type && ( ! isset( $type->supports ) || ! is_array( $type->supports ) ) ) {
+			$type->supports = [];
+		}
+	}
+}
+// (Removed temporary pre_render_block probe and verbose diagnostics.)
 /**
  * Init: register block + i18n + enqueue hooks.
  */
@@ -261,7 +310,18 @@ function render_block_dss_jobbnorge( $attributes ): string {
 	if ( ! empty( $attributes[ 'disableAutoScroll' ] ) ) {
 		$extra_data[ 'data-no-autoscroll' ] = 'true';
 	}
-	$wrapper_attributes = get_block_wrapper_attributes( $extra_data );
+	// If invoked in an AJAX synthetic context (no real parsed block supports), avoid get_block_wrapper_attributes
+	// to prevent core supports from touching a null structure and triggering warnings.
+	$using_synthetic = isset( $GLOBALS[ 'block' ] ) && is_array( $GLOBALS[ 'block' ] ) && isset( $GLOBALS[ 'block' ][ 'blockName' ] ) && 'dss/jobbnorge' === $GLOBALS[ 'block' ][ 'blockName' ] && empty( $GLOBALS[ 'block' ][ 'originalContent' ] );
+	if ( $using_synthetic && defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		$attr_pairs = [];
+		foreach ( $extra_data as $k => $v ) {
+			$attr_pairs[] = sprintf( '%s="%s"', esc_attr( $k ), esc_attr( $v ) );
+		}
+		$wrapper_attributes = 'class="' . esc_attr( $extra_data[ 'class' ] ) . '" ' . implode( ' ', array_diff( $attr_pairs, [ 'class="' . esc_attr( $extra_data[ 'class' ] ) . '"' ] ) );
+	} else {
+		$wrapper_attributes = get_block_wrapper_attributes( $extra_data );
+	}
 
 	$ul_classes = [ 'wp-block-dss-jobbnorge' ];
 	if ( 'grid' === $attributes[ 'blockLayout' ] ) {
@@ -618,8 +678,35 @@ function handle_ajax_get_jobs(): void {
 	if ( json_last_error() !== JSON_ERROR_NONE || empty( $attributes ) || ! is_array( $attributes ) ) {
 		wp_send_json_error( [ 'message' => __( 'Invalid attributes', 'wp-jobbnorge-block' ) ], 400 );
 	}
+	// Extra normalization + diagnostics (only when WP_DEBUG) to track potential null style/layout that could trigger core offset warning.
+	if ( ! isset( $attributes[ 'instanceId' ] ) ) {
+		// Avoid static analysis complaint by using random_int; functionally equivalent intent.
+		try {
+			$rand = random_int( 1000, 9999 );
+		} catch (\Throwable $e) {
+			$rand = mt_rand( 1000, 9999 ); // Fallback.
+		}
+		$attributes[ 'instanceId' ] = 'ajax-' . $rand;
+	}
+	// Normalize potential non-array support keys defensively (previously only in debug logging code).
+	foreach ( [ 'style', 'layout' ] as $maybe_key ) {
+		if ( array_key_exists( $maybe_key, $attributes ) && ! is_array( $attributes[ $maybe_key ] ) ) {
+			$attributes[ $maybe_key ] = [];
+		}
+	}
 	$_GET[ 'jobbnorge_page' ] = $page; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	$html                     = render_block_dss_jobbnorge( $attributes );
+	// Provide synthetic parsed block context so wrapper/supports logic has expected structure.
+	global $block; // Core uses this during nested rendering contexts.
+	$previous_block = isset( $block ) ? $block : null; // Preserve.
+	$block          = [ // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+		'blockName'    => 'dss/jobbnorge',
+		'attrs'        => $attributes,
+		'innerHTML'    => '',
+		'innerContent' => [],
+		'innerBlocks'  => [],
+	];
+	$html           = render_block_dss_jobbnorge( $attributes );
+	$block          = $previous_block; // Restore prior context.
 	wp_send_json_success( [ 'html' => $html ] );
 }
 

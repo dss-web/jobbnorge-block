@@ -4,7 +4,7 @@ Tags:              block
 Tested up to:      6.8
 Requires at least: 6.5
 Requires PHP:      8.2
-Stable tag:        2.2.4
+Stable tag:        2.2.5
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,12 @@ You get it from your Jobbnorge contact.
 5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.
 
 == Changelog ==
+
+= 2.2.5 =
+* Cleanup: Removed temporary diagnostic probe (pre_render_block) and all debug logging.
+* Cleanup: Eliminated debug HTML marker while retaining safe synthetic AJAX context and wrapper fallback.
+* Stability: Retained attribute/supports normalization safeguards to prevent core block supports warnings.
+* Internal: Version bump and asset rebuild prepping for release.
 
 = 2.2.4 =
 * Fix: Normalize block registration to standard pattern to avoid potential core notices when resolving block supports.
