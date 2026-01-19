@@ -4,7 +4,7 @@ Tags:              block
 Tested up to:      6.9
 Requires at least: 6.5
 Requires PHP:      8.2
-Stable tag:        2.2.6
+Stable tag:        2.2.7
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,9 @@ You get it from your Jobbnorge contact.
 5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.
 
 == Changelog ==
+
+= 2.2.7 =
+* Fix: Correct malformed API URL that was missing query string delimiter, causing "Request error retrieving jobs" (400 Bad Request).
 
 = 2.2.6 =
 * Fix: Wrap render function in try-catch to prevent API/network errors from breaking the page.
