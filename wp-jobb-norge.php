@@ -5,7 +5,7 @@
  * Description:       Retrieve and display job listings from Jobbnorge.no
  * Requires at least: 6.5
  * Requires PHP:      8.2
- * Version:           2.2.6
+ * Version:           2.2.7
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'WP_JOBBNORGE_VERSION' ) ) {
-	define( 'WP_JOBBNORGE_VERSION', '2.2.6' );
+	define( 'WP_JOBBNORGE_VERSION', '2.2.7' );
 }
 
 if ( ! \class_exists( 'Jobbnorge_CacheHandler' ) ) {
@@ -204,11 +204,12 @@ function render_block_dss_jobbnorge_inner( $attributes ): string {
 	$items_per_page = $attributes[ 'enablePagination' ] ? (int) $attributes[ 'jobsPerPage' ] : (int) $attributes[ 'itemsToShow' ];
 
 	// Build API URL.
-	$jobbnorge_api_url = 'https://publicapi.jobbnorge.no/v3/Jobs
-	// ?abroad=false&orderBy=' . rawurlencode( $attributes[ 'orderBy' ] );
+	$jobbnorge_api_url = 'https://publicapi.jobbnorge.no/v3/Jobs?';
+	$employer_params   = [];
 	foreach ( $arr_ids as $id ) {
-		$jobbnorge_api_url .= '&employer=' . absint( $id );
+		$employer_params[] = 'employer=' . absint( $id );
 	}
+	$jobbnorge_api_url .= implode( '&', $employer_params );
 
 	$cache_path    = apply_filters( 'jobbnorge_cache_path', WP_CONTENT_DIR . '/cache/jobbnorge' );
 	$cache         = new \Jobbnorge_CacheHandler( $cache_path );

@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.2.7
+* Fix: Correct malformed API URL that was missing query string delimiter, causing "Request error retrieving jobs" (400 Bad Request).
+
 ## 2.2.6
 * Fix: Wrap render function in try-catch to prevent API/network errors from breaking the page.
 * Fix: Add error handling in cache handler to gracefully handle file read/write failures.
