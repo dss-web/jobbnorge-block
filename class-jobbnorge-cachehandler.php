@@ -46,11 +46,21 @@ class Jobbnorge_CacheHandler {
 	 * @return mixed The cached data, or false if the cache is expired or does not exist.
 	 */
 	public function get( $key, $expiration ) {
-		$file = $this->get_file_path( $key );
+		try {
+			$file = $this->get_file_path( $key );
 
-		// If the cache file exists and is not expired, return its contents.
-		if ( file_exists( $file ) && ( filemtime( $file ) + $expiration > time() ) ) {
-			return include $file;
+			// If file path is invalid or file doesn't exist, return false.
+			if ( false === $file || ! file_exists( $file ) ) {
+				return false;
+			}
+
+			// If the cache file is not expired, return its contents.
+			if ( ( filemtime( $file ) + $expiration > time() ) ) {
+				return include $file;
+			}
+		} catch ( \Throwable $e ) {
+			// Fail silently - cache miss is acceptable.
+			return false;
 		}
 
 		return false;
@@ -61,17 +71,26 @@ class Jobbnorge_CacheHandler {
 	 *
 	 * @param string $key The cache key.
 	 * @param mixed  $data The data to cache.
+	 * @return bool True on success, false on failure.
 	 */
 	public function set( $key, $data ) {
-		$file = $this->get_file_path( $key );
-		$data = var_export( $data, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
+		try {
+			$file = $this->get_file_path( $key );
 
-		// Write data to cache file.
-		if ( ! \WP_Filesystem() ) {
-			file_put_contents( $file, "<?php\nreturn $data;\n" , LOCK_EX ); // phpcs:ignore
-		} else {
-			global $wp_filesystem;
-			$wp_filesystem->put_contents( $file, "<?php\nreturn $data;\n", FS_CHMOD_FILE );
+			// If file path is invalid or empty, fail silently.
+			if ( false === $file || '' === $file || ! is_string( $file ) ) {
+				return false;
+			}
+
+			$data = var_export( $data, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export
+
+			// Write data to cache file using direct file operations (more reliable).
+			// Suppress errors to prevent breaking the page if write fails.
+			$result = @file_put_contents( $file, "<?php\nreturn $data;\n", LOCK_EX ); // phpcs:ignore
+			return false !== $result;
+		} catch ( \Throwable $e ) {
+			// Fail silently - caching is non-critical.
+			return false;
 		}
 	}
 
@@ -79,15 +98,26 @@ class Jobbnorge_CacheHandler {
 	 * Get the file path for a cache key.
 	 *
 	 * @param string $key The cache key.
-	 * @return string The file path.
+	 * @return string|false The file path, or false on failure.
 	 */
 	private function get_file_path( $key ) {
+		// Validate cache directory is set.
+		if ( empty( $this->cache_dir ) || ! is_string( $this->cache_dir ) ) {
+			return false;
+		}
+
 		// Ensure cache directory exists.
 		if ( ! file_exists( $this->cache_dir ) ) {
 			if ( ! wp_mkdir_p( $this->cache_dir ) ) {
 				return false;
 			}
 		}
+
+		// Verify directory is writable.
+		if ( ! is_writable( $this->cache_dir ) ) {
+			return false;
+		}
+
 		return $this->cache_dir . '/' . md5( $key ) . '.php';
 	}
 }
