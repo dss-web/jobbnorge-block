@@ -204,11 +204,12 @@ function render_block_dss_jobbnorge_inner( $attributes ): string {
 	$items_per_page = $attributes[ 'enablePagination' ] ? (int) $attributes[ 'jobsPerPage' ] : (int) $attributes[ 'itemsToShow' ];
 
 	// Build API URL.
-	$jobbnorge_api_url = 'https://publicapi.jobbnorge.no/v3/Jobs
-	// ?abroad=false&orderBy=' . rawurlencode( $attributes[ 'orderBy' ] );
+	$jobbnorge_api_url = 'https://publicapi.jobbnorge.no/v3/Jobs?';
+	$employer_params   = [];
 	foreach ( $arr_ids as $id ) {
-		$jobbnorge_api_url .= '&employer=' . absint( $id );
+		$employer_params[] = 'employer=' . absint( $id );
 	}
+	$jobbnorge_api_url .= implode( '&', $employer_params );
 
 	$cache_path    = apply_filters( 'jobbnorge_cache_path', WP_CONTENT_DIR . '/cache/jobbnorge' );
 	$cache         = new \Jobbnorge_CacheHandler( $cache_path );

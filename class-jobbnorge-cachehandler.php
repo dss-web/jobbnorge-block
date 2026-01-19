@@ -58,7 +58,7 @@ class Jobbnorge_CacheHandler {
 			if ( ( filemtime( $file ) + $expiration > time() ) ) {
 				return include $file;
 			}
-		} catch ( \Throwable $e ) {
+		} catch (\Throwable $e) {
 			// Fail silently - cache miss is acceptable.
 			return false;
 		}
@@ -88,7 +88,7 @@ class Jobbnorge_CacheHandler {
 			// Suppress errors to prevent breaking the page if write fails.
 			$result = @file_put_contents( $file, "<?php\nreturn $data;\n", LOCK_EX ); // phpcs:ignore
 			return false !== $result;
-		} catch ( \Throwable $e ) {
+		} catch (\Throwable $e) {
 			// Fail silently - caching is non-critical.
 			return false;
 		}
