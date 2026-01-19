@@ -192,20 +192,42 @@
 	 * @param {string}  message   - Error message
 	 */
 	function showError( container, message ) {
+		// Remove any existing error messages first
+		const existingError = container.querySelector(
+			'.wp-block-dss-jobbnorge__error'
+		);
+		if ( existingError ) {
+			existingError.remove();
+		}
+
 		const errorDiv = document.createElement( 'div' );
 		errorDiv.className =
-			'wp-block-dss-jobbnorge__error notice notice-error';
-		errorDiv.innerHTML = '<p>' + message + '</p>';
+			'wp-block-dss-jobbnorge__error notice notice-warning';
+		errorDiv.setAttribute( 'role', 'alert' );
+		errorDiv.innerHTML =
+			'<p>' +
+			message +
+			'</p><p><em>Current listings are still displayed below.</em></p>';
 
 		// Insert error message at the top of the container
 		container.insertBefore( errorDiv, container.firstChild );
 
-		// Remove error message after 5 seconds
+		// Re-enable pagination buttons so user can retry
+		const buttons = container.querySelectorAll(
+			'.wp-block-dss-jobbnorge__pagination button'
+		);
+		buttons.forEach( function ( button ) {
+			if ( button.hasAttribute( 'data-page' ) ) {
+				button.disabled = false;
+			}
+		} );
+
+		// Remove error message after 8 seconds
 		setTimeout( function () {
 			if ( errorDiv.parentNode ) {
 				errorDiv.parentNode.removeChild( errorDiv );
 			}
-		}, 5000 );
+		}, 8000 );
 	}
 
 	// Handle browser back/forward buttons

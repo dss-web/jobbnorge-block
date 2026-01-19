@@ -5,7 +5,7 @@
  * Description:       Retrieve and display job listings from Jobbnorge.no
  * Requires at least: 6.5
  * Requires PHP:      8.2
- * Version:           2.2.5
+ * Version:           2.2.6
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'WP_JOBBNORGE_VERSION' ) ) {
-	define( 'WP_JOBBNORGE_VERSION', '2.2.5' );
+	define( 'WP_JOBBNORGE_VERSION', '2.2.6' );
 }
 
 if ( ! \class_exists( 'Jobbnorge_CacheHandler' ) ) {
@@ -138,6 +138,32 @@ function dss_jobbnorge_enqueue_frontend_styles(): void {
  * Render block frontend.
  */
 function render_block_dss_jobbnorge( $attributes ): string {
+	// Wrap entire render in try-catch to prevent fatal errors from breaking the page.
+	try {
+		return render_block_dss_jobbnorge_inner( $attributes );
+	} catch (\Throwable $e) {
+		// Log error for debugging but don't break the page.
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log( 'Jobbnorge Block render error: ' . $e->getMessage() );
+		}
+		/**
+		 * Fires when the Jobbnorge block render fails unexpectedly.
+		 *
+		 * @param \Throwable $e         The exception that was thrown.
+		 * @param array      $attributes Block attributes.
+		 */
+		do_action( 'jobbnorge_block_render_error', $e, $attributes );
+		return '<div class="components-placeholder"><div class="notice notice-warning">' . esc_html__( 'Job listings temporarily unavailable.', 'wp-jobbnorge-block' ) . '</div></div>';
+	}
+}
+
+/**
+ * Inner render function for the block.
+ *
+ * @param array $attributes Block attributes.
+ * @return string Rendered HTML.
+ */
+function render_block_dss_jobbnorge_inner( $attributes ): string {
 	// Ensure attributes is always an array to avoid notices in core block supports handling.
 	if ( ! is_array( $attributes ) ) {
 		$attributes = [];
@@ -178,7 +204,8 @@ function render_block_dss_jobbnorge( $attributes ): string {
 	$items_per_page = $attributes[ 'enablePagination' ] ? (int) $attributes[ 'jobsPerPage' ] : (int) $attributes[ 'itemsToShow' ];
 
 	// Build API URL.
-	$jobbnorge_api_url = 'https://publicapi.jobbnorge.no/v3/Jobs?abroad=false&orderBy=' . rawurlencode( $attributes[ 'orderBy' ] );
+	$jobbnorge_api_url = 'https://publicapi.jobbnorge.no/v3/Jobs
+	// ?abroad=false&orderBy=' . rawurlencode( $attributes[ 'orderBy' ] );
 	foreach ( $arr_ids as $id ) {
 		$jobbnorge_api_url .= '&employer=' . absint( $id );
 	}
@@ -555,8 +582,19 @@ function parse_date_fallback( $deadline_date ) {
 	// Split the date into an array.
 	$dato_arr = explode( ' ', $dato );
 
+	// Ensure we have enough parts to build a date.
+	if ( count( $dato_arr ) < 4 ) {
+		// Try alternative parsing for dd.MM.yyyy format.
+		$parts = explode( '.', $dato );
+		if ( count( $parts ) === 3 ) {
+			return mktime( 0, 0, 0, (int) $parts[ 1 ], (int) $parts[ 0 ], (int) $parts[ 2 ] );
+		}
+		// Return false for unparseable dates.
+		return false;
+	}
+
 	// Return a Unix timestamp for the date.
-	return mktime( 0, 0, 0, $dato_arr[ 2 ], $dato_arr[ 1 ], $dato_arr[ 3 ] );
+	return mktime( 0, 0, 0, (int) $dato_arr[ 2 ], (int) $dato_arr[ 1 ], (int) $dato_arr[ 3 ] );
 }
 
 /**

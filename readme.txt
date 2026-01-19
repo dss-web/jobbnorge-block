@@ -1,10 +1,10 @@
 === Jobbnorge Block ===
 Contributors:      PerS, dssweb
 Tags:              block
-Tested up to:      6.8
+Tested up to:      6.9
 Requires at least: 6.5
 Requires PHP:      8.2
-Stable tag:        2.2.5
+Stable tag:        2.2.6
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,15 @@ You get it from your Jobbnorge contact.
 5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.
 
 == Changelog ==
+
+= 2.2.6 =
+* Fix: Wrap render function in try-catch to prevent API/network errors from breaking the page.
+* Fix: Add error handling in cache handler to gracefully handle file read/write failures.
+* Fix: Add bounds checking in `parse_date_fallback()` to handle malformed date strings.
+* Fix: Validate cache directory path before file operations to prevent "Path cannot be empty" errors.
+* Fix: Add directory writability check in cache handler.
+* Enhancement: Improved JavaScript error display - shows warning instead of error, re-enables retry buttons.
+* Enhancement: Added `jobbnorge_block_render_error` action hook for debugging render failures.
 
 = 2.2.5 =
 * Cleanup: Removed temporary diagnostic probe (pre_render_block) and all debug logging.
