@@ -20,7 +20,7 @@ import {
 	ToolbarGroup,
 } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-import { grid, list, edit, people } from '@wordpress/icons';
+import { grid, list, pencil, people } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
 
@@ -139,7 +139,7 @@ export default function JobbnorgeEdit( { attributes, setAttributes } ) {
 
 	const toolbarControls = [
 		{
-			icon: edit,
+			icon: pencil,
 			title: __( 'Edit Jobbnorge URL', 'wp-jobbnorge-block' ),
 			onClick: () => setIsEditing( true ),
 		},
