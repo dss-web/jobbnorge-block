@@ -5,7 +5,7 @@
  * Description:       Retrieve and display job listings from Jobbnorge.no
  * Requires at least: 6.5
  * Requires PHP:      8.2
- * Version:           2.2.7
+ * Version:           2.3.0
  * Author:            PerS
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'WP_JOBBNORGE_VERSION' ) ) {
-	define( 'WP_JOBBNORGE_VERSION', '2.2.7' );
+	define( 'WP_JOBBNORGE_VERSION', '2.3.0' );
 }
 
 if ( ! \class_exists( 'Jobbnorge_CacheHandler' ) ) {

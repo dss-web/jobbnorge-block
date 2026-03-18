@@ -1,10 +1,10 @@
 === Jobbnorge Block ===
 Contributors:      PerS, dssweb
 Tags:              block
-Tested up to:      6.9
+Tested up to:      7.0
 Requires at least: 6.5
 Requires PHP:      8.2
-Stable tag:        2.2.7
+Stable tag:        2.3.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,12 @@ You get it from your Jobbnorge contact.
 5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.
 
 == Changelog ==
+
+= 2.3.0 =
+* Enhancement: Bump all @wordpress dependencies to latest major versions.
+* Enhancement: Updated @wordpress/scripts from 26.19.0 to 31.6.0.
+* Fix: Replace removed `edit` icon with `pencil` from @wordpress/icons.
+* Compatibility: Tested up to WordPress 7.0.
 
 = 2.2.7 =
 * Fix: Correct malformed API URL that was missing query string delimiter, causing "Request error retrieving jobs" (400 Bad Request).

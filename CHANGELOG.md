@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.0
+* Enhancement: Bump all @wordpress dependencies to latest major versions.
+* Enhancement: Updated @wordpress/scripts from 26.19.0 to 31.6.0.
+* Fix: Replace removed `edit` icon with `pencil` from @wordpress/icons.
+* Compatibility: Tested up to WordPress 7.0.
+
 ## 2.2.7
 * Fix: Correct malformed API URL that was missing query string delimiter, causing "Request error retrieving jobs" (400 Bad Request).
 
