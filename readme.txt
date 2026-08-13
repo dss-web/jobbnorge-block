@@ -1,10 +1,10 @@
 === Jobbnorge Block ===
 Contributors:      PerS, dssweb
 Tags:              block
-Tested up to:      7.0
+Tested up to:      7.1
 Requires at least: 6.5
 Requires PHP:      8.2
-Stable tag:        2.3.0
+Stable tag:        2.3.1
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,10 @@ You get it from your Jobbnorge contact.
 5. Custom Select field for employer ID. Ctrl-click (Windows) or Cmd-click (Mac) to select multiple employers. Shift-click to select a range of employers.
 
 == Changelog ==
+
+= 2.3.1 =
+* Compatibility: Tested up to WordPress 7.1.
+* Enhancement: Update @wordpress dependencies to WordPress 7.1 versions.
 
 = 2.3.0 =
 * Enhancement: Bump all @wordpress dependencies to latest major versions.
